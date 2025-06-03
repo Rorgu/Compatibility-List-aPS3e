@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="core_ppu_decoder_values">
+        <item>Interpreter (static)</item>
+        <item>Recompiler (LLVM)</item>
+    </string-array>
+    <string-array name="core_thread_scheduler_mode_values">
+        <item>Operating System</item>
+        <item>Affinity</item>
+    </string-array>
+    <string-array name="core_spu_decoder_values">
+        <item>Interpreter (static)</item>
+        <item>Interpreter (dynamic)</item>
+        <item>Recompiler (ASMJIT)</item>
+        <item>Recompiler (LLVM)</item>
+    </string-array>
+    <string-array name="core_spu_block_size_values">
+        <item>Safe</item>
+        <item>Mega</item>
+        <item>Giga</item>
+    </string-array>
+    <string-array name="core_rsx_fifo_accuracy_values">
+        <item>Fast</item>
+        <item>Atomic</item>
+        <item>Ordered &amp; Atomic</item>
+        <item>PS3</item>
+    </string-array>
+    <string-array name="core_enable_tsx_values">
+        <item>Disabled</item>
+        <item>Enabled</item>
+        <item>Forced</item>
+    </string-array>
+    <string-array name="core_xfloat_accuracy_values">
+        <item>Accurate</item>
+        <item>Approximate</item>
+        <item>Relaxed</item>
+        <item>Inaccurate</item>
+    </string-array>
+    <string-array name="core_sleep_timers_accuracy_values">
+        <item>As Host</item>
+        <item>Usleep Only</item>
+        <item>All Timers</item>
+    </string-array>
+    <string-array name="video_vertex_buffer_upload_mode_values">
+        <item>Auto</item>
+        <item>Buffer View</item>
+        <item>Buffer</item>
+    </string-array>
+    <string-array name="video_renderer_values">
+        <item>Null</item>
+        <item>Vulkan</item>
+    </string-array>
+    <string-array name="video_resolution_values">
+        <item>1920x1080</item>
+        <item>1920x1080i</item>
+        <item>1280x720</item>
+        <item>720x480</item>
+        <item>720x480i</item>
+        <item>720x576</item>
+        <item>720x576i</item>
+        <item>1600x1080</item>
+        <item>1440x1080</item>
+        <item>1280x1080</item>
+        <item>960x1080</item>
+    </string-array>
+    <string-array name="video_aspect_ratio_values">
+        <item>4:3</item>
+        <item>16:9</item>
+    </string-array>
+    <string-array name="video_frame_limit_values">
+        <item>Off</item>
+        <item>30</item>
+        <item>50</item>
+        <item>60</item>
+        <item>120</item>
+        <item>Display</item>
+        <item>Auto</item>
+        <item>PS3 Native</item>
+        <item>Infinite</item>
+    </string-array>
+    <string-array name="video_msaa_values">
+        <item>Disabled</item>
+        <item>Auto</item>
+    </string-array>
+    <string-array name="video_shader_mode_values">
+        <item>Shader Recompiler</item>
+        <item>Async Shader Recompiler</item>
+        <item>Async with Shader Interpreter</item>
+        <item>Shader Interpreter only</item>
+    </string-array>
+    <string-array name="video_shader_precision_values">
+        <item>Ultra</item>
+        <item>High</item>
+        <item>Low</item>
+        <item>Auto</item>
+    </string-array>
+    <string-array name="video_3d_display_mode_values">
+        <item>Disabled</item>
+        <item>Side-by-Side</item>
+        <item>Over-Under</item>
+        <item>Interlaced</item>
+        <item>Anaglyph Red-Green</item>
+        <item>Anaglyph Red-Blue</item>
+        <item>Anaglyph Red-Cyan</item>
+        <item>Anaglyph Magenta-Cyan</item>
+        <item>Anaglyph Trioscopic</item>
+        <item>Anaglyph Amber-Blue</item>
+    </string-array>
+    <string-array name="video_output_scaling_mode_values">
+        <item>Nearest</item>
+        <item>Bilinear</item>
+        <item>FidelityFX Super Resolution</item>
+    </string-array>
+    <string-array name="video_vulkan_adapter_values">
+    </string-array>
+    <string-array name="video_vulkan_force_fifo_present_mode_values">
+    </string-array>
+    <string-array name="video_vulkan_force_primitive_restart_flag_values">
+    </string-array>
+    <string-array name="video_vulkan_exclusive_fullscreen_mode_values">
+        <item>Automatic</item>
+        <item>Disable</item>
+        <item>Enable</item>
+    </string-array>
+    <string-array name="video_vulkan_asynchronous_texture_streaming_2_values">
+    </string-array>
+    <string-array name="video_vulkan_fidelityfx_cas_sharpening_intensity_values">
+        <item>0</item>
+        <item>100</item>
+    </string-array>
+    <string-array name="video_vulkan_asynchronous_queue_scheduler_values">
+        <item>Safe</item>
+        <item>Fast</item>
+    </string-array>
+    <string-array name="video_vulkan_vram_allocation_limit_values">
+        <item>256</item>
+        <item>65536</item>
+    </string-array>
+    <string-array name="video_performance_overlay_enabled_values">
+    </string-array>
+    <string-array name="video_performance_overlay_enable_framerate_graph_values">
+    </string-array>
+    <string-array name="video_performance_overlay_enable_frametime_graph_values">
+    </string-array>
+    <string-array name="video_performance_overlay_framerate_datapoints_values">
+        <item>2</item>
+        <item>6000</item>
+    </string-array>
+    <string-array name="video_performance_overlay_frametime_datapoints_values">
+        <item>2</item>
+        <item>6000</item>
+    </string-array>
+    <string-array name="video_performance_overlay_detail_level_values">
+        <item>None</item>
+        <item>Minimal</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+    <string-array name="video_performance_overlay_framerate_graph_detail_level_values">
+        <item>Minimal</item>
+        <item>Show min and max</item>
+        <item>Show 1% and average</item>
+        <item>All</item>
+    </string-array>
+    <string-array name="video_performance_overlay_frametime_graph_detail_level_values">
+        <item>Minimal</item>
+        <item>Show min and max</item>
+        <item>Show 1% and average</item>
+        <item>All</item>
+    </string-array>
+    <string-array name="video_performance_overlay_metrics_update_interval_values">
+        <item>1</item>
+        <item>1000</item>
+    </string-array>
+    <string-array name="video_performance_overlay_font_size_values">
+        <item>4</item>
+        <item>36</item>
+    </string-array>
+    <string-array name="video_performance_overlay_position_values">
+        <item>Top Left</item>
+        <item>Top Right</item>
+        <item>Bottom Left</item>
+        <item>Bottom Right</item>
+    </string-array>
+    <string-array name="video_performance_overlay_font_values">
+    </string-array>
+    <string-array name="video_performance_overlay_horizontal_margin_values">
+        <item>0</item>
+        <item>1280</item>
+    </string-array>
+    <string-array name="video_performance_overlay_vertical_margin_values">
+        <item>0</item>
+        <item>720</item>
+    </string-array>
+    <string-array name="video_performance_overlay_center_horizontally_values">
+    </string-array>
+    <string-array name="video_performance_overlay_center_vertically_values">
+    </string-array>
+    <string-array name="video_performance_overlay_opacity_values">
+        <item>0</item>
+        <item>100</item>
+    </string-array>
+    <string-array name="video_performance_overlay_body_color_values">
+    </string-array>
+    <string-array name="video_performance_overlay_body_background_values">
+    </string-array>
+    <string-array name="video_performance_overlay_title_color_values">
+    </string-array>
+    <string-array name="video_performance_overlay_title_background_values">
+    </string-array>
+    <string-array name="video_shader_loading_dialog_allow_custom_background_values">
+    </string-array>
+    <string-array name="video_shader_loading_dialog_darkening_effect_strength_values">
+        <item>0</item>
+        <item>100</item>
+    </string-array>
+    <string-array name="video_shader_loading_dialog_blur_effect_strength_values">
+        <item>0</item>
+        <item>100</item>
+    </string-array>
+    <string-array name="audio_renderer_values">
+        <item>Null</item>
+        <item>Cubeb</item>
+    </string-array>
+    <string-array name="audio_audio_provider_values">
+        <item>None</item>
+        <item>CellAudio</item>
+        <item>RSXAudio</item>
+    </string-array>
+    <string-array name="audio_rsxaudio_avport_values">
+        <item>HDMI 0</item>
+        <item>HDMI 1</item>
+        <item>AV multiout</item>
+        <item>SPDIF 0</item>
+        <item>SPDIF 1</item>
+    </string-array>
+    <string-array name="audio_audio_format_values">
+        <item>Stereo</item>
+        <item>Surround 5.1</item>
+        <item>Surround 7.1</item>
+        <item>Automatic</item>
+        <item>Manual</item>
+    </string-array>
+    <string-array name="audio_audio_channel_layout_values">
+        <item>Automatic</item>
+        <item>Mono</item>
+        <item>Stereo</item>
+        <item>Stereo LFE</item>
+        <item>Quadraphonic</item>
+        <item>Quadraphonic LFE</item>
+        <item>Surround 5.1</item>
+        <item>Surround 7.1</item>
+    </string-array>
+    <string-array name="audio_microphone_type_values">
+        <item>Null</item>
+        <item>Standard</item>
+        <item>SingStar</item>
+        <item>Real SingStar</item>
+        <item>Rocksmith</item>
+    </string-array>
+    <string-array name="audio_music_handler_values">
+        <item>Null</item>
+        <item>Qt</item>
+    </string-array>
+    <string-array name="input_output_keyboard_values">
+        <item>Null</item>
+        <item>Basic</item>
+    </string-array>
+    <string-array name="input_output_mouse_values">
+        <item>Null</item>
+        <item>Basic</item>
+        <item>Raw</item>
+    </string-array>
+    <string-array name="input_output_camera_values">
+        <item>Null</item>
+        <item>Fake</item>
+        <item>Qt</item>
+    </string-array>
+    <string-array name="input_output_camera_type_values">
+        <item>Unknown</item>
+        <item>EyeToy</item>
+        <item>PS Eye</item>
+        <item>UVC 1.1</item>
+    </string-array>
+    <string-array name="input_output_camera_flip_values">
+        <item>None</item>
+        <item>Horizontal</item>
+        <item>Vertical</item>
+        <item>Both</item>
+    </string-array>
+    <string-array name="input_output_move_values">
+        <item>Null</item>
+        <item>Fake</item>
+        <item>Mouse</item>
+        <item>Raw Mouse</item>
+    </string-array>
+    <string-array name="input_output_buzz_emulated_controller_values">
+        <item>Null</item>
+        <item>1 controller</item>
+        <item>2 controllers</item>
+    </string-array>
+    <string-array name="input_output_turntable_emulated_controller_values">
+        <item>Null</item>
+        <item>1 controller</item>
+        <item>2 controllers</item>
+    </string-array>
+    <string-array name="input_output_ghltar_emulated_controller_values">
+        <item>Null</item>
+        <item>1 controller</item>
+        <item>2 controllers</item>
+    </string-array>
+    <string-array name="input_output_pad_handler_mode_values">
+        <item>Single-threaded</item>
+        <item>Multi-threaded</item>
+    </string-array>
+    <string-array name="system_license_area_values">
+        <item>SCEJ</item>
+        <item>SCEA</item>
+        <item>SCEE</item>
+        <item>SCEH</item>
+        <item>SCEK</item>
+        <item>SCH</item>
+    </string-array>
+    <string-array name="system_language_values">
+        <item>Japanese</item>
+        <item>English (US)</item>
+        <item>French</item>
+        <item>Spanish</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Dutch</item>
+        <item>Portuguese (Portugal)</item>
+        <item>Russian</item>
+        <item>Korean</item>
+        <item>Chinese (Traditional)</item>
+        <item>Chinese (Simplified)</item>
+        <item>Finnish</item>
+        <item>Swedish</item>
+        <item>Danish</item>
+        <item>Norwegian</item>
+        <item>Polish</item>
+        <item>Portuguese (Brazil)</item>
+        <item>English (UK)</item>
+        <item>Turkish</item>
+    </string-array>
+    <string-array name="system_keyboard_type_values">
+        <item>English keyboard (US standard)</item>
+        <item>Japanese keyboard</item>
+        <item>Japanese keyboard (Kana state)</item>
+        <item>German keyboard</item>
+        <item>Spanish keyboard</item>
+        <item>French keyboard</item>
+        <item>Italian keyboard</item>
+        <item>Dutch keyboard</item>
+        <item>Portuguese keyboard (Portugal)</item>
+        <item>Russian keyboard</item>
+        <item>English keyboard (UK standard)</item>
+        <item>Korean keyboard</item>
+        <item>Norwegian keyboard</item>
+        <item>Finnish keyboard</item>
+        <item>Danish keyboard</item>
+        <item>Swedish keyboard</item>
+        <item>Chinese keyboard (Traditional)</item>
+        <item>Chinese keyboard (Simplified)</item>
+        <item>French keyboard (Switzerland)</item>
+        <item>German keyboard (Switzerland)</item>
+        <item>French keyboard (Canada)</item>
+        <item>French keyboard (Belgium)</item>
+        <item>Polish keyboard</item>
+        <item>Portuguese keyboard (Brazil)</item>
+        <item>Turkish keyboard</item>
+    </string-array>
+    <string-array name="system_enter_button_assignment_values">
+        <item>Enter with circle</item>
+        <item>Enter with cross</item>
+    </string-array>
+    <string-array name="net_internet_enabled_values">
+        <item>Disconnected</item>
+        <item>Connected</item>
+    </string-array>
+    <string-array name="net_psn_status_values">
+        <item>Disconnected</item>
+        <item>Simulated</item>
+        <item>RPCN</item>
+    </string-array>
+
+    <string-array name="miscellaneous_font_file_selection_values">
+        <item>From Firmware</item>
+        <item>From OS</item>
+        <item>Custom</item>
+    </string-array>
+
+</resources>

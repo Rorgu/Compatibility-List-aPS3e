@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_refresh_list"
+        android:title="@string/refresh_list"/>
+	<item
+        android:id="@+id/menu_install_firmware"
+        android:title="@string/install_firmware"/>
+	<item
+        android:id="@+id/menu_install_game"
+        android:title="@string/install_game"/>
+	<item
+        android:id="@+id/menu_key_mappers"
+        android:title="@string/key_mappers"/>
+	<!--item
+        android:id="@+id/menu_gratitude"
+        android:title="@string/gratitude"/-->
+	<item
+        android:id="@+id/menu_about"
+        android:title="@string/about"/>
+	<!--item
+        android:id="@+id/menu_update_log"
+        android:title="@string/update_log"/-->
+	<item
+        android:id="@+id/menu_virtual_pad_edit"
+        android:title="@string/virtual_pad_edit"/>
+	<item
+        android:id="@+id/menu_settings"
+        android:title="@string/settings"/>
+	<item
+		android:id="@+id/menu_open_file_mgr"
+		android:title="@string/open_file_manager"/>
+	<item
+		android:id="@+id/menu_set_iso_dir"
+		android:title="@string/set_iso_dir"/>
+	
+</menu>

@@ -1,0 +1,1192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen app:title="@string/emulator_settings_core"
+        app:key="Core" >
+
+        <ListPreference app:title="@string/emulator_settings_core_ppu_decoder"
+            app:entries="@array/core_ppu_decoder_entries"
+            app:entryValues="@array/core_ppu_decoder_values"
+            app:key="Core|PPU Decoder" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_ppu_threads"
+            app:min="1"
+            android:max="8"
+            app:showSeekBarValue="true"
+            app:key="Core|PPU Threads" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_debug"
+            app:key="Core|PPU Debug" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_calling_history"
+            app:key="Core|PPU Calling History" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_save_llvm_logs"
+            app:key="Core|Save LLVM logs" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_core_use_llvm_cpu"
+            app:key="Core|Use LLVM CPU" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_max_llvm_compile_threads"
+            app:min="0"
+            android:max="12"
+            app:showSeekBarValue="true"
+            app:key="Core|Max LLVM Compile Threads" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_llvm_precompilation"
+            app:key="Core|LLVM Precompilation" />
+
+
+        <ListPreference app:title="@string/emulator_settings_core_thread_scheduler_mode"
+            app:entries="@array/core_thread_scheduler_mode_entries"
+            app:entryValues="@array/core_thread_scheduler_mode_values"
+            app:key="Core|Thread Scheduler Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_set_daz_and_ftz"
+            app:key="Core|Set DAZ and FTZ" />
+
+
+        <ListPreference app:title="@string/emulator_settings_core_spu_decoder"
+            app:entries="@array/core_spu_decoder_entries"
+            app:entryValues="@array/core_spu_decoder_values"
+            app:key="Core|SPU Decoder" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_spu_reservation_busy_waiting_percentage"
+            app:min="0"
+            android:max="100"
+            app:showSeekBarValue="true"
+            app:key="Core|SPU Reservation Busy Waiting Percentage" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_spu_getllar_busy_waiting_percentage"
+            app:min="0"
+            android:max="101"
+            app:showSeekBarValue="true"
+            app:key="Core|SPU GETLLAR Busy Waiting Percentage" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_disable_spu_getllar_spin_optimization"
+            app:key="Core|Disable SPU GETLLAR Spin Optimization" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_spu_debug"
+            app:key="Core|SPU Debug" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_mfc_debug"
+            app:key="Core|MFC Debug" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_preferred_spu_threads"
+            app:min="0"
+            android:max="6"
+            app:showSeekBarValue="true"
+            app:key="Core|Preferred SPU Threads" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_spu_delay_penalty"
+            app:min="0"
+            android:max="16"
+            app:showSeekBarValue="true"
+            app:key="Core|SPU delay penalty" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_spu_loop_detection"
+            app:key="Core|SPU loop detection" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_max_spurs_threads"
+            app:min="1"
+            android:max="6"
+            app:showSeekBarValue="true"
+            app:key="Core|Max SPURS Threads" />
+
+
+        <ListPreference app:title="@string/emulator_settings_core_spu_block_size"
+            app:entries="@array/core_spu_block_size_entries"
+            app:entryValues="@array/core_spu_block_size_values"
+            app:key="Core|SPU Block Size" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_accurate_spu_dma"
+            app:key="Core|Accurate SPU DMA" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_accurate_spu_reservations"
+            app:key="Core|Accurate SPU Reservations" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_accurate_cache_line_stores"
+            app:key="Core|Accurate Cache Line Stores" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_accurate_rsx_reservation_access"
+            app:key="Core|Accurate RSX reservation access" />
+
+
+        <ListPreference app:title="@string/emulator_settings_core_rsx_fifo_accuracy"
+            app:entries="@array/core_rsx_fifo_accuracy_entries"
+            app:entryValues="@array/core_rsx_fifo_accuracy_values"
+            app:key="Core|RSX FIFO Accuracy" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_spu_verification"
+            app:key="Core|SPU Verification" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_spu_cache"
+            app:key="Core|SPU Cache" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_spu_profiler"
+            app:key="Core|SPU Profiler" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_mfc_commands_shuffling_limit"
+            app:min="0"
+            android:max="16"
+            app:showSeekBarValue="true"
+            app:key="Core|MFC Commands Shuffling Limit" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_mfc_commands_timeout"
+            app:min="0"
+            android:max="10000"
+            app:showSeekBarValue="true"
+            app:key="Core|MFC Commands Timeout" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_mfc_commands_shuffling_in_steps"
+            app:key="Core|MFC Commands Shuffling In Steps" />
+
+
+        <ListPreference app:title="@string/emulator_settings_core_enable_tsx"
+            app:entries="@array/core_enable_tsx_entries"
+            app:entryValues="@array/core_enable_tsx_values"
+            app:key="Core|Enable TSX" />
+
+
+        <ListPreference app:title="@string/emulator_settings_core_xfloat_accuracy"
+            app:entries="@array/core_xfloat_accuracy_entries"
+            app:entryValues="@array/core_xfloat_accuracy_values"
+            app:key="Core|XFloat Accuracy" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_accurate_ppu_128byte_reservation_op_max_length"
+            app:min="-1"
+            android:max="14"
+            app:showSeekBarValue="true"
+            app:key="Core|Accurate PPU 128-byte Reservation Op Max Length" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_stub_ppu_traps"
+            app:min="-64"
+            android:max="64"
+            app:showSeekBarValue="true"
+            app:key="Core|Stub PPU Traps" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_precise_spu_verification"
+            app:key="Core|Precise SPU Verification" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_llvm_java_mode_handling"
+            app:key="Core|PPU LLVM Java Mode Handling" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_use_accurate_dfma"
+            app:key="Core|Use Accurate DFMA" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_set_saturation_bit"
+            app:key="Core|PPU Set Saturation Bit" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_accurate_nonjava_mode"
+            app:key="Core|PPU Accurate Non-Java Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_fixup_vector_nan_values"
+            app:key="Core|PPU Fixup Vector NaN Values" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_accurate_vector_nan_values"
+            app:key="Core|PPU Accurate Vector NaN Values" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_ppu_set_fpcc_bits"
+            app:key="Core|PPU Set FPCC Bits" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_debug_console_mode"
+            app:key="Core|Debug Console Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_hook_static_functions"
+            app:key="Core|Hook static functions" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_core_libraries_control"
+            app:key="Core|Libraries Control" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_hle_lwmutex"
+            app:key="Core|HLE lwmutex" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_spu_llvm_lower_bound"
+            app:min="0"
+            android:max="0x7fffffff"
+            app:showSeekBarValue="true"
+            app:key="Core|SPU LLVM Lower Bound" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_spu_llvm_upper_bound"
+            app:min="0"
+            android:max="0x7fffffff"
+            app:showSeekBarValue="true"
+            app:key="Core|SPU LLVM Upper Bound" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_tsx_transaction_first_limit"
+            app:min="0"
+            android:max="0x7fffffff"
+            app:showSeekBarValue="true"
+            app:key="Core|TSX Transaction First Limit" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_tsx_transaction_second_limit"
+            app:min="0"
+            android:max="0x7fffffff"
+            app:showSeekBarValue="true"
+            app:key="Core|TSX Transaction Second Limit" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_clocks_scale"
+            app:min="10"
+            android:max="3000"
+            app:showSeekBarValue="true"
+            app:key="Core|Clocks scale" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_spu_wakeup_delay"
+            app:min="0"
+            android:max="3000"
+            app:showSeekBarValue="true"
+            app:key="Core|SPU Wake-Up Delay" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_spu_wakeup_delay_thread_mask"
+            app:min="0"
+            android:max="63"
+            app:showSeekBarValue="true"
+            app:key="Core|SPU Wake-Up Delay Thread Mask" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_max_cpu_preempt_count"
+            app:min="0"
+            android:max="400"
+            app:showSeekBarValue="true"
+            app:key="Core|Max CPU Preempt Count" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_allow_rsx_cpu_preemptions"
+            app:key="Core|Allow RSX CPU Preemptions" />
+
+
+        <ListPreference app:title="@string/emulator_settings_core_sleep_timers_accuracy"
+            app:entries="@array/core_sleep_timers_accuracy_entries"
+            app:entryValues="@array/core_sleep_timers_accuracy_values"
+            app:key="Core|Sleep Timers Accuracy" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_usleep_time_addend"
+            app:min="-1000"
+            android:max="1500"
+            app:showSeekBarValue="true"
+            app:key="Core|Usleep Time Addend" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_core_performance_report_threshold"
+            app:min="0"
+            android:max="0x7fffffff"
+            app:showSeekBarValue="true"
+            app:key="Core|Performance Report Threshold" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_enable_performance_report"
+            app:key="Core|Enable Performance Report" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_core_assume_external_debugger"
+            app:key="Core|Assume External Debugger" />
+
+    </PreferenceScreen>
+    <PreferenceScreen app:title="@string/emulator_settings_video"
+        app:key="Video" >
+
+        <ListPreference app:title="@string/emulator_settings_video_renderer"
+            app:entries="@array/video_renderer_entries"
+            app:entryValues="@array/video_renderer_values"
+            app:key="Video|Renderer" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_resolution"
+            app:entries="@array/video_resolution_entries"
+            app:entryValues="@array/video_resolution_values"
+            app:key="Video|Resolution" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_aspect_ratio"
+            app:entries="@array/video_aspect_ratio_entries"
+            app:entryValues="@array/video_aspect_ratio_values"
+            app:key="Video|Aspect ratio" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_frame_limit"
+            app:entries="@array/video_frame_limit_entries"
+            app:entryValues="@array/video_frame_limit_values"
+            app:key="Video|Frame limit" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_second_frame_limit"
+            app:min="0"
+            android:max="1000"
+            app:showSeekBarValue="true"
+            app:key="Video|Second Frame Limit" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_msaa"
+            app:entries="@array/video_msaa_entries"
+            app:entryValues="@array/video_msaa_values"
+            app:key="Video|MSAA" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_shader_mode"
+            app:entries="@array/video_shader_mode_entries"
+            app:entryValues="@array/video_shader_mode_values"
+            app:key="Video|Shader Mode" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_shader_precision"
+            app:entries="@array/video_shader_precision_entries"
+            app:entryValues="@array/video_shader_precision_values"
+            app:key="Video|Shader Precision" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_write_color_buffers"
+            app:key="Video|Write Color Buffers" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_write_depth_buffer"
+            app:key="Video|Write Depth Buffer" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_read_color_buffers"
+            app:key="Video|Read Color Buffers" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_read_depth_buffer"
+            app:key="Video|Read Depth Buffer" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_handle_rsx_memory_tiling"
+            app:key="Video|Handle RSX Memory Tiling" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_log_shader_programs"
+            app:key="Video|Log shader programs" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_vsync"
+            app:key="Video|VSync" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_debug_output"
+            app:key="Video|Debug output" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_debug_overlay"
+            app:key="Video|Debug overlay" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_renderdoc_compatibility_mode"
+            app:key="Video|Renderdoc Compatibility Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_use_gpu_texture_scaling"
+            app:key="Video|Use GPU texture scaling" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_stretch_to_display_area"
+            app:key="Video|Stretch To Display Area" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_force_high_precision_z_buffer"
+            app:key="Video|Force High Precision Z buffer" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_strict_rendering_mode"
+            app:key="Video|Strict Rendering Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_disable_zcull_occlusion_queries"
+            app:key="Video|Disable ZCull Occlusion Queries" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_disable_video_output"
+            app:key="Video|Disable Video Output" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_disable_vertex_cache"
+            app:key="Video|Disable Vertex Cache" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_disable_fifo_reordering"
+            app:key="Video|Disable FIFO Reordering" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_enable_frame_skip"
+            app:key="Video|Enable Frame Skip" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_force_cpu_blit"
+            app:key="Video|Force CPU Blit" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_disable_ondisk_shader_cache"
+            app:key="Video|Disable On-Disk Shader Cache" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_disable_vulkan_memory_allocator"
+            app:key="Video|Disable Vulkan Memory Allocator" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_use_full_rgb_output_range"
+            app:key="Video|Use full RGB output range" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_strict_texture_flushing"
+            app:key="Video|Strict Texture Flushing" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_multithreaded_rsx"
+            app:key="Video|Multithreaded RSX" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_relaxed_zcull_sync"
+            app:key="Video|Relaxed ZCULL Sync" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_force_hardware_msaa_resolve"
+            app:key="Video|Force Hardware MSAA Resolve" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_3d_display_mode"
+            app:entries="@array/video_3d_display_mode_entries"
+            app:entryValues="@array/video_3d_display_mode_values"
+            app:key="Video|3D Display Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_debug_program_analyser"
+            app:key="Video|Debug Program Analyser" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_accurate_zcull_stats"
+            app:key="Video|Accurate ZCULL stats" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_consecutive_frames_to_draw"
+            app:min="1"
+            android:max="8"
+            app:showSeekBarValue="true"
+            app:key="Video|Consecutive Frames To Draw" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_consecutive_frames_to_skip"
+            app:min="1"
+            android:max="8"
+            app:showSeekBarValue="true"
+            app:key="Video|Consecutive Frames To Skip" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_resolution_scale"
+            app:min="25"
+            android:max="800"
+            app:showSeekBarValue="true"
+            app:key="Video|Resolution Scale" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_anisotropic_filter_override"
+            app:min="0"
+            android:max="16"
+            app:showSeekBarValue="true"
+            app:key="Video|Anisotropic Filter Override" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_texture_lod_bias_addend"
+            app:min="-32"
+            android:max="32"
+            app:showSeekBarValue="true"
+            app:key="Video|Texture LOD Bias Addend" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_minimum_scalable_dimension"
+            app:min="1"
+            android:max="1024"
+            app:showSeekBarValue="true"
+            app:key="Video|Minimum Scalable Dimension" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_shader_compiler_threads"
+            app:min="0"
+            android:max="16"
+            app:showSeekBarValue="true"
+            app:key="Video|Shader Compiler Threads" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_driver_recovery_timeout"
+            app:min="0"
+            android:max="30000000"
+            app:showSeekBarValue="true"
+            app:key="Video|Driver Recovery Timeout" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_driver_wakeup_delay"
+            app:min="0"
+            android:max="16667"
+            app:showSeekBarValue="true"
+            app:key="Video|Driver Wake-Up Delay" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_video_vblank_rate"
+            app:min="1"
+            android:max="3000"
+            app:showSeekBarValue="true"
+            app:key="Video|Vblank Rate" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_vblank_ntsc_fixup"
+            app:key="Video|Vblank NTSC Fixup" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_decr_memory_layout"
+            app:key="Video|DECR memory layout" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_allow_host_gpu_labels"
+            app:key="Video|Allow Host GPU Labels" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_disable_asynchronous_memory_manager"
+            app:key="Video|Disable Asynchronous Memory Manager" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_output_scaling_mode"
+            app:entries="@array/video_output_scaling_mode_entries"
+            app:entryValues="@array/video_output_scaling_mode_values"
+            app:key="Video|Output Scaling Mode" />
+
+
+        <ListPreference app:title="@string/emulator_settings_video_vertex_buffer_upload_mode"
+            app:entries="@array/video_vertex_buffer_upload_mode_entries"
+            app:entryValues="@array/video_vertex_buffer_upload_mode_values"
+            app:key="Video|Vertex Buffer Upload Mode" />
+
+        <PreferenceScreen app:title="@string/emulator_settings_video_vulkan"
+            app:key="Video|Vulkan" >
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_vulkan_adapter"
+                app:key="Video|Vulkan|Adapter" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_vulkan_force_fifo_present_mode"
+                app:key="Video|Vulkan|Force FIFO present mode" />
+
+
+            <ListPreference app:title="@string/emulator_settings_video_vulkan_exclusive_fullscreen_mode"
+                app:entries="@array/video_vulkan_exclusive_fullscreen_mode_entries"
+                app:entryValues="@array/video_vulkan_exclusive_fullscreen_mode_values"
+                app:key="Video|Vulkan|Exclusive Fullscreen Mode" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_vulkan_asynchronous_texture_streaming_2"
+                app:key="Video|Vulkan|Asynchronous Texture Streaming 2" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_vulkan_fidelityfx_cas_sharpening_intensity"
+                app:min="0"
+                android:max="100"
+                app:showSeekBarValue="true"
+                app:key="Video|Vulkan|FidelityFX CAS Sharpening Intensity" />
+
+
+            <ListPreference app:title="@string/emulator_settings_video_vulkan_asynchronous_queue_scheduler"
+                app:entries="@array/video_vulkan_asynchronous_queue_scheduler_entries"
+                app:entryValues="@array/video_vulkan_asynchronous_queue_scheduler_values"
+                app:key="Video|Vulkan|Asynchronous Queue Scheduler" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_vulkan_vram_allocation_limit"
+                app:min="256"
+                android:max="16384"
+                app:showSeekBarValue="true"
+                app:key="Video|Vulkan|VRAM allocation limit (MB)" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_vulkan_use_custom_driver"
+                app:key="Video|Vulkan|Use Custom Driver" />
+
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_vulkan_custom_driver_library_path"
+                app:key="Video|Vulkan|Custom Driver Library Path" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_vulkan_custom_driver_force_max_clocks"
+                app:key="Video|Vulkan|Custom Driver Force Max Clocks" />
+
+        </PreferenceScreen>
+        <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay"
+            app:key="Video|Performance Overlay" >
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_performance_overlay_enabled"
+                app:key="Video|Performance Overlay|Enabled" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_performance_overlay_enable_framerate_graph"
+                app:key="Video|Performance Overlay|Enable Framerate Graph" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_performance_overlay_enable_frametime_graph"
+                app:key="Video|Performance Overlay|Enable Frametime Graph" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_framerate_datapoints"
+                app:min="2"
+                android:max="6000"
+                app:showSeekBarValue="true"
+                app:key="Video|Performance Overlay|Framerate datapoints" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_frametime_datapoints"
+                app:min="2"
+                android:max="6000"
+                app:showSeekBarValue="true"
+                app:key="Video|Performance Overlay|Frametime datapoints" />
+
+
+            <ListPreference app:title="@string/emulator_settings_video_performance_overlay_detail_level"
+                app:entries="@array/video_performance_overlay_detail_level_entries"
+                app:entryValues="@array/video_performance_overlay_detail_level_values"
+                app:key="Video|Performance Overlay|Detail level" />
+
+
+            <ListPreference app:title="@string/emulator_settings_video_performance_overlay_framerate_graph_detail_level"
+                app:entries="@array/video_performance_overlay_framerate_graph_detail_level_entries"
+                app:entryValues="@array/video_performance_overlay_framerate_graph_detail_level_values"
+                app:key="Video|Performance Overlay|Framerate graph detail level" />
+
+
+            <ListPreference app:title="@string/emulator_settings_video_performance_overlay_frametime_graph_detail_level"
+                app:entries="@array/video_performance_overlay_frametime_graph_detail_level_entries"
+                app:entryValues="@array/video_performance_overlay_frametime_graph_detail_level_values"
+                app:key="Video|Performance Overlay|Frametime graph detail level" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_metrics_update_interval"
+                app:min="1"
+                android:max="1000"
+                app:showSeekBarValue="true"
+                app:key="Video|Performance Overlay|Metrics update interval (ms)" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_font_size"
+                app:min="4"
+                android:max="36"
+                app:showSeekBarValue="true"
+                app:key="Video|Performance Overlay|Font size (px)" />
+
+
+            <ListPreference app:title="@string/emulator_settings_video_performance_overlay_position"
+                app:entries="@array/video_performance_overlay_position_entries"
+                app:entryValues="@array/video_performance_overlay_position_values"
+                app:key="Video|Performance Overlay|Position" />
+
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_font"
+                app:key="Video|Performance Overlay|Font" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_horizontal_margin"
+                app:min="0"
+                android:max="1280"
+                app:showSeekBarValue="true"
+                app:key="Video|Performance Overlay|Horizontal Margin (px)" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_vertical_margin"
+                app:min="0"
+                android:max="720"
+                app:showSeekBarValue="true"
+                app:key="Video|Performance Overlay|Vertical Margin (px)" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_performance_overlay_center_horizontally"
+                app:key="Video|Performance Overlay|Center Horizontally" />
+
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_performance_overlay_center_vertically"
+                app:key="Video|Performance Overlay|Center Vertically" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_opacity"
+                app:min="0"
+                android:max="100"
+                app:showSeekBarValue="true"
+                app:key="Video|Performance Overlay|Opacity (%)" />
+
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_body_color"
+                app:key="Video|Performance Overlay|Body Color (hex)" />
+
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_body_background"
+                app:key="Video|Performance Overlay|Body Background (hex)" />
+
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_title_color"
+                app:key="Video|Performance Overlay|Title Color (hex)" />
+
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_title_background"
+                app:key="Video|Performance Overlay|Title Background (hex)" />
+
+        </PreferenceScreen>
+        <PreferenceScreen app:title="@string/emulator_settings_video_shader_loading_dialog"
+            app:key="Video|Shader Loading Dialog" >
+
+            <CheckBoxPreference app:title="@string/emulator_settings_video_shader_loading_dialog_allow_custom_background"
+                app:key="Video|Shader Loading Dialog|Allow custom background" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_shader_loading_dialog_darkening_effect_strength"
+                app:min="0"
+                android:max="100"
+                app:showSeekBarValue="true"
+                app:key="Video|Shader Loading Dialog|Darkening effect strength" />
+
+
+            <SeekBarPreference app:title="@string/emulator_settings_video_shader_loading_dialog_blur_effect_strength"
+                app:min="0"
+                android:max="100"
+                app:showSeekBarValue="true"
+                app:key="Video|Shader Loading Dialog|Blur effect strength" />
+
+        </PreferenceScreen>
+    </PreferenceScreen>
+    <PreferenceScreen app:title="@string/emulator_settings_audio"
+        app:key="Audio" >
+
+        <ListPreference app:title="@string/emulator_settings_audio_renderer"
+            app:entries="@array/audio_renderer_entries"
+            app:entryValues="@array/audio_renderer_values"
+            app:key="Audio|Renderer" />
+
+
+        <ListPreference app:title="@string/emulator_settings_audio_audio_provider"
+            app:entries="@array/audio_audio_provider_entries"
+            app:entryValues="@array/audio_audio_provider_values"
+            app:key="Audio|Audio Provider" />
+
+
+        <ListPreference app:title="@string/emulator_settings_audio_rsxaudio_avport"
+            app:entries="@array/audio_rsxaudio_avport_entries"
+            app:entryValues="@array/audio_rsxaudio_avport_values"
+            app:key="Audio|RSXAudio Avport" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_audio_dump_to_file"
+            app:key="Audio|Dump to file" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_audio_convert_to_16_bit"
+            app:key="Audio|Convert to 16 bit" />
+
+
+        <ListPreference app:title="@string/emulator_settings_audio_audio_format"
+            app:entries="@array/audio_audio_format_entries"
+            app:entryValues="@array/audio_audio_format_values"
+            app:key="Audio|Audio Format" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_audio_audio_formats"
+            app:min="0"
+            android:max="255"
+            app:showSeekBarValue="true"
+            app:key="Audio|Audio Formats" />
+
+
+        <ListPreference app:title="@string/emulator_settings_audio_audio_channel_layout"
+            app:entries="@array/audio_audio_channel_layout_entries"
+            app:entryValues="@array/audio_audio_channel_layout_values"
+            app:key="Audio|Audio Channel Layout" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_audio_audio_device"
+            app:key="Audio|Audio Device" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_audio_master_volume"
+            app:min="0"
+            android:max="200"
+            app:showSeekBarValue="true"
+            app:key="Audio|Master Volume" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_audio_enable_buffering"
+            app:key="Audio|Enable Buffering" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_audio_desired_audio_buffer_duration"
+            app:min="4"
+            android:max="250"
+            app:showSeekBarValue="true"
+            app:key="Audio|Desired Audio Buffer Duration" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_audio_enable_time_stretching"
+            app:key="Audio|Enable Time Stretching" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_audio_disable_sampling_skip"
+            app:key="Audio|Disable Sampling Skip" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_audio_time_stretching_threshold"
+            app:min="0"
+            android:max="100"
+            app:showSeekBarValue="true"
+            app:key="Audio|Time Stretching Threshold" />
+
+
+        <ListPreference app:title="@string/emulator_settings_audio_microphone_type"
+            app:entries="@array/audio_microphone_type_entries"
+            app:entryValues="@array/audio_microphone_type_values"
+            app:key="Audio|Microphone Type" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_audio_microphone_devices"
+            app:key="Audio|Microphone Devices" />
+
+
+        <ListPreference app:title="@string/emulator_settings_audio_music_handler"
+            app:entries="@array/audio_music_handler_entries"
+            app:entryValues="@array/audio_music_handler_values"
+            app:key="Audio|Music Handler" />
+
+    </PreferenceScreen>
+    <PreferenceScreen app:title="@string/emulator_settings_input_output"
+        app:key="Input/Output" >
+
+        <ListPreference app:title="@string/emulator_settings_input_output_keyboard"
+            app:entries="@array/input_output_keyboard_entries"
+            app:entryValues="@array/input_output_keyboard_values"
+            app:key="Input/Output|Keyboard" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_mouse"
+            app:entries="@array/input_output_mouse_entries"
+            app:entryValues="@array/input_output_mouse_values"
+            app:key="Input/Output|Mouse" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_camera"
+            app:entries="@array/input_output_camera_entries"
+            app:entryValues="@array/input_output_camera_values"
+            app:key="Input/Output|Camera" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_camera_type"
+            app:entries="@array/input_output_camera_type_entries"
+            app:entryValues="@array/input_output_camera_type_values"
+            app:key="Input/Output|Camera type" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_camera_flip"
+            app:entries="@array/input_output_camera_flip_entries"
+            app:entryValues="@array/input_output_camera_flip_values"
+            app:key="Input/Output|Camera flip" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_input_output_camera_id"
+            app:key="Input/Output|Camera ID" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_move"
+            app:entries="@array/input_output_move_entries"
+            app:entryValues="@array/input_output_move_values"
+            app:key="Input/Output|Move" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_buzz_emulated_controller"
+            app:entries="@array/input_output_buzz_emulated_controller_entries"
+            app:entryValues="@array/input_output_buzz_emulated_controller_values"
+            app:key="Input/Output|Buzz emulated controller" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_turntable_emulated_controller"
+            app:entries="@array/input_output_turntable_emulated_controller_entries"
+            app:entryValues="@array/input_output_turntable_emulated_controller_values"
+            app:key="Input/Output|Turntable emulated controller" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_ghltar_emulated_controller"
+            app:entries="@array/input_output_ghltar_emulated_controller_entries"
+            app:entryValues="@array/input_output_ghltar_emulated_controller_values"
+            app:key="Input/Output|GHLtar emulated controller" />
+
+
+        <ListPreference app:title="@string/emulator_settings_input_output_pad_handler_mode"
+            app:entries="@array/input_output_pad_handler_mode_entries"
+            app:entryValues="@array/input_output_pad_handler_mode_values"
+            app:key="Input/Output|Pad handler mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_input_output_keep_pads_connected"
+            app:key="Input/Output|Keep pads connected" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_input_output_pad_handler_sleep"
+            app:min="0"
+            android:max="100000"
+            app:showSeekBarValue="true"
+            app:key="Input/Output|Pad handler sleep (microseconds)" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_input_output_background_input_enabled"
+            app:key="Input/Output|Background input enabled" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_input_output_show_move_cursor"
+            app:key="Input/Output|Show move cursor" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_input_output_lock_overlay_input_to_player_one"
+            app:key="Input/Output|Lock overlay input to player one" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_input_output_emulated_midi_devices"
+            app:key="Input/Output|Emulated Midi devices" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_input_output_load_sdl_gamecontroller_mappings"
+            app:key="Input/Output|Load SDL GameController Mappings" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_input_output_io_debug_overlay"
+            app:key="Input/Output|IO Debug overlay" />
+
+    </PreferenceScreen>
+    <PreferenceScreen app:title="@string/emulator_settings_system"
+        app:key="System" >
+
+        <ListPreference app:title="@string/emulator_settings_system_license_area"
+            app:entries="@array/system_license_area_entries"
+            app:entryValues="@array/system_license_area_values"
+            app:key="System|License Area" />
+
+
+        <ListPreference app:title="@string/emulator_settings_system_language"
+            app:entries="@array/system_language_entries"
+            app:entryValues="@array/system_language_values"
+            app:key="System|Language" />
+
+
+        <ListPreference app:title="@string/emulator_settings_system_keyboard_type"
+            app:entries="@array/system_keyboard_type_entries"
+            app:entryValues="@array/system_keyboard_type_values"
+            app:key="System|Keyboard Type" />
+
+
+        <ListPreference app:title="@string/emulator_settings_system_enter_button_assignment"
+            app:entries="@array/system_enter_button_assignment_entries"
+            app:entryValues="@array/system_enter_button_assignment_values"
+            app:key="System|Enter button assignment" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_system_system_name"
+            app:key="System|System Name" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_system_psid_high"
+            app:min="0"
+            android:max="0x7fffffff"
+            app:showSeekBarValue="true"
+            app:key="System|PSID high" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_system_psid_low"
+            app:min="0"
+            android:max="0x7fffffff"
+            app:showSeekBarValue="true"
+            app:key="System|PSID low" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_system_hdd_model_name"
+            app:key="System|HDD Model Name" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_system_hdd_serial_number"
+            app:key="System|HDD Serial Number" />
+
+    </PreferenceScreen>
+    <PreferenceScreen app:title="@string/emulator_settings_net"
+        app:key="Net" >
+
+        <ListPreference app:title="@string/emulator_settings_net_internet_enabled"
+            app:entries="@array/net_internet_enabled_entries"
+            app:entryValues="@array/net_internet_enabled_values"
+            app:key="Net|Internet enabled" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_net_ip_address"
+            app:key="Net|IP address" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_net_bind_address"
+            app:key="Net|Bind address" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_net_dns_address"
+            app:key="Net|DNS address" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_net_ip_swap_list"
+            app:key="Net|IP swap list" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_net_upnp_enabled"
+            app:key="Net|UPNP Enabled" />
+
+
+        <ListPreference app:title="@string/emulator_settings_net_psn_status"
+            app:entries="@array/net_psn_status_entries"
+            app:entryValues="@array/net_psn_status_values"
+            app:key="Net|PSN status" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_net_psn_country"
+            app:key="Net|PSN Country" />
+
+    </PreferenceScreen>
+    <PreferenceScreen app:title="@string/emulator_settings_savestate"
+        app:key="Savestate" >
+
+        <CheckBoxPreference app:title="@string/emulator_settings_savestate_start_paused"
+            app:key="Savestate|Start Paused" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_savestate_suspend_emulation_savestate_mode"
+            app:key="Savestate|Suspend Emulation Savestate Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_savestate_compatible_savestate_mode"
+            app:key="Savestate|Compatible Savestate Mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_savestate_inspection_mode_savestates"
+            app:key="Savestate|Inspection Mode Savestates" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_savestate_save_disc_game_data"
+            app:key="Savestate|Save Disc Game Data" />
+
+    </PreferenceScreen>
+    <PreferenceScreen app:title="@string/emulator_settings_miscellaneous"
+        app:key="Miscellaneous" >
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_automatically_start_games_after_boot"
+            app:key="Miscellaneous|Automatically start games after boot" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_exit_rpcs3_when_process_finishes"
+            app:key="Miscellaneous|Exit RPCS3 when process finishes" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_pause_emulation_on_rpcs3_focus_loss"
+            app:key="Miscellaneous|Pause emulation on RPCS3 focus loss" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_start_games_in_fullscreen_mode"
+            app:key="Miscellaneous|Start games in fullscreen mode" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_show_trophy_popups"
+            app:key="Miscellaneous|Show trophy popups" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_show_rpcn_popups"
+            app:key="Miscellaneous|Show RPCN popups" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_show_shader_compilation_hint"
+            app:key="Miscellaneous|Show shader compilation hint" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_show_ppu_compilation_hint"
+            app:key="Miscellaneous|Show PPU compilation hint" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_show_pressure_intensity_toggle_hint"
+            app:key="Miscellaneous|Show pressure intensity toggle hint" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_show_analog_limiter_toggle_hint"
+            app:key="Miscellaneous|Show analog limiter toggle hint" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_show_autosave_autoload_hint"
+            app:key="Miscellaneous|Show autosave/autoload hint" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_use_native_user_interface"
+            app:key="Miscellaneous|Use native user interface" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_miscellaneous_gdb_server"
+            app:key="Miscellaneous|GDB Server" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_silence_all_logs"
+            app:key="Miscellaneous|Silence All Logs" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_miscellaneous_window_title_format"
+            app:key="Miscellaneous|Window Title Format" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_pause_emulation_during_home_menu"
+            app:key="Miscellaneous|Pause Emulation During Home Menu" />
+
+
+        <ListPreference app:title="@string/emulator_settings_miscellaneous_font_file_selection"
+            app:entries="@array/miscellaneous_font_file_selection_entries"
+            app:entryValues="@array/miscellaneous_font_file_selection_values"
+            app:key="Miscellaneous|Font File Selection" />
+
+
+        <PreferenceScreen app:title="@string/emulator_settings_miscellaneous_custom_font_file_path"
+            app:key="Miscellaneous|Custom Font File Path" />
+
+    </PreferenceScreen>
+</PreferenceScreen>

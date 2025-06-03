@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<!--安卓高版本创建socket需要-->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+	<application android:label="@string/app_name"
+
+		android:name="aenu.aps3e.Application"
+		android:allowNativeHeapPointerTagging="false"
+		android:icon="@drawable/app_icon"
+		android:isGame="true">
+		<activity android:name="aenu.aps3e.MainActivity"
+			android:exported="true"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name="aenu.proptest.HelloJni"
+			android:exported="false"
+			android:label="@string/about">
+		</activity>
+		<activity android:name="aenu.aps3e.TextActivity"
+			android:exported="false">
+		</activity>
+		<activity android:name="aenu.aps3e.KeyMapActivity"
+			android:exported="false"
+			android:label="@string/key_mappers"/>
+		<activity android:name="aenu.aps3e.UserDataActivity"
+			android:theme="@style/Theme.AppCompat"
+			android:exported="false"/>
+		<activity android:name="aenu.aps3e.VirtualPadEdit"
+			android:screenOrientation="sensorLandscape"
+			android:configChanges="layoutDirection|locale|orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+			android:exported="false"
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+			android:launchMode="singleTask"/>
+		<activity android:name="aenu.aps3e.EmulatorActivity"
+
+			android:screenOrientation="sensorLandscape"
+			android:launchMode="singleTask"
+			android:configChanges="layoutDirection|locale|orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+			android:exported="false"
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+			android:process=":emu"
+			>
+			<intent-filter>
+				<action android:name="aenu.intent.action.APS3E" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name="aenu.aps3e.EmulatorSettings"
+			android:theme="@style/Theme.AppCompat"
+			android:exported="false"
+			android:label="@string/settings"/>
+		<provider
+			android:name="aenu.aps3e.DocumentsProvider"
+			android:authorities="${applicationId}.provider"
+			android:exported="true"
+			android:grantUriPermissions="true"
+			android:permission="android.permission.MANAGE_DOCUMENTS">
+			<intent-filter>
+				<action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+			</intent-filter>
+		</provider>
+		<provider
+			android:name="aenu.aps3e.InnerDocumentsProvider"
+			android:authorities="${applicationId}.inner.provider"
+			android:exported="true"
+			android:grantUriPermissions="true"
+			android:permission="android.permission.MANAGE_DOCUMENTS">
+			<intent-filter>
+				<action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+			</intent-filter>
+		</provider>
+	</application>
+</manifest> 
