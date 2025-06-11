@@ -2,13 +2,28 @@ package aenu.aps3e;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -32,9 +47,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import aenu.preference.ColorPickerDialog;
 
 public class EmulatorSettings extends AppCompatActivity {
 
@@ -180,6 +201,8 @@ public class EmulatorSettings extends AppCompatActivity {
 
 
 
+
+
             final String[] BOOL_KEYS={
                     "Core|PPU Debug",
                     "Core|PPU Calling History",
@@ -266,7 +289,6 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Input/Output|Lock overlay input to player one",
                     "Input/Output|Load SDL GameController Mappings",
                     "Input/Output|IO Debug overlay",
-                    "Net|UPNP Enabled",
                     "Savestate|Start Paused",
                     "Savestate|Suspend Emulation Savestate Mode",
                     "Savestate|Compatible Savestate Mode",
@@ -313,8 +335,6 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Core|SPU GETLLAR Busy Waiting Percentage",
                     "Core|MFC Commands Shuffling Limit",
                     "Core|MFC Commands Timeout",
-                    "Core|SPU LLVM Lower Bound",
-                    "Core|SPU LLVM Upper Bound",
                     "Core|TSX Transaction First Limit",
                     "Core|TSX Transaction Second Limit",
                     "Core|SPU Wake-Up Delay",
@@ -336,8 +356,6 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Video|Shader Loading Dialog|Blur effect strength",
                     "Audio|Audio Formats",
                     "Input/Output|Pad handler sleep (microseconds)",
-                    "System|PSID high",
-                    "System|PSID low",
             };
             final String[] STRING_ARR_KEYS={
                     "Core|PPU Decoder",
@@ -385,8 +403,6 @@ public class EmulatorSettings extends AppCompatActivity {
                     "System|Language",
                     "System|Keyboard Type",
                     "System|Enter button assignment",
-                    "Net|Internet enabled",
-                    "Net|PSN status",
                     "Miscellaneous|Font File Selection",
             };
             final String[] NODE_KEYS={
@@ -398,7 +414,6 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Audio",
                     "Input/Output",
                     "System",
-                    "Net",
                     "Savestate",
                     "Miscellaneous",
             };
@@ -432,6 +447,22 @@ public class EmulatorSettings extends AppCompatActivity {
                 pref.setPreferenceDataStore(data_store);
             }
 
+            final Preference.OnPreferenceChangeListener list_pref_change_listener=new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                    ListPreference pref=(ListPreference) preference;
+                    CharSequence value=(CharSequence) newValue;
+                    CharSequence[] values=pref.getEntryValues();
+                    CharSequence[] entries=pref.getEntries();
+                    for (int i=0;i<values.length;i++){
+                        if (values[i].equals(value)){
+                            pref.setSummary(entries[i]);
+                            break;
+                        }
+                    }
+                    return true;
+                }
+            };
             for (String key:STRING_ARR_KEYS){
                 ListPreference pref=findPreference(key);
                 String val_str=config.load_config_entry(key);
@@ -439,7 +470,7 @@ public class EmulatorSettings extends AppCompatActivity {
                     pref.setValue(val_str);
                     pref.setSummary(pref.getEntry());
                 }
-                //pref.setOnPreferenceChangeListener(this);
+                pref.setOnPreferenceChangeListener(list_pref_change_listener);
                 pref.setPreferenceDataStore(data_store);
             }
 
@@ -448,9 +479,14 @@ public class EmulatorSettings extends AppCompatActivity {
                 pref.setOnPreferenceClickListener(this);
             }
 
+            findPreference("Core|Libraries Control").setOnPreferenceClickListener(this);
+
             String val;
             findPreference("Core|Use LLVM CPU").setOnPreferenceClickListener(this);
             if((val=config.load_config_entry("Core|Use LLVM CPU"))!=null) findPreference("Core|Use LLVM CPU").setSummary(val);
+
+            findPreference("Video|Vulkan|Adapter").setOnPreferenceClickListener(this);
+            if((val=config.load_config_entry("Video|Vulkan|Adapter"))!=null) findPreference("Video|Vulkan|Adapter").setSummary(val);
 
             findPreference("Video|Vulkan|Custom Driver Library Path").setOnPreferenceClickListener(this);
             findPreference("Miscellaneous|Custom Font File Path").setOnPreferenceClickListener(this);
@@ -491,6 +527,20 @@ public class EmulatorSettings extends AppCompatActivity {
             }
 
         }
+
+
+    @Override
+    public void onDisplayPreferenceDialog( @NonNull Preference pref) {
+        if (pref instanceof ColorPickerDialog) {
+            final DialogFragment f = ColorPickerDialog.ColorPickerPreferenceFragmentCompat.newInstance(pref.getKey());
+            f.setTargetFragment(this, 0);
+            f.show(getParentFragmentManager(), "DIALOG_FRAGMENT_TAG");
+            return;
+        }
+        super.onDisplayPreferenceDialog(pref);
+    }
+
+
 
         void setup_costom_driver_library_path(String new_path) {
             final String key="Video|Vulkan|Custom Driver Library Path";
@@ -562,6 +612,11 @@ public class EmulatorSettings extends AppCompatActivity {
                 return false;
             }
 
+            if(preference.getKey().equals("Video|Vulkan|Adapter")){
+                show_select_vulkan_phy_dev_list();
+                return false;
+            }
+
             if(preference.getKey().equals("Video|Vulkan|Custom Driver Library Path")){
                 show_select_custom_driver_list();
                 return false;
@@ -569,6 +624,10 @@ public class EmulatorSettings extends AppCompatActivity {
             if(preference.getKey().equals("Miscellaneous|Custom Font File Path")){
                 //request_select_font_file();
                 show_select_font_file_list();
+                return false;
+            }
+            if (preference.getKey().equals("Core|Libraries Control")){
+                show_library_control_view();
                 return false;
             }
             if(preference instanceof PreferenceScreen){
@@ -597,6 +656,20 @@ public class EmulatorSettings extends AppCompatActivity {
                     findPreference("Core|Use LLVM CPU").setSummary(items[which]);
                 }
             });
+        }
+
+        void show_select_vulkan_phy_dev_list(){
+            String[] items=Emulator.get.get_vulkan_physical_dev_list();
+            create_list_dialog(getString(R.string.emulator_settings_video_vulkan_adapter)
+                    , items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    config.save_config_entry("Video|Vulkan|Adapter",items[which]);
+                    findPreference("Video|Vulkan|Adapter").setSummary(items[which]);
+                }
+                    }
+            );
         }
 
         void show_select_custom_driver_list(){
@@ -660,6 +733,28 @@ public class EmulatorSettings extends AppCompatActivity {
                             setup_costom_font_path(files[which].getAbsolutePath());
                 }
             });
+        }
+
+        void show_library_control_view(){
+            LibraryControlAdapter adapter=new LibraryControlAdapter(getContext());
+            adapter.set_modify_libs(config.load_config_entry_ty_arr("Core|Libraries Control"));
+            ListView view = new ListView(getContext());
+            view.setAdapter(adapter);
+            view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    LibraryControlAdapter  adapter= (LibraryControlAdapter) parent.getAdapter();
+                    int new_lib_type=adapter.get_lib_type(position)^1;
+                    adapter.set_lib_trpe(position,new_lib_type);
+                    config.save_config_entry_ty_arr("Core|Libraries Control",adapter.get_modify_libs());
+                }
+            });
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(R.string.emulator_settings_core_libraries_control)
+                    .setView(view)
+                    .setNegativeButton(android.R.string.cancel, null);
+            builder.create().show();
         }
 
     }
@@ -773,6 +868,258 @@ public class EmulatorSettings extends AppCompatActivity {
                     if(file_name.endsWith(".ttf")||file_name.endsWith(".ttc")||file_name.endsWith(".otf"))
                         install_custom_font(uri);
                     break;
+        }
+    }
+
+    static class LibraryControlAdapter extends BaseAdapter{
+
+        static final int LIB_TYPE_LLE=0;
+        static final int LIB_TYPE_HLE=1;
+
+        static final Map<String, Integer> libs=new HashMap<>();
+
+        static {
+libs.put("/dev_flash/sys/internal/libfs_utility_init.sprx", 1);
+libs.put("libaacenc.sprx", 0);
+libs.put("libaacenc_spurs.sprx", 0);
+libs.put("libac3dec.sprx", 0);
+libs.put("libac3dec2.sprx", 0);
+libs.put("libadec.sprx", 1);
+libs.put("libadec2.sprx", 0);
+libs.put("libadec_internal.sprx", 0);
+libs.put("libad_async.sprx", 0);
+libs.put("libad_billboard_util.sprx", 0);
+libs.put("libad_core.sprx", 0);
+libs.put("libapostsrc_mini.sprx", 0);
+libs.put("libasfparser2_astd.sprx", 0);
+libs.put("libat3dec.sprx", 0);
+libs.put("libat3multidec.sprx", 0);
+libs.put("libatrac3multi.sprx", 0);
+libs.put("libatrac3plus.sprx", 0);
+libs.put("libatxdec.sprx", 1);
+libs.put("libatxdec2.sprx", 0);
+libs.put("libaudio.sprx", 1);
+libs.put("libavcdec.sprx", 0);
+libs.put("libavcenc.sprx", 0);
+libs.put("libavcenc_small.sprx", 0);
+libs.put("libavchatjpgdec.sprx", 0);
+libs.put("libbeisobmf.sprx", 0);
+libs.put("libbemp2sys.sprx", 0);
+libs.put("libcamera.sprx", 1);
+libs.put("libcelp8dec.sprx", 0);
+libs.put("libcelp8enc.sprx", 0);
+libs.put("libcelpdec.sprx", 0);
+libs.put("libcelpenc.sprx", 0);
+libs.put("libddpdec.sprx", 0);
+libs.put("libdivxdec.sprx", 0);
+libs.put("libdmux.sprx", 0);
+libs.put("libdmuxpamf.sprx", 0);
+libs.put("libdtslbrdec.sprx", 0);
+libs.put("libfiber.sprx", 0);
+libs.put("libfont.sprx", 0);
+libs.put("libfontFT.sprx", 0);
+libs.put("libfreetype.sprx", 0);
+libs.put("libfreetypeTT.sprx", 0);
+libs.put("libfs.sprx", 0);
+libs.put("libfs_155.sprx", 0);
+libs.put("libgcm_sys.sprx", 0);
+libs.put("libgem.sprx", 1);
+libs.put("libgifdec.sprx", 0);
+libs.put("libhttp.sprx", 0);
+libs.put("libio.sprx", 1);
+libs.put("libjpgdec.sprx", 0);
+libs.put("libjpgenc.sprx", 0);
+libs.put("libkey2char.sprx", 0);
+libs.put("libl10n.sprx", 0);
+libs.put("liblv2.sprx", 0);
+libs.put("liblv2coredump.sprx", 0);
+libs.put("liblv2dbg_for_cex.sprx", 0);
+libs.put("libm2bcdec.sprx", 0);
+libs.put("libm4aacdec.sprx", 0);
+libs.put("libm4aacdec2ch.sprx", 0);
+libs.put("libm4hdenc.sprx", 0);
+libs.put("libm4venc.sprx", 0);
+libs.put("libmedi.sprx", 1);
+libs.put("libmic.sprx", 1);
+libs.put("libmp3dec.sprx", 0);
+libs.put("libmp4.sprx", 0);
+libs.put("libmpl1dec.sprx", 0);
+libs.put("libmvcdec.sprx", 0);
+libs.put("libnet.sprx", 0);
+libs.put("libnetctl.sprx", 1);
+libs.put("libpamf.sprx", 1);
+libs.put("libpngdec.sprx", 0);
+libs.put("libpngenc.sprx", 0);
+libs.put("libresc.sprx", 0);
+libs.put("librtc.sprx", 1);
+libs.put("librudp.sprx", 0);
+libs.put("libsail.sprx", 0);
+libs.put("libsail_avi.sprx", 0);
+libs.put("libsail_rec.sprx", 0);
+libs.put("libsjvtd.sprx", 0);
+libs.put("libsmvd2.sprx", 0);
+libs.put("libsmvd4.sprx", 0);
+libs.put("libspurs_jq.sprx", 0);
+libs.put("libsre.sprx", 0);
+libs.put("libssl.sprx", 0);
+libs.put("libsvc1d.sprx", 0);
+libs.put("libsync2.sprx", 0);
+libs.put("libsysmodule.sprx", 0);
+libs.put("libsysutil.sprx", 1);
+libs.put("libsysutil_ap.sprx", 1);
+libs.put("libsysutil_authdialog.sprx", 1);
+libs.put("libsysutil_avc2.sprx", 1);
+libs.put("libsysutil_avconf_ext.sprx", 1);
+libs.put("libsysutil_avc_ext.sprx", 1);
+libs.put("libsysutil_bgdl.sprx", 1);
+libs.put("libsysutil_cross_controller.sprx", 1);
+libs.put("libsysutil_dec_psnvideo.sprx", 1);
+libs.put("libsysutil_dtcp_ip.sprx", 1);
+libs.put("libsysutil_game.sprx", 1);
+libs.put("libsysutil_game_exec.sprx", 1);
+libs.put("libsysutil_imejp.sprx", 1);
+libs.put("libsysutil_misc.sprx", 1);
+libs.put("libsysutil_music.sprx", 1);
+libs.put("libsysutil_music_decode.sprx", 1);
+libs.put("libsysutil_music_export.sprx", 1);
+libs.put("libsysutil_np.sprx", 1);
+libs.put("libsysutil_np2.sprx", 1);
+libs.put("libsysutil_np_clans.sprx", 1);
+libs.put("libsysutil_np_commerce2.sprx", 1);
+libs.put("libsysutil_np_eula.sprx", 1);
+libs.put("libsysutil_np_installer.sprx", 1);
+libs.put("libsysutil_np_sns.sprx", 1);
+libs.put("libsysutil_np_trophy.sprx", 1);
+libs.put("libsysutil_np_tus.sprx", 1);
+libs.put("libsysutil_np_util.sprx", 1);
+libs.put("libsysutil_oskdialog_ext.sprx", 1);
+libs.put("libsysutil_pesm.sprx", 1);
+libs.put("libsysutil_photo_decode.sprx", 1);
+libs.put("libsysutil_photo_export.sprx", 1);
+libs.put("libsysutil_photo_export2.sprx", 1);
+libs.put("libsysutil_photo_import.sprx", 1);
+libs.put("libsysutil_photo_network_sharing.sprx", 1);
+libs.put("libsysutil_print.sprx", 1);
+libs.put("libsysutil_rec.sprx", 1);
+libs.put("libsysutil_remoteplay.sprx", 1);
+libs.put("libsysutil_rtcalarm.sprx", 1);
+libs.put("libsysutil_savedata.sprx", 1);
+libs.put("libsysutil_savedata_psp.sprx", 1);
+libs.put("libsysutil_screenshot.sprx", 1);
+libs.put("libsysutil_search.sprx", 1);
+libs.put("libsysutil_storagedata.sprx", 1);
+libs.put("libsysutil_subdisplay.sprx", 1);
+libs.put("libsysutil_syschat.sprx", 1);
+libs.put("libsysutil_sysconf_ext.sprx", 1);
+libs.put("libsysutil_userinfo.sprx", 1);
+libs.put("libsysutil_video_export.sprx", 1);
+libs.put("libsysutil_video_player.sprx", 1);
+libs.put("libsysutil_video_upload.sprx", 1);
+libs.put("libusbd.sprx", 0);
+libs.put("libusbpspcm.sprx", 0);
+libs.put("libvdec.sprx", 1);
+libs.put("libvoice.sprx", 1);
+libs.put("libvpost.sprx", 0);
+libs.put("libvpost2.sprx", 0);
+libs.put("libwmadec.sprx", 0);
+        }
+
+        final String[] libs_name=libs.keySet().toArray(new String[0]);
+
+        final Map<String,  Integer> modify=new HashMap<>();
+
+        Context  context;
+        LibraryControlAdapter(Context ctx){
+            this.context=ctx;
+        }
+
+        int get_lib_type(int pos){
+            if(modify.containsKey(libs_name[pos]))
+                return modify.get(libs_name[pos]);
+            return libs.get(libs_name[pos]);
+        }
+
+        void set_lib_trpe(int pos,int type){
+            int default_type=libs.get(libs_name[pos]);
+            if(type==default_type){
+                if(modify.containsKey(libs_name[pos]))
+                    modify.remove(libs_name[pos]);
+            }
+            else{
+                modify.put(libs_name[pos], type);
+            }
+            notifyDataSetChanged();
+        }
+
+        void set_modify_libs(String[] modify_libs){
+            modify.clear();
+            if(modify_libs==null||modify_libs.length==0) return;
+            for(String s:modify_libs){
+                String[] split=s.split(":");
+                String lib_name=split[0];
+                int type=split[1].equals("lle")?LIB_TYPE_LLE:LIB_TYPE_HLE;
+                if(!libs.containsKey(lib_name))
+                    continue;
+                if(libs.get(lib_name)==type)
+                    continue;
+                modify.put(lib_name, type);
+            }
+        }
+        String[] get_modify_libs(){
+            List<String> l=new ArrayList<>();
+            for(Map.Entry<String, Integer> e:modify.entrySet()){
+                String lib_name=e.getKey();
+                String lib_ty=e.getValue()==LIB_TYPE_LLE?"lle":"hle";
+                l.add(lib_name+":"+lib_ty);
+            }
+            return l.toArray(new String[0]);
+        }
+
+        @Override
+        public int getCount() {
+            return libs_name.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        LayoutInflater get_inflater(){
+            return (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        void setup_type_view(TextView v,int type){
+            CharSequence text=type==LIB_TYPE_LLE?"lle":"hle";
+            SpannableString span=new SpannableString(text);
+
+            if(type==LIB_TYPE_LLE){
+                span.setSpan(new ForegroundColorSpan(Color.YELLOW),0,text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            else{//HLE
+                span.setSpan(new ForegroundColorSpan(Color.BLUE),0,text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            v.setText(span);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if(convertView==null){
+                convertView=get_inflater().inflate(R.layout.library_entry,null);
+            }
+            TextView  name_v=(TextView) convertView.findViewById(R.id.lib_name);
+            String name=libs_name[position];
+            name_v.setText(name);
+            int ty=modify.containsKey(name)?modify.get(name):libs.get(name);
+            TextView  type_v=(TextView) convertView.findViewById(R.id.lib_type);
+            setup_type_view(type_v,ty);
+
+            return convertView;
         }
     }
 }

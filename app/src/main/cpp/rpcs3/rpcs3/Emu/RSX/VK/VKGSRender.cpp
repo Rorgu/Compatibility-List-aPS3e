@@ -55,23 +55,23 @@ namespace vk
 		case rsx::surface_color_format::x1r5g5b5_z1r5g5b5:
 			return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, z_rgb);
 #endif
-		case rsx::surface_color_format::a8r8g8b8:
-			return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, vk::default_component_map);
+            case rsx::surface_color_format::a8r8g8b8:
+                return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, vk::default_component_map);
 
-		case rsx::surface_color_format::a8b8g8r8:
-			return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, vk::default_component_map);
+            case rsx::surface_color_format::a8b8g8r8:
+                return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, vk::default_component_map);
 
-		case rsx::surface_color_format::x8b8g8r8_o8b8g8r8:
-			return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, o_rgb);
+            case rsx::surface_color_format::x8b8g8r8_o8b8g8r8:
+                return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, o_rgb);
 
-		case rsx::surface_color_format::x8b8g8r8_z8b8g8r8:
-			return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, z_rgb);
+            case rsx::surface_color_format::x8b8g8r8_z8b8g8r8:
+                return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, z_rgb);
 
-		case rsx::surface_color_format::x8r8g8b8_z8r8g8b8:
-			return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, z_rgb);
+            case rsx::surface_color_format::x8r8g8b8_z8r8g8b8:
+                return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, z_rgb);
 
-		case rsx::surface_color_format::x8r8g8b8_o8r8g8b8:
-			return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, o_rgb);
+            case rsx::surface_color_format::x8r8g8b8_o8r8g8b8:
+                return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, o_rgb);
 
 		case rsx::surface_color_format::w16z16y16x16:
 			return std::make_pair(VK_FORMAT_R16G16B16A16_SFLOAT, vk::default_component_map);

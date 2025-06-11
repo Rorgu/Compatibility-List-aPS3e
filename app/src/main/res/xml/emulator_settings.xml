@@ -244,20 +244,6 @@
             app:key="Core|HLE lwmutex" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_spu_llvm_lower_bound"
-            app:min="0"
-            android:max="0x7fffffff"
-            app:showSeekBarValue="true"
-            app:key="Core|SPU LLVM Lower Bound" />
-
-
-        <SeekBarPreference app:title="@string/emulator_settings_core_spu_llvm_upper_bound"
-            app:min="0"
-            android:max="0x7fffffff"
-            app:showSeekBarValue="true"
-            app:key="Core|SPU LLVM Upper Bound" />
-
-
         <SeekBarPreference app:title="@string/emulator_settings_core_tsx_transaction_first_limit"
             app:min="0"
             android:max="0x7fffffff"
@@ -723,10 +709,6 @@
                 app:key="Video|Performance Overlay|Position" />
 
 
-            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_font"
-                app:key="Video|Performance Overlay|Font" />
-
-
             <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_horizontal_margin"
                 app:min="0"
                 android:max="1280"
@@ -755,21 +737,6 @@
                 app:showSeekBarValue="true"
                 app:key="Video|Performance Overlay|Opacity (%)" />
 
-
-            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_body_color"
-                app:key="Video|Performance Overlay|Body Color (hex)" />
-
-
-            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_body_background"
-                app:key="Video|Performance Overlay|Body Background (hex)" />
-
-
-            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_title_color"
-                app:key="Video|Performance Overlay|Title Color (hex)" />
-
-
-            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_title_background"
-                app:key="Video|Performance Overlay|Title Background (hex)" />
 
         </PreferenceScreen>
         <PreferenceScreen app:title="@string/emulator_settings_video_shader_loading_dialog"
@@ -842,10 +809,6 @@
             app:key="Audio|Audio Channel Layout" />
 
 
-        <PreferenceScreen app:title="@string/emulator_settings_audio_audio_device"
-            app:key="Audio|Audio Device" />
-
-
         <SeekBarPreference app:title="@string/emulator_settings_audio_master_volume"
             app:min="0"
             android:max="200"
@@ -885,10 +848,6 @@
             app:key="Audio|Microphone Type" />
 
 
-        <PreferenceScreen app:title="@string/emulator_settings_audio_microphone_devices"
-            app:key="Audio|Microphone Devices" />
-
-
         <ListPreference app:title="@string/emulator_settings_audio_music_handler"
             app:entries="@array/audio_music_handler_entries"
             app:entryValues="@array/audio_music_handler_values"
@@ -926,10 +885,6 @@
             app:entries="@array/input_output_camera_flip_entries"
             app:entryValues="@array/input_output_camera_flip_values"
             app:key="Input/Output|Camera flip" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_input_output_camera_id"
-            app:key="Input/Output|Camera ID" />
 
 
         <ListPreference app:title="@string/emulator_settings_input_output_move"
@@ -985,10 +940,6 @@
             app:key="Input/Output|Lock overlay input to player one" />
 
 
-        <PreferenceScreen app:title="@string/emulator_settings_input_output_emulated_midi_devices"
-            app:key="Input/Output|Emulated Midi devices" />
-
-
         <CheckBoxPreference app:title="@string/emulator_settings_input_output_load_sdl_gamecontroller_mappings"
             app:key="Input/Output|Load SDL GameController Mappings" />
 
@@ -1022,71 +973,6 @@
             app:entries="@array/system_enter_button_assignment_entries"
             app:entryValues="@array/system_enter_button_assignment_values"
             app:key="System|Enter button assignment" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_system_system_name"
-            app:key="System|System Name" />
-
-
-        <SeekBarPreference app:title="@string/emulator_settings_system_psid_high"
-            app:min="0"
-            android:max="0x7fffffff"
-            app:showSeekBarValue="true"
-            app:key="System|PSID high" />
-
-
-        <SeekBarPreference app:title="@string/emulator_settings_system_psid_low"
-            app:min="0"
-            android:max="0x7fffffff"
-            app:showSeekBarValue="true"
-            app:key="System|PSID low" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_system_hdd_model_name"
-            app:key="System|HDD Model Name" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_system_hdd_serial_number"
-            app:key="System|HDD Serial Number" />
-
-    </PreferenceScreen>
-    <PreferenceScreen app:title="@string/emulator_settings_net"
-        app:key="Net" >
-
-        <ListPreference app:title="@string/emulator_settings_net_internet_enabled"
-            app:entries="@array/net_internet_enabled_entries"
-            app:entryValues="@array/net_internet_enabled_values"
-            app:key="Net|Internet enabled" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_net_ip_address"
-            app:key="Net|IP address" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_net_bind_address"
-            app:key="Net|Bind address" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_net_dns_address"
-            app:key="Net|DNS address" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_net_ip_swap_list"
-            app:key="Net|IP swap list" />
-
-
-        <CheckBoxPreference app:title="@string/emulator_settings_net_upnp_enabled"
-            app:key="Net|UPNP Enabled" />
-
-
-        <ListPreference app:title="@string/emulator_settings_net_psn_status"
-            app:entries="@array/net_psn_status_entries"
-            app:entryValues="@array/net_psn_status_values"
-            app:key="Net|PSN status" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_net_psn_country"
-            app:key="Net|PSN Country" />
 
     </PreferenceScreen>
     <PreferenceScreen app:title="@string/emulator_settings_savestate"
@@ -1163,16 +1049,8 @@
             app:key="Miscellaneous|Use native user interface" />
 
 
-        <PreferenceScreen app:title="@string/emulator_settings_miscellaneous_gdb_server"
-            app:key="Miscellaneous|GDB Server" />
-
-
         <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_silence_all_logs"
             app:key="Miscellaneous|Silence All Logs" />
-
-
-        <PreferenceScreen app:title="@string/emulator_settings_miscellaneous_window_title_format"
-            app:key="Miscellaneous|Window Title Format" />
 
 
         <CheckBoxPreference app:title="@string/emulator_settings_miscellaneous_pause_emulation_during_home_menu"

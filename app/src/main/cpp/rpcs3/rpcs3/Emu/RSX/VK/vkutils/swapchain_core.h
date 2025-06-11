@@ -43,12 +43,12 @@ namespace vk
 		display_handle_t window_handle{};
 		u32 m_width = 0;
 		u32 m_height = 0;
-		VkFormat m_surface_format = VK_FORMAT_B8G8R8A8_UNORM;
+		VkFormat m_surface_format = VK_FORMAT_R8G8B8A8_UNORM;
 
 		virtual void init_swapchain_images(render_device& dev, u32 count) = 0;
 
 	public:
-		swapchain_base(physical_device& gpu, u32 present_queue, u32 graphics_queue, u32 transfer_queue, VkFormat format = VK_FORMAT_B8G8R8A8_UNORM);
+		swapchain_base(physical_device& gpu, u32 present_queue, u32 graphics_queue, u32 transfer_queue, VkFormat format = VK_FORMAT_R8G8B8A8_UNORM);
 
 		virtual ~swapchain_base() = default;
 
@@ -98,7 +98,7 @@ namespace vk
 		std::vector<T> swapchain_images;
 
 	public:
-		abstract_swapchain_impl(physical_device& gpu, u32 present_queue, u32 graphics_queue, u32 transfer_queue, VkFormat format = VK_FORMAT_B8G8R8A8_UNORM)
+		abstract_swapchain_impl(physical_device& gpu, u32 present_queue, u32 graphics_queue, u32 transfer_queue, VkFormat format = VK_FORMAT_R8G8B8A8_UNORM)
 			: swapchain_base(gpu, present_queue, graphics_queue, transfer_queue, format)
 		{}
 

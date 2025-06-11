@@ -486,7 +486,7 @@ std::string get_gpu_info(){
         return "获取gpu信息失败";
     }
 
-    clean.funcs.push_back([&](){
+    clean.funcs.push_back([=](){
         vk_destroy_instance(*inst);
     });
 
@@ -517,31 +517,31 @@ std::string get_gpu_info(){
 #if 0
         VkQueueFamilyProperties queue_family_props=vk_get_queue_family_properties(*pdev,0);
         if(auto dev=vk_create_device(*pdev,0,queue_family_props);dev){
-            clean.funcs.push_back([&](){
+            clean.funcs.push_back([=](){
                 vk_destroy_device(*dev);
             });
             std::vector<VkDescriptorSetLayoutBinding> binds;
             binds.push_back(
                     VkDescriptorSetLayoutBinding{0,VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,1,VK_SHADER_STAGE_COMPUTE_BIT,nullptr});
             auto descriptor_set_layout=vk_create_descriptor_set_layout(*dev,binds);
-            clean.funcs.push_back([&](){
+            clean.funcs.push_back([=](){
                 vk_destroy_descriptor_set_layout(*dev,*descriptor_set_layout);
             });
             auto pipeline_layout=vk_create_pipeline_layout(*dev,*descriptor_set_layout);
-            clean.funcs.push_back([&](){
+            clean.funcs.push_back([=](){
                 vk_destroy_pipeline_layout(*dev,*pipeline_layout);
             });
             std::optional<std::vector<uint32_t>> spv=vk_compile_glsl_to_spv(*dev,test_compute_pipeline_source(),vk_get_physical_device_limits(*pdev));
             auto module=vk_create_shader_module(*dev,*spv);
 
-            clean.funcs.push_back([&](){
+            clean.funcs.push_back([=](){
                 vk_destroy_shader_module(*dev,*module);
             });
 
             auto pipeline=vk_create_compute_pipeline(*dev,*pipeline_layout,*module);
             if(pipeline){
                 gpu_name+=":ok";
-                clean.funcs.push_back([&](){
+                clean.funcs.push_back([=](){
                     vk_destroy_pipeline(*dev,*pipeline);
                 });
                 return "GPU [" + gpu_name +"(VK: "+gpu_vk_ver+ ")]:\n" + gpu_ext;
@@ -549,7 +549,7 @@ std::string get_gpu_info(){
 
         }
 #endif
-        return "GPU [" + gpu_name +"(VK: "+gpu_vk_ver+ ")]:\n" + gpu_ext;
+        return "GPU [" + gpu_name +"(Vulkan: "+gpu_vk_ver+ ")]:\n" + gpu_ext;
 
     }
     return "获取gpu信息失败";

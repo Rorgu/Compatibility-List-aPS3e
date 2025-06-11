@@ -1505,20 +1505,6 @@ static jboolean j_install_pkg(JNIEnv* env,jobject self,jint pkg_fd){
     return result;
 }
 
-
-//public native String[] get_support_llvm_cpu_list();
-
-static jobjectArray j_get_support_llvm_cpu_list(JNIEnv* env,jobject self){
-    std::set<std::string> cpu_list=get_processor_name_set();
-    int count=cpu_list.size();
-     jobjectArray ret=env->NewObjectArray(count,env->FindClass("java/lang/String"),nullptr);
-     int n=0;
-     for(const std::string& cpu_name:cpu_list){
-         env->SetObjectArrayElement(ret,n++,env->NewStringUTF(cpu_name.c_str()));
-     }
-     return ret;
-}
-
 static jobject j_meta_info_from_dir(JNIEnv* env,jobject self,jstring jdir_path){
 
     auto fetch_psf_path=[](const std::string& dir_path){
@@ -1633,6 +1619,8 @@ int register_Emulator(JNIEnv* env){
 	static const JNINativeMethod methods[] = {
 
             {"get_support_llvm_cpu_list", "()[Ljava/lang/String;",(void *)j_get_support_llvm_cpu_list},
+            {"get_vulkan_physical_dev_list", "()[Ljava/lang/String;",(void *)j_get_vulkan_physical_dev_list},
+
             //{"support_custom_driver","()Z",(void *)support_custom_driver},
 
             { "generate_config_xml", "()Ljava/lang/String;", (void *) generate_config_xml },
@@ -1676,7 +1664,9 @@ int register_Emulator_cfg(JNIEnv* env){
 
             { "native_open_config_file", "(Ljava/lang/String;)J", (void *) open_config_file },
             { "native_load_config_entry", "(JLjava/lang/String;)Ljava/lang/String;", (void *) load_config_entry },
+            { "native_load_config_entry_ty_arr", "(JLjava/lang/String;)[Ljava/lang/String;", (void *) load_config_entry_ty_arr },
             { "native_save_config_entry", "(JLjava/lang/String;Ljava/lang/String;)V", (void *) save_config_entry },
+            { "native_save_config_entry_ty_arr", "(JLjava/lang/String;[Ljava/lang/String;)V", (void *) save_config_entry_ty_arr },
             { "native_close_config_file", "(JLjava/lang/String;)V", (void *) close_config_file },
     };
     jclass clazz = env->FindClass("aenu/aps3e/Emulator$Config");

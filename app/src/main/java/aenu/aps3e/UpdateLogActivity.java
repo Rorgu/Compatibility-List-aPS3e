@@ -116,6 +116,9 @@ public class UpdateLogActivity extends Activity{
 			 + " *修复了自定义驱动不生效的问题\n"
 			 + " *设置清理与调整\n"
 			 + " *修正了删除游戏数据不生效的问题，添加删除着色器缓存选项\n"
+			 + "1.21(2025-06-11)\n"
+			  + " *更改纹理格式为RGBA\n"
+			  + " *设置完善\n"
 	+ " \n";
 
 	@Override

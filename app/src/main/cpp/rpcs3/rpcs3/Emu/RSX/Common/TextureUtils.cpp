@@ -174,6 +174,68 @@ struct convert_16_block_32_swizzled
 	}
 };
 #endif
+    struct copy_u32_ror8_block {
+        static void
+        copy_mipmap_level(std::span<u32> dst, std::span<const u32> src, u16 width_in_block,
+                          u16 row_count, u16 depth, u8 border, u32 dst_pitch_in_block,
+                          u32 src_pitch_in_block) {
+            const u32 width_in_words = width_in_block;
+            const u32 src_pitch_in_words = src_pitch_in_block;
+            const u32 dst_pitch_in_words = dst_pitch_in_block;
+
+            const u32 h_porch = border;
+            const u32 v_porch = src_pitch_in_words * border;
+            u32 src_offset = h_porch, dst_offset = 0;
+
+            for (int layer = 0; layer < depth; ++layer) {
+                // Front
+                src_offset += v_porch;
+
+                for (int row = 0; row < row_count; ++row) {
+                    for (u32 x = 0; x < width_in_words; ++x) {
+                        const u32 src_v = src[src_offset + x];
+                        dst[dst_offset + x] =( src_v>>8)|(src_v<<24);
+                    }
+
+                    src_offset += src_pitch_in_words;
+                    dst_offset += dst_pitch_in_words;
+                }
+
+                // Back
+                src_offset += v_porch;
+            }
+        }
+    };
+
+    struct copy_u32_ror8_block_swizzled {
+        static void
+        copy_mipmap_level(std::span<u32> dst, std::span<const u32> src, u16 width_in_block,
+                          u16 row_count, u16 depth, u8 border, u32 dst_pitch_in_block,
+                          u32 src_pitch_in_block) {
+            u32 padded_width, padded_height;
+            if (border)
+            {
+                padded_width = rsx::next_pow2(width_in_block + border + border);
+                padded_height = rsx::next_pow2(row_count + border + border);
+            }
+            else
+            {
+                padded_width = width_in_block;
+                padded_height = row_count;
+            }
+
+            const u32 size_in_block = padded_width * padded_height * depth * 2;
+            rsx::simple_array<u32> tmp(size_in_block * 1);
+
+            //if (words_per_block == 1) [[likely]]
+            {
+                rsx::convert_linear_swizzle_3d<u32>(src.data(), tmp.data(), padded_width, padded_height, depth);
+            }
+
+            std::span<const u32> src_span = tmp;
+            copy_u32_ror8_block::copy_mipmap_level(dst, src_span, width_in_block, row_count, depth, border, dst_pitch_in_block, padded_width);
+        }
+    };
 
 struct copy_unmodified_block
 {
@@ -429,8 +491,8 @@ struct copy_decoded_rb_rg_block
 					green = (data >> 24) & 0xFF;
 				}
 
-				dst[dst_offset + (col * 2)] = blue | (green << 8) | (red0 << 16) | (0xFF << 24);
-				dst[dst_offset + (col * 2 + 1)] = blue | (green << 8) | (red1 << 16) | (0xFF << 24);
+                dst[dst_offset + (col * 2)] = (red0 << 0)|(green << 8)|(blue<< 16) | (0xFF << 24);
+                dst[dst_offset + (col * 2 + 1)] =  (red1 << 0)|(green << 8)|(blue<< 16) | (0xFF << 24);
 			}
 
 			src_offset += src_pitch_in_block;
@@ -977,6 +1039,16 @@ namespace rsx
 
 		case CELL_GCM_TEXTURE_A8R8G8B8:
 		case CELL_GCM_TEXTURE_D8R8G8B8:
+        {
+            if (is_swizzled)
+                copy_u32_ror8_block_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>()
+                        , w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+
+            else
+                copy_u32_ror8_block::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>()
+                        , w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+            break;
+        }
 		case CELL_GCM_TEXTURE_DEPTH24_D8:
 		case CELL_GCM_TEXTURE_DEPTH24_D8_FLOAT: // Untested
 		{

@@ -24,9 +24,11 @@ namespace
 			rsx_log.error("Unhandled video output format 0x%x", static_cast<s32>(format));
 			[[fallthrough]];
 		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_X8R8G8B8:
-			return VK_FORMAT_B8G8R8A8_UNORM;
+			//return VK_FORMAT_B8G8R8A8_UNORM;
+            return VK_FORMAT_R8G8B8A8_UNORM;
 		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_X8B8G8R8:
-			return VK_FORMAT_R8G8B8A8_UNORM;
+			//return VK_FORMAT_R8G8B8A8_UNORM;
+            return VK_FORMAT_B8G8R8A8_UNORM;
 		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_R16G16B16X16_FLOAT:
 			return VK_FORMAT_R16G16B16A16_SFLOAT;
 		}
@@ -127,7 +129,9 @@ void VKGSRender::present(vk::frame_context_t *ctx)
 		case VK_SUCCESS:
 			break;
 		case VK_SUBOPTIMAL_KHR:
+            //FIXME
 			//should_reinitialize_swapchain = true;
+            //rsx_log.warning("#### Swapchain is out of date. Please resize the window.");
 			break;
 		case VK_ERROR_OUT_OF_DATE_KHR:
 			swapchain_unavailable = true;

@@ -1173,7 +1173,7 @@ namespace vk
 		}
 
 		// Check if linear RGBA8 images can be used for present
-		result.argb8_linear = test_format_features(VK_FORMAT_R8G8B8A8_UNORM, VK_FORMAT_FEATURE_BLIT_SRC_BIT, VK_TRUE);
+		result.rgba8_linear = test_format_features(VK_FORMAT_R8G8B8A8_UNORM, VK_FORMAT_FEATURE_BLIT_SRC_BIT, VK_TRUE);
 
 		return result;
 	}

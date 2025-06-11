@@ -1268,7 +1268,7 @@ namespace vk
 			return (vk_format == VK_FORMAT_R32_SFLOAT);
 		case CELL_GCM_TEXTURE_A8R8G8B8:
 		case CELL_GCM_TEXTURE_D8R8G8B8:
-			return (vk_format == VK_FORMAT_B8G8R8A8_UNORM || vk_format == VK_FORMAT_D24_UNORM_S8_UINT || vk_format == VK_FORMAT_D32_SFLOAT_S8_UINT);
+			return (vk_format == VK_FORMAT_R8G8B8A8_UNORM || vk_format == VK_FORMAT_D24_UNORM_S8_UINT || vk_format == VK_FORMAT_D32_SFLOAT_S8_UINT);
 		case CELL_GCM_TEXTURE_B8:
 			return (vk_format == VK_FORMAT_R8_UNORM);
 		case CELL_GCM_TEXTURE_G8B8:
@@ -1491,7 +1491,7 @@ namespace vk
 			linear_format_supported = m_formats_support.bgra8_linear;
 			break;
 		case VK_FORMAT_R8G8B8A8_UNORM:
-			linear_format_supported = m_formats_support.argb8_linear;
+			linear_format_supported = m_formats_support.rgba8_linear;
 			break;
 		default:
 			rsx_log.error("Unsupported VkFormat 0x%x", static_cast<u32>(format));

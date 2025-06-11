@@ -39,7 +39,11 @@ public class Emulator
 		}
 		private native long native_open_config_file(String config_path) ;
 		private native String native_load_config_entry(long n_handle,String tag);
+
+		private native String[] native_load_config_entry_ty_arr(long n_handle,String tag);
 		private native void native_save_config_entry(long n_handle,String tag,String val);
+
+		private native void native_save_config_entry_ty_arr(long n_handle,String tag,String[] val);
 		private native void native_close_config_file(long n_handle,String config_path);
 		public static Config open_config_file(String config_path) throws ConfigFileException
 		{
@@ -50,9 +54,20 @@ public class Emulator
 		{
 			return native_load_config_entry(n_handle,tag);
 		}
+
+
+		public String[] load_config_entry_ty_arr(String tag)
+		{
+			return native_load_config_entry_ty_arr(n_handle,tag);
+		}
 		public void save_config_entry(String tag,String val)
 		{
 			native_save_config_entry(n_handle,tag,val);
+		}
+
+		public void save_config_entry_ty_arr(String tag,String[] val)
+		{
+			native_save_config_entry_ty_arr(n_handle,tag,val);
 		}
 		public void close_config_file()
 		{
@@ -404,6 +419,8 @@ public class Emulator
 	}
 
 	 public native String[] get_support_llvm_cpu_list();
+
+	public native String[] get_vulkan_physical_dev_list();
 
 	//public native boolean support_custom_driver();
 	public native String generate_config_xml();

@@ -40,7 +40,7 @@ static jstring load_config_entry(JNIEnv* env,jobject self,YAML::Node* config_nod
                 return env->NewStringUTF(node.as<std::string>().c_str());
         }
             break;
-#if 0
+
             case 2:{
 
             pos=child.find('|');
@@ -55,10 +55,43 @@ static jstring load_config_entry(JNIEnv* env,jobject self,YAML::Node* config_nod
                 return env->NewStringUTF(node.as<std::string>().c_str());
         }
             break;
-#endif
+
         default:
-            aps3e_log.error("load_config_entry fail %s",tag_str.c_str());
-            LOGE("load_config_entry fail %s",tag_str.c_str());
+            aps3e_log.error("load_config_entry fail %s,level too deep",tag_str.c_str());
+            LOGE("load_config_entry fail %s,level too deep",tag_str.c_str());
+            break;
+    }
+    return NULL;
+}
+
+
+static jobjectArray load_config_entry_ty_arr(JNIEnv* env,jobject self,YAML::Node* config_node,jstring tag){
+    jboolean is_copy=false;
+    const char* tag_cstr=env->GetStringUTFChars(tag,&is_copy);
+    std::string  tag_str(tag_cstr);
+    env->ReleaseStringUTFChars(tag,tag_cstr);
+    size_t pos=tag_str.find('|');
+    std::string  parent=tag_str.substr(0,pos);
+    std::string  child=tag_str.substr(pos+1);
+
+    switch(std::count(child.begin(),child.end(),'|')){
+        case 0: {
+            YAML::Node node=(*config_node)[parent][child];
+            if(node.IsDefined()) {
+                std::vector<std::string> v=node.as<std::vector<std::string>>();
+                jobjectArray arr=env->NewObjectArray(v.size(),env->FindClass("java/lang/String"),NULL);
+                for(size_t i=0;i<v.size();i++){
+                    env->SetObjectArrayElement(arr,i,env->NewStringUTF(v[i].c_str()));
+                }
+                return arr;
+            }
+        }
+
+            break;
+
+        default:
+            aps3e_log.error("load_config_entry fail %s,level too deep",tag_str.c_str());
+            LOGE("load_config_entry fail %s,level too deep",tag_str.c_str());
             break;
     }
     return NULL;
@@ -87,7 +120,7 @@ static void save_config_entry(JNIEnv* env,jobject self,YAML::Node* config_node,j
             (*config_node)[parent][child][child2]=std::string(val_cstr);
         }
             break;
-#if 0
+
             case 2:{
 
             pos=child.find('|');
@@ -99,16 +132,41 @@ static void save_config_entry(JNIEnv* env,jobject self,YAML::Node* config_node,j
             (*config_node)[parent][child][child2][child3]=std::string(val_cstr);
         }
             break;
-#endif
+
         default:
-            aps3e_log.error("save_config_entry fail %s",tag_str.c_str());
-            LOGE("save_config_entry fail %s",tag_str.c_str());
+            aps3e_log.error("save_config_entry fail %s,level too deep",tag_str.c_str());
+            LOGE("save_config_entry fail %s,level too deep",tag_str.c_str());
             break;
     }
 
     env->ReleaseStringUTFChars(val,val_cstr);
 }
 
+
+static void save_config_entry_ty_arr(JNIEnv* env,jobject self,YAML::Node* config_node,jstring tag,jobjectArray val) {
+
+    jboolean is_copy = false;
+    const char *tag_cstr = env->GetStringUTFChars(tag, &is_copy);
+    std::string tag_str(tag_cstr);
+    env->ReleaseStringUTFChars(tag, tag_cstr);
+    size_t pos = tag_str.find('|');
+    std::string parent = tag_str.substr(0, pos);
+    std::string child = tag_str.substr(pos + 1);
+
+    switch (std::count(child.begin(), child.end(), '|')) {
+        case 0: {
+            std::vector<std::string> v;
+            for (int i = 0; i < env->GetArrayLength(val); i++) {
+                jstring jstr = (jstring) env->GetObjectArrayElement(val, i);
+                const char *str = env->GetStringUTFChars(jstr, &is_copy);
+                v.push_back(std::string(str));
+                env->ReleaseStringUTFChars(jstr, str);
+            }
+            (*config_node)[parent][child] = v;
+        }
+            break;
+    }
+}
 static void close_config_file(JNIEnv* env,jobject self,YAML::Node* config_node,jstring config_path){
     YAML::Emitter out;
     out << *config_node;
@@ -121,7 +179,7 @@ static void close_config_file(JNIEnv* env,jobject self,YAML::Node* config_node,j
     delete config_node;
 }
 
-auto gen_key=[](const std::string& name)->std::string{
+static auto gen_key=[](const std::string& name)->std::string{
     std::string k=name;
     if(size_t p=k.find("(");p!=std::string::npos){
         k=k.substr(0,p);
@@ -160,6 +218,34 @@ auto gen_key=[](const std::string& name)->std::string{
     return k;
 };
 
+static const std::string gen_skips[]={
+        "Core|SPU LLVM Lower Bound",
+        "Core|SPU LLVM Upper Bound",
+        "Audio|Audio Device",
+        "Audio|Microphone Devices",
+        "Input/Output|Camera ID",
+        "Input/Output|Emulated Midi devices",
+        "System|System Name",
+        "System|PSID high",
+        "System|PSID low",
+        "System|HDD Model Name",
+        "System|HDD Serial Number",
+        "Miscellaneous|GDB Server",
+        "Miscellaneous|Window Title Format",
+
+        "Video|Performance Overlay|Font",
+        "Video|Performance Overlay|Body Color (hex)",
+        "Video|Performance Overlay|Body Background (hex)",
+        "Video|Performance Overlay|Title Color (hex)",
+        "Video|Performance Overlay|Title Background (hex)",
+};
+
+static bool gen_is_parent(const std::string& parent_name){
+    if(parent_name=="Core"||parent_name=="Video"||parent_name=="Audio"||parent_name=="Input/Output"
+    ||parent_name=="System"||parent_name=="Savestate"||parent_name=="Miscellaneous")
+        return true;
+    return false;
+}
 static jstring generate_config_xml(JNIEnv* env,jobject self){
 
     auto gen_one_preference=[&](const std::string parent_name,cfg::_base* node)->std::string{
@@ -212,17 +298,22 @@ static jstring generate_config_xml(JNIEnv* env,jobject self){
 
     for(auto n:g_cfg.get_nodes()){
         const std::string& name=n->get_name();
-        if(name=="Core"||name=="Video"||name=="Audio"||name=="Input/Output"||name=="System"
-           ||name=="Net"||name=="Savestate"||name=="Miscellaneous"){
+        if(gen_is_parent(name)){
             out<<" <PreferenceScreen app:title=\"@string/emulator_settings_"<<gen_key(name)<<"\" \n";
             out<<"app:key=\""<<name<<"\" >\n";
+
             for(auto n2:reinterpret_cast<cfg::node*>(n)->get_nodes()){
+
+                if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name())!=std::end(gen_skips))
+                    continue;
 
                 //Video下的3个子项
                 if(n2->get_type()==cfg::type::node){
                     out<<"<PreferenceScreen app:title=\"@string/emulator_settings_"<<gen_key(name)<<"_"<<gen_key(n2->get_name())<<"\" \n";
                     out<<"app:key=\""<<name+"|"+n2->get_name()<<"\" >\n";
                     for(auto n3:reinterpret_cast<cfg::node*>(n2)->get_nodes()) {
+                        if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name()+"|"+n3->get_name())!=std::end(gen_skips))
+                            continue;
                         out << "\n" << gen_one_preference(name+"|"+n2->get_name(), n3) << "\n";
                     }
                     out<<"</PreferenceScreen>\n";
@@ -268,8 +359,7 @@ static jstring generate_strings_xml(JNIEnv* env,jobject self){
 
     for(auto n:g_cfg.get_nodes()){
         const std::string& name=n->get_name();
-        if(name=="Core"||name=="Video"||name=="Audio"||name=="Input/Output"||name=="System"
-           ||name=="Net"||name=="Savestate"||name=="Miscellaneous"){
+        if(gen_is_parent(name)){
 
             out<<"<string name=\"emulator_settings_"<<gen_key(name)<<"\">"<<name<<"</string>\n";
 
@@ -293,8 +383,7 @@ static jstring generate_strings_xml(JNIEnv* env,jobject self){
     //array
     for(auto n:g_cfg.get_nodes()){
         const std::string& name=n->get_name();
-        if(name=="Core"||name=="Video"||name=="Audio"||name=="Input/Output"||name=="System"
-           ||name=="Net"||name=="Savestate"||name=="Miscellaneous"){
+        if(gen_is_parent(name)){
 
             for(auto n2:reinterpret_cast<cfg::node*>(n)->get_nodes()){
 
@@ -349,14 +438,18 @@ static jstring generate_java_string_arr(JNIEnv* env,jobject self){
         out<<prefix<<"\n";
         for(auto n:g_cfg.get_nodes()){
             const std::string& name=n->get_name();
-            if(name=="Core"||name=="Video"||name=="Audio"||name=="Input/Output"||name=="System"
-               ||name=="Net"||name=="Savestate"||name=="Miscellaneous"){
+            if(gen_is_parent(name)){
 
                 for(auto n2:reinterpret_cast<cfg::node*>(n)->get_nodes()){
+
+                    if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name())!=std::end(gen_skips))
+                        continue;
 
                     //Video下的3个子项
                     if(n2->get_type()==cfg::type::node){
                         for(auto n3:reinterpret_cast<cfg::node*>(n2)->get_nodes()) {
+                            if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name()+"|"+n3->get_name())!=std::end(gen_skips))
+                                continue;
                             out << gen_one_key_string(name+"|"+n2->get_name(), n3,test_ty);
                         }
                     }
@@ -376,12 +469,14 @@ static jstring generate_java_string_arr(JNIEnv* env,jobject self){
         out<<"final String[] NODE_KEYS={\n";
         for(auto n:g_cfg.get_nodes()){
             const std::string& name=n->get_name();
-            if(name=="Core"||name=="Video"||name=="Audio"||name=="Input/Output"||name=="System"
-               ||name=="Net"||name=="Savestate"||name=="Miscellaneous"){
+            if(gen_is_parent(name)){
 
                 out<<"\""<<name<<"\",\n";
 
                 for(auto n2:reinterpret_cast<cfg::node*>(n)->get_nodes()){
+
+                    //if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name())!=std::end(gen_skips))
+                    //    continue;
 
                     //Video下的3个子项
                     if(n2->get_type()==cfg::type::node){
@@ -405,4 +500,65 @@ static jstring generate_java_string_arr(JNIEnv* env,jobject self){
     out<<gen_node_key_array();
 
     return env->NewStringUTF(out.str().c_str());
+}
+
+//public native String[] get_support_llvm_cpu_list();
+
+static jobjectArray j_get_support_llvm_cpu_list(JNIEnv* env,jobject self){
+    std::set<std::string> cpu_list=get_processor_name_set();
+    int count=cpu_list.size();
+    jobjectArray ret=env->NewObjectArray(count,env->FindClass("java/lang/String"),nullptr);
+    int n=0;
+    for(const std::string& cpu_name:cpu_list){
+        env->SetObjectArrayElement(ret,n++,env->NewStringUTF(cpu_name.c_str()));
+    }
+    return ret;
+}
+
+static jobjectArray j_get_vulkan_physical_dev_list(JNIEnv* env,jobject self){
+
+    std::vector<VkPhysicalDeviceProperties> physical_device_prop_list;
+    {
+        VkApplicationInfo appinfo = {};
+        appinfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+        appinfo.pNext = nullptr;
+        appinfo.pApplicationName = "aps3e-cfg-test";
+        appinfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+        appinfo.pEngineName = "nul";
+        appinfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+        appinfo.apiVersion = VK_API_VERSION_1_0;
+
+        VkInstanceCreateInfo inst_create_info = {};
+        inst_create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        inst_create_info.pApplicationInfo = &appinfo;
+
+        VkInstance inst;
+        if (vkCreateInstance(&inst_create_info, nullptr, &inst)!= VK_SUCCESS) {
+            __android_log_print(ANDROID_LOG_FATAL, LOG_TAG,"%s : %d",__func__,__LINE__);
+            aps3e_log.fatal("%s : %d",__func__,__LINE__);
+        }
+
+        // 获取物理设备数量
+        uint32_t physicalDeviceCount = 0;
+        vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, nullptr);
+
+        std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
+        vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, physicalDevices.data());
+
+        for (const auto& physicalDevice : physicalDevices) {
+            VkPhysicalDeviceProperties physicalDeviceProperties;
+            vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
+            physical_device_prop_list.push_back(physicalDeviceProperties);
+        }
+
+        vkDestroyInstance(inst, nullptr);
+    }
+    int count=physical_device_prop_list.size();
+    jobjectArray ret=env->NewObjectArray(count,env->FindClass("java/lang/String"),nullptr);
+
+    int n=0;
+    for(const VkPhysicalDeviceProperties& prop:physical_device_prop_list){
+        env->SetObjectArrayElement(ret,n++,env->NewStringUTF(prop.deviceName));
+    }
+    return ret;
 }

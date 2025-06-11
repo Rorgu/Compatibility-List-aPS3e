@@ -19,6 +19,7 @@ std::vector<core_info_t> cpu_get_core_info();
 std::string cpu_get_simple_info(const std::vector<core_info_t>& core_info_list);
 std::set<core_info_t> get_processor_info_set();
 std::set<std::string> get_processor_name_set();
- std::string cpu_get_processor_name(const core_info_t& core_info);
+std::string cpu_get_processor_name(const core_info_t& core_info);
+std::string cpu_get_processor_isa(const core_info_t& core_info);
 
 #endif //APS3E_CPUINFO_H

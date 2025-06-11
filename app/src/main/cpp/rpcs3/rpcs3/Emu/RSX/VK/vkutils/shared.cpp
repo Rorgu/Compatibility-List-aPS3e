@@ -224,7 +224,7 @@ namespace vk
 		}
 		else if (msgFlags & VK_DEBUG_REPORT_WARNING_BIT_EXT)
 		{
-			rsx_log.warning("WARNING: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);
+			rsx_log.error("WARNING: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);
 		}
 		else
 		{

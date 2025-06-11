@@ -46,7 +46,7 @@
 			android:screenOrientation="sensorLandscape"
 			android:launchMode="singleTask"
 			android:configChanges="layoutDirection|locale|orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-			android:exported="false"
+			android:exported="true"
 			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 			android:process=":emu"
 			>

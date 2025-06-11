@@ -18,7 +18,7 @@ namespace vk
 		bool d24_unorm_s8 : 1;
 		bool d32_sfloat_s8 : 1;
 		bool bgra8_linear : 1;
-		bool argb8_linear : 1;
+		bool rgba8_linear : 1;
 	};
 
 	struct gpu_shader_types_support

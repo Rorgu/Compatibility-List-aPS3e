@@ -40,6 +40,11 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 		
         load_key_map();
 		Emulator.MetaInfo meta_info = (Emulator.MetaInfo) getIntent().getSerializableExtra("meta_info");
+		/*if(meta_info==null){
+			meta_info=Emulator.get.meta_info_from_dir("/storage/emulated/0/Android/data/aenu.aps3e/files/aps3e/config/dev_hdd0/game/NPJB00521");
+			Emulator.get.setup_game_info(meta_info);
+			return;
+		}*/
 		if(meta_info.eboot_path!=null&&meta_info.iso_uri==null)
 		Emulator.get.setup_game_info(meta_info);
 		else if(meta_info.eboot_path==null&&meta_info.iso_uri!=null){
