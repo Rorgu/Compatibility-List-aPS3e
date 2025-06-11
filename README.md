@@ -1,3 +1,7 @@
+Project Homepage:[https://aenu.cc/aps3e](https://aenu.cc/aps3e)
+
+
+
 Precompiled libraries LLVM, ffmpeg, glslang need to be compiled in Termux using [android-ndk-r27b-aarch64](https://github.com/lzhiyong/termux-ndk)
 
 Compile LLVM 19.1.7:
@@ -24,6 +28,8 @@ Copy the compiled outputs llvm_out, ffmpeg_out,and glslang_out to app/src/main/
 
 
 --------
+
+项目主页:[https://aenu.cc/aps3e](https://aenu.cc/aps3e)
 
 
 
