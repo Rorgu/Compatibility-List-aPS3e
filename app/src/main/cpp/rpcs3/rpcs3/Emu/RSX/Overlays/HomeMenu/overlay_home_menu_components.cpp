@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "overlay_home_menu_components.h"
+#include "Emu/system_config.h"
 
 namespace rsx
 {
@@ -13,7 +14,8 @@ namespace rsx
 
 			padding->set_size(1, 1);
 			title->set_size(overlay::virtual_width - 2 * menu_entry_margin, menu_entry_height);
-			title->set_font("Arial", 16);
+
+			title->set_font("Arial", g_cfg.misc.font_size.get());
 			title->set_wrap_text(true);
 			title->align_text(text_align::center);
 

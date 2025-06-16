@@ -2,6 +2,21 @@
 #include "system_config_types.h"
 
 template <>
+void fmt_class_string<texture_upload_type>::format(std::string& out, u64 arg)
+{
+    format_enum(out, arg, [](texture_upload_type value)
+    {
+        switch (value)
+        {
+            case texture_upload_type::cpu: return "CPU";
+            case texture_upload_type::gpu: return "GPU";
+        }
+
+        return unknown;
+    });
+}
+
+template <>
 void fmt_class_string<font_file_selection>::format(std::string& out, u64 arg)
 {
     format_enum(out, arg, [](font_file_selection value)

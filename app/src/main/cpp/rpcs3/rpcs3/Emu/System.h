@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Loader/iso.h"
 #include "util/types.hpp"
 #include "util/atomic.hpp"
 #include "util/shared_ptr.hpp"
@@ -13,7 +14,6 @@
 #include <set>
 
 #include "Emu/Cell/timers.hpp"
-#include "iso.h"
 
 void init_fxo_for_exec(utils::serial*, bool);
 

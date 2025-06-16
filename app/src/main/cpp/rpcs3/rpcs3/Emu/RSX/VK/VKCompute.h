@@ -101,6 +101,14 @@ namespace vk
 		}
 	};
 
+    struct cs_shuffle_ror8 : cs_shuffle_base
+    {
+        cs_shuffle_ror8()
+        {
+            cs_shuffle_base::build("ror8_u32");
+        }
+    };
+
 	struct cs_shuffle_d24x8_f32 : cs_shuffle_base
 	{
 		// convert d24x8 to f32
@@ -377,13 +385,31 @@ namespace vk
 		}
 	};
 
+    struct cs_bc_decode_base: compute_task
+	{
+        virtual void run(const vk::command_buffer& cmd, const vk::buffer* dst, u32 out_offset, const vk::buffer* src, u32 in_offset, u32 data_length, u32 width, u32 height, u32 depth, u32 mipmaps) = 0;
+	};
+
+#if 0
+    template <int bc_ver>
+    struct cs_bc_decode_task: cs_bc_decode_base{
+
+    };
+#endif
 	// Reverse morton-order block arrangement
 	struct cs_deswizzle_base : compute_task
 	{
 		virtual void run(const vk::command_buffer& cmd, const vk::buffer* dst, u32 out_offset, const vk::buffer* src, u32 in_offset, u32 data_length, u32 width, u32 height, u32 depth, u32 mipmaps) = 0;
 	};
 
-	template <typename _BlockType, typename _BaseType, bool _SwapBytes>
+    enum cs_deswizzle_3d_data_proc_mth:u32{
+        none,
+        swap_u16,
+        swap_u32,
+        ror8_u32
+    };
+
+	template <typename _BlockType, typename _BaseType, cs_deswizzle_3d_data_proc_mth data_proc_mth>
 	struct cs_deswizzle_3d : cs_deswizzle_base
 	{
 		union params_t
@@ -424,21 +450,23 @@ namespace vk
 			;
 
 			std::string transform;
-			if constexpr (_SwapBytes)
-			{
-				if constexpr (sizeof(_BaseType) == 4)
-				{
-					transform = "bswap_u32";
-				}
-				else if constexpr (sizeof(_BaseType) == 2)
-				{
-					transform = "bswap_u16";
-				}
-				else
-				{
-					fmt::throw_exception("Unreachable");
-				}
-			}
+
+            if constexpr (data_proc_mth == swap_u16)
+            {
+                transform = "bswap_u16";
+            }
+            else if constexpr (data_proc_mth == swap_u32)
+            {
+                transform = "bswap_u32";
+            }
+            else if constexpr (data_proc_mth == ror8_u32)
+            {
+                transform = "ror8_u32";
+            }
+            else if constexpr (data_proc_mth != none)
+            {
+                fmt::throw_exception("Unreachable");
+            }
 
 			const std::pair<std::string_view, std::string> syntax_replace[] =
 			{

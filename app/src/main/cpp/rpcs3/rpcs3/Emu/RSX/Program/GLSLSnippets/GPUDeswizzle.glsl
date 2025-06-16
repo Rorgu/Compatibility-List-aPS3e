@@ -27,7 +27,7 @@ struct invocation_properties
 
 #define bswap_u16(bits) (bits & 0xFF) << 8 | (bits & 0xFF00) >> 8 | (bits & 0xFF0000) << 8 | (bits & 0xFF000000) >> 8
 #define bswap_u32(bits) (bits & 0xFF) << 24 | (bits & 0xFF00) << 8 | (bits & 0xFF0000) >> 8 | (bits & 0xFF000000) >> 24
-
+#define ror8_u32(bits)     (bits & 0xFF) << 24 | (bits & 0xFFFFFF00) >> 8
 invocation_properties invocation;
 
 bool init_invocation_properties(const in uint offset)

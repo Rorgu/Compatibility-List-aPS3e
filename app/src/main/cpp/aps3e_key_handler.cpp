@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// https://github.com/RPCS3/rpcs3
 /*#pragma once
 
 #include "util/types.hpp"

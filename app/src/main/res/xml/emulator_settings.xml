@@ -589,6 +589,12 @@
             app:entryValues="@array/video_vertex_buffer_upload_mode_values"
             app:key="Video|Vertex Buffer Upload Mode" />
 
+
+        <ListPreference app:title="@string/emulator_settings_video_texture_upload_mode"
+            app:entries="@array/video_texture_upload_mode_entries"
+            app:entryValues="@array/video_texture_upload_mode_values"
+            app:key="Video|Texture Upload Mode" />
+
         <PreferenceScreen app:title="@string/emulator_settings_video_vulkan"
             app:key="Video|Vulkan" >
 
@@ -736,7 +742,6 @@
                 android:max="100"
                 app:showSeekBarValue="true"
                 app:key="Video|Performance Overlay|Opacity (%)" />
-
 
         </PreferenceScreen>
         <PreferenceScreen app:title="@string/emulator_settings_video_shader_loading_dialog"
@@ -1065,6 +1070,13 @@
 
         <PreferenceScreen app:title="@string/emulator_settings_miscellaneous_custom_font_file_path"
             app:key="Miscellaneous|Custom Font File Path" />
+
+
+        <SeekBarPreference app:title="@string/emulator_settings_miscellaneous_font_size"
+            app:min="12"
+            android:max="26"
+            app:showSeekBarValue="true"
+            app:key="Miscellaneous|Font Size" />
 
     </PreferenceScreen>
 </PreferenceScreen>

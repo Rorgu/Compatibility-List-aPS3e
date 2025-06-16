@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: WTFPL
 package aenu.aps3e;
 
 import android.annotation.SuppressLint;
@@ -123,7 +124,8 @@ public class EmulatorSettings extends AppCompatActivity {
             }
 
             public int getInt(String key, int defValue) {
-                return Integer.parseInt(config.load_config_entry(key));
+                String v=config.load_config_entry(key);
+                return v!=null?Integer.parseInt(v):defValue;
             }
 
             public long getLong(String key, long defValue) {
@@ -135,7 +137,8 @@ public class EmulatorSettings extends AppCompatActivity {
             }
 
             public boolean getBoolean(String key, boolean defValue) {
-                return Boolean.parseBoolean(config.load_config_entry(key));
+                String v=config.load_config_entry(key);
+                return v!=null?Boolean.parseBoolean(v):defValue;
             }
         };
 
@@ -309,6 +312,7 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Miscellaneous|Silence All Logs",
                     "Miscellaneous|Pause Emulation During Home Menu",
             };
+
             final String[] INT_KEYS={
                     "Core|PPU Threads",
                     "Core|Max LLVM Compile Threads",
@@ -356,6 +360,7 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Video|Shader Loading Dialog|Blur effect strength",
                     "Audio|Audio Formats",
                     "Input/Output|Pad handler sleep (microseconds)",
+                    "Miscellaneous|Font Size",
             };
             final String[] STRING_ARR_KEYS={
                     "Core|PPU Decoder",
@@ -376,6 +381,7 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Video|3D Display Mode",
                     "Video|Output Scaling Mode",
                     "Video|Vertex Buffer Upload Mode",
+                    "Video|Texture Upload Mode",
                     "Video|Vulkan|Exclusive Fullscreen Mode",
                     "Video|Vulkan|Asynchronous Queue Scheduler",
                     "Video|Performance Overlay|Detail level",

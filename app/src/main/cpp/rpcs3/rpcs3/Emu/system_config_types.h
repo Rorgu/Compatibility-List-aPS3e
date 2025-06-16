@@ -1,5 +1,11 @@
 #pragma once
 
+enum class texture_upload_type : unsigned
+{
+    cpu,
+    gpu,
+};
+
 enum class ppu_decoder_type : unsigned
 {
 	_static,

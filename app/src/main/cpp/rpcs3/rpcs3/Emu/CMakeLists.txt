@@ -124,6 +124,7 @@ target_sources(rpcs3_emu PRIVATE
 target_sources(rpcs3_emu PRIVATE
     ../Loader/disc.cpp
     ../Loader/ELF.cpp
+        ../Loader/iso.cpp
     ../Loader/mself.cpp
     ../Loader/PSF.cpp
     ../Loader/PUP.cpp

@@ -210,13 +210,24 @@ namespace rsx
 		u32 length;
 	};
 
+    enum texture_memory_info_require_mth:u32{
+        upload=1<<0,
+        deswizzle=1<<1,
+        swap=1<<2,
+        ror8_u32=1<<3,
+        decode_bc1=1<<4,
+        decode_bc2=1<<5,
+        decode_bc3=1<<6,
+        convert_rgb655=1<<7,
+        decode_brgr8=1<<8,
+        decode_rbrg8=1<<9,
+    };
+
 	struct texture_memory_info
 	{
 		int element_size;
 		int block_length;
-		bool require_swap;
-		bool require_deswizzle;
-		bool require_upload;
+		u32 require_mth;
 
 		std::vector<memory_transfer_cmd> deferred_cmds;
 	};
@@ -246,7 +257,8 @@ namespace rsx
 	std::vector<subresource_layout> get_subresources_layout(const rsx::fragment_texture &texture);
 	std::vector<subresource_layout> get_subresources_layout(const rsx::vertex_texture &texture);
 
-	texture_memory_info upload_texture_subresource(rsx::io_buffer& dst_buffer, const subresource_layout &src_layout, int format, bool is_swizzled, texture_uploader_capabilities& caps);
+	texture_memory_info upload_texture_subresource_with_cpu(rsx::io_buffer& dst_buffer, const subresource_layout &src_layout, int format, bool is_swizzled, texture_uploader_capabilities& caps);
+    texture_memory_info upload_texture_subresource_with_gpu(rsx::io_buffer& dst_buffer, const subresource_layout &src_layout, int format, bool is_swizzled, texture_uploader_capabilities& caps);
 
 	u8 get_format_block_size_in_bytes(int format);
 	u8 get_format_block_size_in_texel(int format);

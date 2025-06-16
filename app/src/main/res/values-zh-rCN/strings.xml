@@ -4,6 +4,8 @@
     <string name="msg_processing">处理中...</string>
     <string name="msg_failed">失败!</string>
 
+    <string name="game_list_loading">游戏列表载入中...</string>
+    <string name="undecrypted_game">暂不支持运行未解密的游戏</string>
     <string name="delete_game_data">删除游戏数据</string>
     <string name="delete_hdd0_install_data">删除hdd0安装数据</string>
     <string name="delete_game_and_data">删除游戏和数据</string>
@@ -198,6 +200,12 @@
         <item>自动</item>
         <item>缓存视图</item>
         <item>缓存</item>
+    </string-array>
+
+    <string name="emulator_settings_video_texture_upload_mode">纹理更新模式</string>
+    <string-array name="video_texture_upload_mode_entries">
+        <item>CPU</item>
+        <item>GPU</item>
     </string-array>
 <string name="emulator_settings_video_renderer">渲染器</string>
 <string-array name="video_renderer_entries">
@@ -653,6 +661,8 @@
         <item>自定义</item>
     </string-array>
     <string name="emulator_settings_miscellaneous_custom_font_file_path">自定义字体文件路径</string>
+    <string name="emulator_settings_miscellaneous_font_size">字体大小</string>
+
     <string name="INVALID">无效</string>
 	<string name="RSX_OVERLAYS_TROPHY_BRONZE">你获得了一个铜奖杯。\n%0</string>
 	<string name="RSX_OVERLAYS_TROPHY_SILVER">你获得了一个银奖杯。\n%0</string>

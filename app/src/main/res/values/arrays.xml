@@ -46,6 +46,11 @@
         <item>Buffer View</item>
         <item>Buffer</item>
     </string-array>
+
+    <string-array name="video_texture_upload_mode_values">
+        <item>CPU</item>
+        <item>GPU</item>
+    </string-array>
     <string-array name="video_renderer_values">
         <item>Null</item>
         <item>Vulkan</item>

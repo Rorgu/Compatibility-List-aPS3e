@@ -79,6 +79,8 @@
 #include "Crypto/unzip.h"
 #include "Crypto/decrypt_binaries.h"
 
+
+#include "Loader/iso.h"
 #include "Loader/PUP.h"
 #include "Loader/TAR.h"
 #include "Loader/PSF.h"
@@ -183,22 +185,18 @@ std::string g_input_config_override;
 
 #include "pt.cpp"
 
-#include "decode_bcn.cpp"
-
-#include "iso.h"
-
 extern void check_microphone_permissions()
 {
 }
-/*
+#ifndef __ANDROID__
 void enable_display_sleep()
 {
 }
 
 void disable_display_sleep()
 {
-}*/
-
+}
+#endif
 extern void qt_events_aware_op(int repeat_duration_ms, std::function<bool()> wrapped_op)
 {
 	ensure(wrapped_op);
@@ -1334,6 +1332,11 @@ namespace aps3e_util{
         return result.error == package_install_result::error_type::no_error;
 
     }
+
+    bool allow_eboot_decrypt(const fs::file& eboot_file){
+        fs::file dec_eboot = decrypt_self(eboot_file);
+        return dec_eboot?true:false;
+    }
 }
 
 static void j_setup_game_info(JNIEnv* env,jobject self,jobject meta_info ){
@@ -1549,14 +1552,17 @@ auto fetch_eboot_path=[](const std::string& dir_path){
     jfieldID fid_MetaInfo_serial=env->GetFieldID(cls_MetaInfo,"serial","Ljava/lang/String;");
     jfieldID fid_MetaInfo_category=env->GetFieldID(cls_MetaInfo,"category","Ljava/lang/String;");
     jfieldID fid_MetaInfo_version=env->GetFieldID(cls_MetaInfo,"version","Ljava/lang/String;");
+    jfieldID fid_MetaInfo_decrypt=env->GetFieldID(cls_MetaInfo,"decrypt","Z");
 
     jobject meta_info=env->NewObject(cls_MetaInfo,mid_MetaInfo_ctor);
-    env->SetObjectField(meta_info,fid_MetaInfo_eboot_path,env->NewStringUTF(fetch_eboot_path(dir_path).c_str()));
-    env->SetObjectField(meta_info,fid_MetaInfo_name,env->NewStringUTF(std::string{psf::get_string(psf,"TITLE","???")}.c_str()));
-    env->SetObjectField(meta_info,fid_MetaInfo_serial,env->NewStringUTF(std::string{psf::get_string(psf,"TITLE_ID","???")}.c_str()));
-    env->SetObjectField(meta_info,fid_MetaInfo_category,env->NewStringUTF(std::string{psf::get_string(psf,"CATEGORY","???")}.c_str()));
-    env->SetObjectField(meta_info,fid_MetaInfo_version,env->NewStringUTF(std::string{psf::get_string(psf,"VERSION","???")}.c_str()));
 
+    std::string v;
+    env->SetObjectField(meta_info,fid_MetaInfo_eboot_path,env->NewStringUTF((v=fetch_eboot_path(dir_path)).c_str()));
+    env->SetBooleanField(meta_info,fid_MetaInfo_decrypt,aps3e_util::allow_eboot_decrypt(fs::file(v)));
+    env->SetObjectField(meta_info,fid_MetaInfo_name,env->NewStringUTF((v=psf::get_string(psf,"TITLE","???")).c_str()));
+    env->SetObjectField(meta_info,fid_MetaInfo_serial,env->NewStringUTF((v=psf::get_string(psf,"TITLE_ID","???")).c_str()));
+    env->SetObjectField(meta_info,fid_MetaInfo_category,env->NewStringUTF((v=psf::get_string(psf,"CATEGORY","???")).c_str()));
+    env->SetObjectField(meta_info,fid_MetaInfo_version,env->NewStringUTF((v=psf::get_string(psf,"VERSION","???")).c_str()));
     return meta_info;
 }
 
@@ -1571,6 +1577,7 @@ static jobject j_meta_info_from_iso(JNIEnv* env,jobject self,jint fd,jstring jis
     jfieldID fid_MetaInfo_category=env->GetFieldID(cls_MetaInfo,"category","Ljava/lang/String;");
     jfieldID fid_MetaInfo_version=env->GetFieldID(cls_MetaInfo,"version","Ljava/lang/String;");
     jfieldID fid_MetaInfo_icon=env->GetFieldID(cls_MetaInfo,"icon","[B");
+    jfieldID fid_MetaInfo_decrypt=env->GetFieldID(cls_MetaInfo,"decrypt","Z");
 
     std::unique_ptr<iso_fs> iso=iso_fs::from_fd(fd);
     if(!iso->load())
@@ -1587,10 +1594,11 @@ static jobject j_meta_info_from_iso(JNIEnv* env,jobject self,jint fd,jstring jis
 
     jobject meta_info=env->NewObject(cls_MetaInfo,mid_MetaInfo_ctor);
     env->SetObjectField(meta_info,fid_MetaInfo_iso_uri,jiso_uri_path);
-    env->SetObjectField(meta_info,fid_MetaInfo_name,env->NewStringUTF(std::string{psf::get_string(psf,"TITLE","???")}.c_str()));
-    env->SetObjectField(meta_info,fid_MetaInfo_serial,env->NewStringUTF(std::string{psf::get_string(psf,"TITLE_ID","???")}.c_str()));
-    env->SetObjectField(meta_info,fid_MetaInfo_category,env->NewStringUTF(std::string{psf::get_string(psf,"CATEGORY","???")}.c_str()));
-    env->SetObjectField(meta_info,fid_MetaInfo_version,env->NewStringUTF(std::string{psf::get_string(psf,"VERSION","???")}.c_str()));
+    std::string v;
+    env->SetObjectField(meta_info,fid_MetaInfo_name,env->NewStringUTF((v=psf::get_string(psf,"TITLE","???")).c_str()));
+    env->SetObjectField(meta_info,fid_MetaInfo_serial,env->NewStringUTF((v=psf::get_string(psf,"TITLE_ID","???")).c_str()));
+    env->SetObjectField(meta_info,fid_MetaInfo_category,env->NewStringUTF((v=psf::get_string(psf,"CATEGORY","???")).c_str()));
+    env->SetObjectField(meta_info,fid_MetaInfo_version,env->NewStringUTF((v=psf::get_string(psf,"VERSION","???")).c_str()));
 
     std::vector<uint8_t> icon_data=iso->get_data_tiny(":PS3_GAME/ICON0.PNG");
     if(!icon_data.empty()) {
@@ -1598,6 +1606,8 @@ static jobject j_meta_info_from_iso(JNIEnv* env,jobject self,jint fd,jstring jis
         env->SetByteArrayRegion(icon_array,0,icon_data.size(),reinterpret_cast<const jbyte*>(icon_data.data()));
         env->SetObjectField(meta_info,fid_MetaInfo_icon,icon_array);
     }
+
+    env->SetBooleanField(meta_info,fid_MetaInfo_decrypt,aps3e_util::allow_eboot_decrypt(fs::file(*iso,":PS3_GAME/USRDIR/EBOOT.BIN")));
 
     return meta_info;
 }

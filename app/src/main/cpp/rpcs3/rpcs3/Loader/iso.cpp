@@ -111,8 +111,14 @@ void iso_fs::read_dir(RootDirectoryRecord& dir_record, std::optional<std::string
     }
     std::vector<uint8_t> buffer(dir_record.data_length.ne());
     lseek(fd, dir_record.extent_location.ne()*2048, SEEK_SET);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-compare"
+
     if(::read(fd, buffer.data(), buffer.size())!=buffer.size())
         return;
+
+#pragma clang diagnostic pop
 
     for(size_t offset=0;;){
         if(offset>=buffer.size())

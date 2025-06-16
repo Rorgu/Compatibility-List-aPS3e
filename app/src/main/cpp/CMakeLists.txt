@@ -43,7 +43,6 @@ target_sources(emu
         rpcs3/rpcs3/stb_image.cpp
         rpcs3/rpcs3/stdafx.cpp
         aps3e.cpp
-        iso.cpp
         vkapi.cpp
         vkutil.cpp
         cpuinfo.cpp

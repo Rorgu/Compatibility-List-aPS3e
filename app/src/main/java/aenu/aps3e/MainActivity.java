@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: WTFPL
 
 package aenu.aps3e;
 
@@ -13,6 +14,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -108,14 +113,16 @@ public class MainActivity extends Activity{
 		public void onItemClick(AdapterView<?> l, View v, int position,long id)
 		{
 			if(!firmware_installed_file().exists()){
-				//Toast.makeText(MainActivity.this,"固件未安装",2000).show();
 				Toast.makeText(MainActivity.this,getString(R.string.firmware_not_install),Toast.LENGTH_LONG).show();
 				return;
 			}
 			
 			Emulator.MetaInfo meta_info=((GameMetaInfoAdapter)l.getAdapter()).getMetaInfo(position);
 
-			//if(meta_info.eboot_path==null) return;
+			if(!meta_info.decrypt) {
+				Toast.makeText(MainActivity.this,R.string.undecrypted_game,Toast.LENGTH_LONG).show();
+				return;
+			}
 
 			Intent intent = new Intent("aenu.intent.action.APS3E");
 			intent.setPackage(getPackageName());
@@ -127,7 +134,7 @@ public class MainActivity extends Activity{
 	
 	GameMetaInfoAdapter adapter;
 
-
+	ProgressTask progress_task;
     @Override
     public void onCreate(Bundle savedInstanceState){
 
@@ -150,14 +157,15 @@ public class MainActivity extends Activity{
 		else{
 			is_request_perms_ok=check_and_request_perms();
 		}*/
-		
+
+
+		//if(Build.VERSION.SDK_INT>=30||is_request_perms_ok)
+		initialize();
+
 		//if(is_request_perms_ok)
 		{
 			refresh_game_list();
 		}
-
-		//if(Build.VERSION.SDK_INT>=30||is_request_perms_ok)
-		initialize();
     }
 
 	@Override
@@ -352,8 +360,14 @@ public class MainActivity extends Activity{
             switch(requestCode){
 				case REQUEST_INSTALL_FIRMWARE:
 					//InstallFrimware.start_install_firmware(this,pfd);
-					new ProgressTask( this)
+					(progress_task=new ProgressTask( this)
 							.set_progress_message(getString( R.string.installing_firmware))
+							.set_failed_task(new ProgressTask.UI_Task() {
+								@Override
+								public void run() {
+									Toast.makeText(MainActivity.this, getString(R.string.msg_failed), Toast.LENGTH_LONG).show();
+								}
+							}))
 							.call( new ProgressTask.Task() {
 								@Override
 								public void run(ProgressTask task) {
@@ -369,9 +383,11 @@ public class MainActivity extends Activity{
                                         }
 
                                         task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
+										progress_task=null;
 										return;
 									}
 									task.task_handler.sendEmptyMessage(ProgressTask.TASK_FAILED);
+									progress_task=null;
 								}
 							});
 					return;
@@ -380,16 +396,24 @@ public class MainActivity extends Activity{
 						/*Log.i("aps3e_java", "installing pkg: "+fileName);
 						InstallGame.install_pkg(this, pfd);
 						refresh_game_list();*/
-						new  ProgressTask(this)
+						(progress_task=new  ProgressTask(this)
 								.set_progress_message(getString(R.string.installing_game))
+								.set_failed_task(new ProgressTask.UI_Task() {
+									@Override
+									public void run() {
+										Toast.makeText(MainActivity.this, getString(R.string.msg_failed), Toast.LENGTH_LONG).show();
+									}
+								}))
 								.call(new ProgressTask.Task() {
 									@Override
 									public void run(ProgressTask task) {
 										if (Emulator.get.install_pkg(pfd)) {
 											task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
+											progress_task = null;
 											return;
 										}
 										task.task_handler.sendEmptyMessage(ProgressTask.TASK_FAILED);
+										progress_task = null;
 									}
 								});
 					} else if (fileName.endsWith(".rap")) {
@@ -456,11 +480,12 @@ public class MainActivity extends Activity{
 			show_verify_dialog(R.string.delete_hdd0_install_data, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					new ProgressTask(MainActivity.this).call(new ProgressTask.Task() {
+					(progress_task=new ProgressTask(MainActivity.this)).call(new ProgressTask.Task() {
 						@Override
 						public void run(ProgressTask task) {
 							adapter.del_hdd0_install_data(position);
 							task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
+							progress_task=null;
 						}
 					});
 				}
@@ -471,11 +496,12 @@ public class MainActivity extends Activity{
 			show_verify_dialog(R.string.delete_game_data, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					new ProgressTask(MainActivity.this).call(new ProgressTask.Task() {
+					(progress_task=new ProgressTask(MainActivity.this)).call(new ProgressTask.Task() {
 						@Override
 						public void run(ProgressTask task) {
 							adapter.del_game_data(position);
 							task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
+							progress_task=null;
 						}
 					});
 				}
@@ -485,30 +511,47 @@ public class MainActivity extends Activity{
 			show_verify_dialog(R.string.delete_game_and_data, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					new ProgressTask(MainActivity.this).call(new ProgressTask.Task() {
+					(progress_task=new ProgressTask(MainActivity.this)
+							.set_done_task(new ProgressTask.UI_Task(){
+								@Override
+								public void run() {
+									refresh_game_list();
+								}
+							}))
+							.call(new ProgressTask.Task() {
 						@Override
 						public void run(ProgressTask task) {
 							adapter.del_hdd0_game_and_data(position);
 							task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
+							progress_task=null;
 						}
 					});
-					refresh_game_list();
 				}
 			});
 		}
 		else if(item_id==R.string.delete_shaders_cache){
-			new ProgressTask(MainActivity.this).call(new ProgressTask.Task() {
+			(progress_task=new ProgressTask(MainActivity.this)).call(new ProgressTask.Task() {
 				@Override
 				public void run(ProgressTask task) {
 					adapter.del_shaders_cache(position);
 					task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
+					progress_task=null;
 				}
 			});
 		}
 		return super.onContextItemSelected(item);
 	}
 
-	void show_verify_dialog(int res_id,DialogInterface.OnClickListener listener){
+	@Override
+	protected void onDestroy() {
+		if(progress_task!=null){
+			progress_task.force_close();
+			progress_task=null;
+		}
+		super.onDestroy();
+	}
+
+	void show_verify_dialog(int res_id, DialogInterface.OnClickListener listener){
 		new AlertDialog.Builder(this)
 				.setMessage(getString(res_id)+"?")
 				.setPositiveButton(android.R.string.ok, listener)
@@ -590,9 +633,25 @@ public class MainActivity extends Activity{
 		if(!get_disc_game_dir().exists()){
 			get_disc_game_dir().mkdirs();
 		}
-		adapter=new GameMetaInfoAdapter(this);
-        ((ListView)findViewById(R.id.game_list))
-			.setAdapter(adapter);
+		(progress_task=new ProgressTask( this)
+				.set_progress_message(getString( R.string.game_list_loading))
+				.set_done_task(new ProgressTask.UI_Task() {
+					@Override
+					public void run() {
+						((ListView)findViewById(R.id.game_list))
+								.setAdapter(adapter);
+
+						progress_task=null;
+					}
+				}))
+				.call( new ProgressTask.Task() {
+					@Override
+					public void run(ProgressTask task) {
+
+						adapter=new GameMetaInfoAdapter(MainActivity.this);
+							task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
+					}
+				});
     }
 
     private static class GameMetaInfoAdapter extends BaseAdapter {
@@ -810,6 +869,19 @@ public class MainActivity extends Activity{
             return (LayoutInflater)context_.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
+		Bitmap to_gray_bmp(Bitmap src){
+			int w=src.getWidth();
+			int h=src.getHeight();
+			Bitmap bmp=Bitmap.createBitmap(w,h,src.getConfig());
+			ColorMatrix cm=new ColorMatrix();
+			cm.setSaturation(0);
+			Canvas canvas=new Canvas(bmp);
+			Paint paint=new Paint();
+			paint.setColorFilter(new ColorMatrixColorFilter(cm));
+			canvas.drawBitmap(src,0,0,paint);
+			return bmp;
+        }
+
         @Override
         public View getView(int pos,View curView,ViewGroup p3){
 
@@ -822,8 +894,12 @@ public class MainActivity extends Activity{
             ImageView icon=(ImageView)curView.findViewById(R.id.game_icon);
 			if(mi.icon==null)
 				icon.setImageResource(R.drawable.unknown);
-			else
-				icon.setImageBitmap(BitmapFactory.decodeByteArray(mi.icon,0,mi.icon.length));
+			else {
+				Bitmap icon_bmp=BitmapFactory.decodeByteArray(mi.icon,0,mi.icon.length);
+				if(!mi.decrypt)
+					icon_bmp=to_gray_bmp(icon_bmp);
+				icon.setImageBitmap(icon_bmp);
+			}
 			
 			TextView name=(TextView)curView.findViewById(R.id.game_name);
 			name.setText(mi.name);

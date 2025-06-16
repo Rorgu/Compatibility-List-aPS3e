@@ -1,4 +1,5 @@
-
+// SPDX-License-Identifier: GPL-2.0-only
+// https://github.com/RPCS3/rpcs3
 extern void pad_state_notify_state_change(usz index, u32 state);
 extern bool is_input_allowed();
 extern std::string g_input_config_override;

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: WTFPL
 
 package aenu.aps3e;
 import android.app.*;
@@ -119,6 +120,15 @@ public class UpdateLogActivity extends Activity{
 			 + "1.21(2025-06-11)\n"
 			  + " *更改纹理格式为RGBA\n"
 			  + " *设置完善\n"
+			+ "1.22(2025-06-16)\n"
+			+ " *默认使用cpu处理纹理(用于修复Adreno 7xx默认驱动崩溃的问题)\n"
+			+ " *检测并阻止启动无法解密的游戏\n"
+			+ " *清理无效的主菜单（PS3）选项\n"
+			+ " *修复游戏数量较多时刷新列表会产生ANR的问题\n"
+			+ " *增加选项（纹理更新模式）\n"
+			+ " *增加选项（字体大小）\n"
+			//+ " *修复UB\n"
+			//+ " *协议追加\n"
 	+ " \n";
 
 	@Override

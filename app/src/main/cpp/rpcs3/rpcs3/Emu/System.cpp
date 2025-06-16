@@ -2538,11 +2538,12 @@ void Emulator::Run(bool start_playtime)
 	rpcs3::utils::configure_logs();
 
 	m_state = system_state::starting;
-
-	/*if (g_cfg.misc.prevent_display_sleep)
+#ifndef __ANDROID__
+	if (g_cfg.misc.prevent_display_sleep)
 	{
 		disable_display_sleep();
-	}*/
+	}
+#endif
 }
 
 void Emulator::RunPPU()
@@ -2921,11 +2922,12 @@ void Emulator::Resume()
 
 		m_pause_msgs_refs.clear();
 	});
-
-	/*if (g_cfg.misc.prevent_display_sleep)
+#ifndef __ANDROID__
+	if (g_cfg.misc.prevent_display_sleep)
 	{
 		disable_display_sleep();
-	}*/
+	}
+#endif
 }
 
 u64 get_sysutil_cb_manager_read_count();

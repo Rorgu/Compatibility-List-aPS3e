@@ -35,7 +35,7 @@ namespace rsx
 			});
 
 			add_page(std::make_shared<home_menu_settings>(x, y, width, height, use_separators, this));
-
+#if 0
 			std::unique_ptr<overlay_element> friends = std::make_unique<home_menu_entry>(get_localized_string(localized_string_id::HOME_MENU_FRIENDS));
 			add_item(friends, [](pad_button btn) -> page_navigation
 			{
@@ -131,7 +131,7 @@ namespace rsx
 				});
 				return page_navigation::stay;
 			});
-
+#endif
 			apply_layout();
 		}
 	}

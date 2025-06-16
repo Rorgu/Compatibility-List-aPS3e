@@ -1,4 +1,5 @@
 
+// SPDX-License-Identifier: WTFPL
 #include <iostream>
 #include <vector>
 #include <string>

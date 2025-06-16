@@ -150,7 +150,7 @@ struct cfg_root : cfg::node
 		cfg::_bool use_gpu_texture_scaling{ this, "Use GPU texture scaling", false };
 		cfg::_bool stretch_to_display_area{ this, "Stretch To Display Area", false, true };
 		cfg::_bool force_high_precision_z_buffer{ this, "Force High Precision Z buffer" };
-		cfg::_bool strict_rendering_mode{ this, "Strict Rendering Mode" };
+		cfg::_bool strict_rendering_mode{ this, "Strict Rendering Mode", true };
 		cfg::_bool disable_zcull_queries{ this, "Disable ZCull Occlusion Queries", false, true };
 		cfg::_bool disable_video_output{ this, "Disable Video Output", false, true };
 		cfg::_bool disable_vertex_cache{ this, "Disable Vertex Cache", false };
@@ -187,6 +187,7 @@ struct cfg_root : cfg::node
 		cfg::_enum<output_scaling_mode> output_scaling{ this, "Output Scaling Mode", output_scaling_mode::bilinear, true };
 
         cfg::_enum<vertex_buffer_upload_mode> vertex_buffer_upload_mode{ this, "Vertex Buffer Upload Mode", vertex_buffer_upload_mode::_auto, false };
+        cfg::_enum<texture_upload_type> texture_upload_type{ this, "Texture Upload Mode", texture_upload_type::cpu, false };
 
 		struct node_vk : cfg::node
 		{
@@ -350,7 +351,9 @@ struct cfg_root : cfg::node
 		cfg::_bool autoexit{ this, "Exit RPCS3 when process finishes", false, true };
 		cfg::_bool autopause{ this, "Pause emulation on RPCS3 focus loss", false, true };
 		cfg::_bool start_fullscreen{ this, "Start games in fullscreen mode", false, true };
-		//cfg::_bool prevent_display_sleep{ this, "Prevent display sleep while running games", true, true };
+#ifndef __ANDROID__
+		cfg::_bool prevent_display_sleep{ this, "Prevent display sleep while running games", true, true };
+#endif
 		cfg::_bool show_trophy_popups{ this, "Show trophy popups", true, true };
 		cfg::_bool show_rpcn_popups{ this, "Show RPCN popups", true, true };
 		cfg::_bool show_shader_compilation_hint{ this, "Show shader compilation hint", true, true };
@@ -369,6 +372,7 @@ struct cfg_root : cfg::node
 
         cfg::_enum<font_file_selection> font_file_selection{this, "Font File Selection", font_file_selection::from_firmware, false };
         cfg::string custom_font_file_path{this, "Custom Font File Path", "", false };
+        cfg::uint<12, 26> font_size{ this, "Font Size", 22, false };
 
 	} misc{ this };
 

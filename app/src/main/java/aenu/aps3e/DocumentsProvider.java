@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// https://github.com/termux/termux-app/blob/master/app/src/main/java/com/termux/filepicker/TermuxDocumentsProvider.java
 package aenu.aps3e;
 
 import android.content.res.AssetFileDescriptor;

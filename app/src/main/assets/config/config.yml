@@ -45,7 +45,8 @@ Core:
   PPU Set FPCC Bits: false
   Debug Console Mode: false
   Hook static functions: false
-  Libraries Control: []
+  Libraries Control:
+    []
   HLE lwmutex: false
   SPU LLVM Lower Bound: 0
   SPU LLVM Upper Bound: 18446744073709551615
@@ -89,7 +90,7 @@ Video:
   Use GPU texture scaling: false
   Stretch To Display Area: false
   Force High Precision Z buffer: false
-  Strict Rendering Mode: false
+  Strict Rendering Mode: true
   Disable ZCull Occlusion Queries: false
   Disable Video Output: false
   Disable Vertex Cache: false
@@ -122,6 +123,7 @@ Video:
   Disable Asynchronous Memory Manager: false
   Output Scaling Mode: Bilinear
   Vertex Buffer Upload Mode: Auto
+  Texture Upload Mode: CPU
   Vulkan:
     Adapter: ""
     Force FIFO present mode: true
@@ -203,7 +205,7 @@ System:
   Language: English (US)
   Keyboard Type: English keyboard (US standard)
   Enter button assignment: Enter with cross
-  System Name: RPCS3-255
+  System Name: RPCS3-824
   PSID high: 0
   PSID low: 0
   HDD Model Name: ""
@@ -242,4 +244,6 @@ Miscellaneous:
   Pause Emulation During Home Menu: false
   Font File Selection: From Firmware
   Custom Font File Path: ""
-Log: {}
+  Font Size: 22
+Log:
+  {}

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: WTFPL
 package aenu.lang;
 
 public class System {

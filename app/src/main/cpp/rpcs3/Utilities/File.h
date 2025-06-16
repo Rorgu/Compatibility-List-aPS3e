@@ -1,5 +1,6 @@
 #pragma once // No BOM and only basic ASCII in this header, or a neko will die
 
+#include "Loader/iso.h"
 #include "util/types.hpp"
 #include "util/shared_ptr.hpp"
 #include "bit_set.h"
@@ -8,8 +9,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
-#include "iso.h"
 
 namespace fs
 {

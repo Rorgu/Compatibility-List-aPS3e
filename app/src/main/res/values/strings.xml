@@ -6,6 +6,8 @@
 	<string name="msg_processing">Processing...</string>
 	<string name="msg_failed">Failed!</string>
 
+	<string name="game_list_loading">The game list is loading...</string>
+	<string name="undecrypted_game">Running undecrypted games is not supported at this time</string>
 	<string name="delete_game_data">Delete Game Data</string>
 	<string name="delete_hdd0_install_data">Delete hdd0 Install Data</string>
 	<string name="delete_game_and_data">Delete Game and Data</string>
@@ -197,7 +199,11 @@
 		<item>Buffer View</item>
 		<item>Buffer</item>
 	</string-array>
-
+	<string name="emulator_settings_video_texture_upload_mode">Texture Upload Mode</string>
+	<string-array name="video_texture_upload_mode_entries">
+		<item>CPU</item>
+		<item>GPU</item>
+	</string-array>
 	<string name="emulator_settings_video_renderer">Renderer</string>
 	<string-array name="video_renderer_entries">
 		<item>Null</item>
@@ -651,6 +657,7 @@
 		<item>Custom</item>
 	</string-array>
 	<string name="emulator_settings_miscellaneous_custom_font_file_path">Custom Font File Path</string>
+	<string name="emulator_settings_miscellaneous_font_size">Font Size</string>
 
 	<string name="INVALID">Invalid</string>
 	<string name="RSX_OVERLAYS_TROPHY_BRONZE">You have earned a bronze trophy.\n%0</string>

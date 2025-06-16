@@ -10,7 +10,7 @@ layout(%set, binding=%loc, std430) buffer ssbo{ uint data[]; };
 #define bswap_u16(bits)     (bits & 0xFF) << 8 | (bits & 0xFF00) >> 8 | (bits & 0xFF0000) << 8 | (bits & 0xFF000000) >> 8
 #define bswap_u32(bits)     (bits & 0xFF) << 24 | (bits & 0xFF00) << 8 | (bits & 0xFF0000) >> 8 | (bits & 0xFF000000) >> 24
 #define bswap_u16_u32(bits) (bits & 0xFFFF) << 16 | (bits & 0xFFFF0000) >> 16
-
+#define ror8_u32(bits)     (bits & 0xFF) << 24 | (bits & 0xFFFFFF00) >> 8
 // Depth format conversions
 #define d24_to_f32(bits)             floatBitsToUint(float(bits) / 16777215.f)
 #define f32_to_d24(bits)             uint(uintBitsToFloat(bits) * 16777215.f)

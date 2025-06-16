@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: WTFPL
 
 package aenu.aps3e;
 import android.app.*;

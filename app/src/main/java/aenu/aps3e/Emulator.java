@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: WTFPL
 
 package aenu.aps3e;
 import java.io.*;
@@ -24,6 +25,7 @@ public class Emulator
 		String serial;
 		String category;
 		String version;
+		boolean decrypt;
 	}
 
 	public static class Config{

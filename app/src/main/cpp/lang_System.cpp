@@ -1,4 +1,5 @@
-//
+
+// SPDX-License-Identifier: WTFPL
 // Created by aenu on 2025/4/10.
 //
 #include <stdlib.h>
