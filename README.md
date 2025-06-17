@@ -25,6 +25,9 @@ Rename app/build.gradle.bak to app/build.gradle  and complete the signing info
  
 Copy the compiled outputs llvm_out, ffmpeg_out,and glslang_out to app/src/main/cpp directory.
 
+LICENSE:
+
+Please check the LICENSE file under the appropriate file header and directory for detailed information.
 
 
 --------
