@@ -18,17 +18,16 @@ namespace
 {
 	VkFormat RSX_display_format_to_vk_format(u8 format)
 	{
+        static const bool use_bgra_fmt=g_cfg.video.bgra_format.get();
 		switch (format)
 		{
 		default:
 			rsx_log.error("Unhandled video output format 0x%x", static_cast<s32>(format));
 			[[fallthrough]];
 		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_X8R8G8B8:
-			//return VK_FORMAT_B8G8R8A8_UNORM;
-            return VK_FORMAT_R8G8B8A8_UNORM;
+            return use_bgra_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM;
 		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_X8B8G8R8:
-			//return VK_FORMAT_R8G8B8A8_UNORM;
-            return VK_FORMAT_B8G8R8A8_UNORM;
+            return use_bgra_fmt?VK_FORMAT_R8G8B8A8_UNORM:VK_FORMAT_B8G8R8A8_UNORM;
 		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_R16G16B16X16_FLOAT:
 			return VK_FORMAT_R16G16B16A16_SFLOAT;
 		}

@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
@@ -67,6 +68,10 @@ import android.view.*;
 
 import androidx.documentfile.provider.DocumentFile;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends Activity{
 
 	private static final int REQUEST_INSTALL_FIRMWARE=6001;
@@ -104,6 +109,11 @@ public class MainActivity extends Activity{
 	public static File get_config_file(){
 		return new File(Application.get_app_data_dir(),"config/config.yml");
 	}
+
+	public static File get_game_list_file(){
+		return new File(Application.get_app_data_dir(),"config/game_list.json");
+	}
+
 	public static File firmware_installed_file(){
 		return new File(Application.get_app_data_dir(),"config/dev_flash/.installed");
 	}
@@ -164,7 +174,7 @@ public class MainActivity extends Activity{
 
 		//if(is_request_perms_ok)
 		{
-			refresh_game_list();
+			show_game_list();
 		}
     }
 
@@ -551,6 +561,8 @@ public class MainActivity extends Activity{
 		super.onDestroy();
 	}
 
+
+
 	void show_verify_dialog(int res_id, DialogInterface.OnClickListener listener){
 		new AlertDialog.Builder(this)
 				.setMessage(getString(res_id)+"?")
@@ -638,9 +650,7 @@ public class MainActivity extends Activity{
 				.set_done_task(new ProgressTask.UI_Task() {
 					@Override
 					public void run() {
-						((ListView)findViewById(R.id.game_list))
-								.setAdapter(adapter);
-
+						show_game_list();
 						progress_task=null;
 					}
 				}))
@@ -648,11 +658,33 @@ public class MainActivity extends Activity{
 					@Override
 					public void run(ProgressTask task) {
 
-						adapter=new GameMetaInfoAdapter(MainActivity.this);
+						File json_file=get_game_list_file();
+						if(json_file.exists())
+							json_file.delete();
+						GameMetaInfoAdapter.save_game_list_to_json_file(json_file,GameMetaInfoAdapter.refresh_game_list(MainActivity.this));
 							task.task_handler.sendEmptyMessage(ProgressTask.TASK_DONE);
 					}
 				});
     }
+
+	private void show_game_list(){
+		if(!get_hdd0_game_dir().exists()){
+			get_hdd0_game_dir().mkdirs();
+		}
+		if(!get_disc_game_dir().exists()){
+			get_disc_game_dir().mkdirs();
+		}
+
+        try {
+            ArrayList<Emulator.MetaInfo> metas=GameMetaInfoAdapter.load_game_list_from_json_file(get_game_list_file());
+			adapter=new GameMetaInfoAdapter(this, metas);
+			((ListView)findViewById(R.id.game_list)).setAdapter(adapter);
+        } catch (Exception e) {
+			Log.w("show_game_list",e.getMessage());
+			refresh_game_list();
+        }
+
+	}
 
     private static class GameMetaInfoAdapter extends BaseAdapter {
 		
@@ -706,20 +738,59 @@ public class MainActivity extends Activity{
 			}
 			directory.delete();
 		}
+		ArrayList<Emulator.MetaInfo> metas;
+		private final MainActivity context_;
+		private GameMetaInfoAdapter(MainActivity context,ArrayList<Emulator.MetaInfo> metas){
+			context_=context;
+			this.metas=metas;
+		}
+		static ArrayList<Emulator.MetaInfo> load_game_list_from_json_file(File json) throws JSONException, IOException {
+			FileInputStream fis=new FileInputStream(json);
+			ByteArrayOutputStream baos=new ByteArrayOutputStream();
+			byte[] buffer=new byte[16384];
+			int n;
+			while ((n=fis.read(buffer))!=-1){
+				baos.write(buffer,0,n);
+			}
+			fis.close();
+			String json_str=baos.toString();
+			return load_game_list_from_json(json_str);
+		}
 
-        private ArrayList<File> game_dir_list;
-		private ArrayList<DocumentFile> iso_list;
-		private  ArrayList<Emulator.MetaInfo> metas;
-		private MainActivity context_;
+			static ArrayList<Emulator.MetaInfo> load_game_list_from_json(String json_str) throws JSONException {
+			ArrayList<Emulator.MetaInfo> metas=new ArrayList<Emulator.MetaInfo>();
+			JSONArray game_list=new JSONArray(json_str);
+			for(int i=0;i<game_list.length();i++){
+				JSONObject game_info=game_list.getJSONObject(i);
+				Emulator.MetaInfo meta=Emulator.MetaInfo.from_json(game_info);
+				metas.add(meta);
+			}
+			return metas;
+		}
 
-        private GameMetaInfoAdapter(MainActivity context){
-            context_=context;
-			game_dir_list=get_game_dir_list();
-			iso_list=get_game_iso_list();
-			this.metas=gen_metas(game_dir_list,iso_list);
-        }
-		
-		private ArrayList<File> get_game_dir_list(){
+		static void save_game_list_to_json_file(File json,ArrayList<Emulator.MetaInfo> metas){
+			try {
+				FileOutputStream fos=new FileOutputStream(json);
+				fos.write(save_game_list_to_json(metas).getBytes());
+				fos.close();
+			} catch (IOException | JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		static String save_game_list_to_json(ArrayList<Emulator.MetaInfo> metas) throws JSONException {
+			JSONArray game_list=new JSONArray();
+			for(Emulator.MetaInfo meta:metas){
+				game_list.put(Emulator.MetaInfo.to_json(meta));
+			}
+			return game_list.toString();
+		}
+
+		static ArrayList<Emulator.MetaInfo> refresh_game_list(MainActivity context){
+			return gen_metas(context,get_game_dir_list(),get_game_iso_list(context));
+		}
+
+		private static ArrayList<File> get_game_dir_list(){
 			ArrayList<File> game_dir_list=new ArrayList<File>();
 			File[] game_dirs;
 			game_dirs=get_hdd0_game_dir().listFiles(dir_filter_);
@@ -735,7 +806,7 @@ public class MainActivity extends Activity{
 			return game_dir_list;
         }
 
-		private ArrayList<DocumentFile> get_game_iso_list(){
+		private static ArrayList<DocumentFile> get_game_iso_list(MainActivity context_){
 			ArrayList<DocumentFile> iso_list=new ArrayList<DocumentFile>();
 			Uri uri=context_.load_pref_iso_dir();
 			if(uri==null)
@@ -753,7 +824,7 @@ public class MainActivity extends Activity{
 			return iso_list;
 		}
 		
-		private ArrayList<Emulator.MetaInfo> gen_metas(ArrayList<File> dirs,ArrayList<DocumentFile> isos){
+		private static ArrayList<Emulator.MetaInfo> gen_metas(MainActivity context_,ArrayList<File> dirs,ArrayList<DocumentFile> isos){
 			ArrayList<Emulator.MetaInfo> metas=new ArrayList<Emulator.MetaInfo>();
 			for(File dir:dirs){
 				Emulator.MetaInfo  meta=Emulator.get.meta_info_from_dir(dir.getAbsolutePath());

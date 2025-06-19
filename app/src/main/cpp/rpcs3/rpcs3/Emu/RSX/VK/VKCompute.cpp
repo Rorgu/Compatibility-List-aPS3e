@@ -65,7 +65,7 @@ namespace vk
 		if (!initialized)
 		{
 			init_descriptors();
-#if !defined(__ANDROID__)
+
 			switch (vk::get_driver_vendor())
 			{
 			case vk::driver_vendor::unknown:
@@ -109,13 +109,7 @@ namespace vk
 
 			const auto& gpu = vk::g_render_device->gpu();
 			max_invocations_x = gpu.get_limits().maxComputeWorkGroupCount[0];
-#else
-            unroll_loops = true;
-            optimal_kernel_size = 1;
-            const auto& gpu = vk::g_render_device->gpu();
-            max_invocations_x = gpu.get_limits().maxComputeWorkGroupCount[0];
-            optimal_group_size = gpu.get_limits().maxComputeWorkGroupSize[0]/4;
-#endif
+
 			initialized = true;
 		}
 	}

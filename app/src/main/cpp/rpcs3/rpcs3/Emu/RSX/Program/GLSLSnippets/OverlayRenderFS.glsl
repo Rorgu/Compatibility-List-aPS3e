@@ -138,8 +138,8 @@ void main()
 		ocol = texture(fs1, vec3(tc0.x, fract(tc0.y), trunc(tc0.y))).rrrr * diff_color;
 		break;
 	case SAMPLER_MODE_TEXTURE2D:
-#ifdef VULKAN
-		ocol = sample_image(fs0, tc0, blur_intensity).rgba * diff_color;
+#ifdef USE_BGRA
+		ocol = sample_image(fs0, tc0, blur_intensity).bgra * diff_color;
 #else
 		ocol = sample_image(fs0, tc0, blur_intensity).rgba * diff_color;
 #endif

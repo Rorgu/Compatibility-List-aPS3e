@@ -456,7 +456,7 @@ struct copy_linear_block_to_vtc
 
 struct copy_decoded_rb_rg_block
 {
-	template <bool SwapWords = false, typename T>
+    template <bool UseBGRA,bool SwapWords, typename T>
 	static void copy_mipmap_level(std::span<u32> dst, std::span<const T> src, u16 width_in_block, u16 row_count, u16 depth, u32 dst_pitch_in_block, u32 src_pitch_in_block)
 	{
 		static_assert(sizeof(T) == 4, "Type size doesn't match.");
@@ -490,9 +490,13 @@ struct copy_decoded_rb_rg_block
 					red1 = (data >> 16) & 0XFF;
 					green = (data >> 24) & 0xFF;
 				}
-
-                dst[dst_offset + (col * 2)] = (red0 << 0)|(green << 8)|(blue<< 16) | (0xFF << 24);
-                dst[dst_offset + (col * 2 + 1)] =  (red1 << 0)|(green << 8)|(blue<< 16) | (0xFF << 24);
+                if constexpr(!UseBGRA) {
+                    dst[dst_offset + (col * 2)] = (red0 << 0) | (green << 8) | (blue << 16) | (0xFF << 24);
+                    dst[dst_offset + (col * 2 + 1)] = (red1 << 0) | (green << 8) | (blue << 16) | (0xFF << 24);
+                }else{
+                    dst[dst_offset + (col * 2)] = (blue << 0) | (green << 8) | (red0 << 16) | (0xFF << 24);
+                    dst[dst_offset + (col * 2 + 1)] = (blue << 0) | (green << 8) | (red1 << 16) | (0xFF << 24);
+                }
 			}
 
 			src_offset += src_pitch_in_block;
@@ -562,62 +566,65 @@ struct copy_rgb655_block_swizzled
 
 struct copy_decoded_bc1_block
 {
-	static void copy_mipmap_level(std::span<u32> dst, std::span<const u64> src, u16 width_in_block, u32 row_count, u16 depth, u32 dst_pitch_in_block, u32 src_pitch_in_block)
-	{
-		u32 src_offset = 0, dst_offset = 0, destinationPitch = dst_pitch_in_block * 4;
-		for (u32 row = 0; row < row_count * depth; row++)
-		{
-			for (u32 col = 0; col < width_in_block; col++)
-			{
-				const u8* compressedBlock = reinterpret_cast<const u8*>(&src[src_offset + col]);
-				u8* decompressedBlock = reinterpret_cast<u8*>(&dst[dst_offset + col * 4]);
-				bcdec_bc1(compressedBlock, decompressedBlock, destinationPitch);
-			}
+    template<bool BGRA>
+    static void copy_mipmap_level(std::span<u32> dst, std::span<const u64> src, u16 width_in_block, u32 row_count, u16 depth, u32 dst_pitch_in_block, u32 src_pitch_in_block)
+    {
+        u32 src_offset = 0, dst_offset = 0, destinationPitch = dst_pitch_in_block * 4;
+        for (u32 row = 0; row < row_count * depth; row++)
+        {
+            for (u32 col = 0; col < width_in_block; col++)
+            {
+                const u8* compressedBlock = reinterpret_cast<const u8*>(&src[src_offset + col]);
+                u8* decompressedBlock = reinterpret_cast<u8*>(&dst[dst_offset + col * 4]);
+                bcdec_bc1<BGRA>(compressedBlock, decompressedBlock, destinationPitch);
+            }
 
-			src_offset += src_pitch_in_block;
-			dst_offset += destinationPitch;
-		}
-	}
+            src_offset += src_pitch_in_block;
+            dst_offset += destinationPitch;
+        }
+    }
 };
 
 struct copy_decoded_bc2_block
 {
-	static void copy_mipmap_level(std::span<u32> dst, std::span<const u128> src, u16 width_in_block, u32 row_count, u16 depth, u32 dst_pitch_in_block, u32 src_pitch_in_block)
-	{
-		u32 src_offset = 0, dst_offset = 0, destinationPitch = dst_pitch_in_block * 4;
-		for (u32 row = 0; row < row_count * depth; row++)
-		{
-			for (u32 col = 0; col < width_in_block; col++)
-			{
-				const u8* compressedBlock = reinterpret_cast<const u8*>(&src[src_offset + col]);
-				u8* decompressedBlock = reinterpret_cast<u8*>(&dst[dst_offset + col * 4]);
-				bcdec_bc2(compressedBlock, decompressedBlock, destinationPitch);
-			}
+    template<bool BGRA>
+    static void copy_mipmap_level(std::span<u32> dst, std::span<const u128> src, u16 width_in_block, u32 row_count, u16 depth, u32 dst_pitch_in_block, u32 src_pitch_in_block)
+    {
+        u32 src_offset = 0, dst_offset = 0, destinationPitch = dst_pitch_in_block * 4;
+        for (u32 row = 0; row < row_count * depth; row++)
+        {
+            for (u32 col = 0; col < width_in_block; col++)
+            {
+                const u8* compressedBlock = reinterpret_cast<const u8*>(&src[src_offset + col]);
+                u8* decompressedBlock = reinterpret_cast<u8*>(&dst[dst_offset + col * 4]);
+                bcdec_bc2<BGRA>(compressedBlock, decompressedBlock, destinationPitch);
+            }
 
-			src_offset += src_pitch_in_block;
-			dst_offset += destinationPitch;
-		}
-	}
+            src_offset += src_pitch_in_block;
+            dst_offset += destinationPitch;
+        }
+    }
 };
 
 struct copy_decoded_bc3_block
 {
-	static void copy_mipmap_level(std::span<u32> dst, std::span<const u128> src, u16 width_in_block, u32 row_count, u16 depth, u32 dst_pitch_in_block, u32 src_pitch_in_block)
-	{
-		u32 src_offset = 0, dst_offset = 0, destinationPitch = dst_pitch_in_block * 4;
-		for (u32 row = 0; row < row_count * depth; row++)
-		{
-			for (u32 col = 0; col < width_in_block; col++)
-			{
-				const u8* compressedBlock = reinterpret_cast<const u8*>(&src[src_offset + col]);
-				u8* decompressedBlock = reinterpret_cast<u8*>(&dst[dst_offset + col * 4]);
-				bcdec_bc3(compressedBlock, decompressedBlock, destinationPitch);
-			}
+    template<bool BGRA>
+    static void copy_mipmap_level(std::span<u32> dst, std::span<const u128> src, u16 width_in_block, u32 row_count, u16 depth, u32 dst_pitch_in_block, u32 src_pitch_in_block)
+    {
+        u32 src_offset = 0, dst_offset = 0, destinationPitch = dst_pitch_in_block * 4;
+        for (u32 row = 0; row < row_count * depth; row++)
+        {
+            for (u32 col = 0; col < width_in_block; col++)
+            {
+                const u8* compressedBlock = reinterpret_cast<const u8*>(&src[src_offset + col]);
+                u8* decompressedBlock = reinterpret_cast<u8*>(&dst[dst_offset + col * 4]);
+                bcdec_bc3<BGRA>(compressedBlock, decompressedBlock, destinationPitch);
+            }
 
-			src_offset += src_pitch_in_block;
-			dst_offset += destinationPitch;
-		}
-	}
+            src_offset += src_pitch_in_block;
+            dst_offset += destinationPitch;
+        }
+    }
 };
 
 namespace
@@ -937,6 +944,10 @@ namespace rsx
 		int words_per_block;
 		u32 dst_pitch_in_block;
 
+        static const bool use_bgra_fmt=g_cfg.video.bgra_format.get();
+        constexpr bool _BGRA=true;
+        constexpr bool _RGBA=false;
+
 		switch (format)
 		{
 		case CELL_GCM_TEXTURE_B8:
@@ -956,14 +967,20 @@ namespace rsx
 
 		case CELL_GCM_TEXTURE_COMPRESSED_B8R8_G8R8:
 		{
-			copy_decoded_rb_rg_block::copy_mipmap_level<true>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>(), w, h, depth, get_row_pitch_in_block<u32>(src_layout.width_in_texel, caps.alignment), src_layout.pitch_in_block);
-			break;
+            if(use_bgra_fmt)
+                copy_decoded_rb_rg_block::copy_mipmap_level<_BGRA,true>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>(), w, h, depth, get_row_pitch_in_block<u32>(src_layout.width_in_texel, caps.alignment), src_layout.pitch_in_block);
+            else
+                copy_decoded_rb_rg_block::copy_mipmap_level<_RGBA,true>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>(), w, h, depth, get_row_pitch_in_block<u32>(src_layout.width_in_texel, caps.alignment), src_layout.pitch_in_block);
+            break;
 		}
 
 		case CELL_GCM_TEXTURE_COMPRESSED_R8B8_R8G8:
 		{
-			copy_decoded_rb_rg_block::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>(), w, h, depth, get_row_pitch_in_block<u32>(src_layout.width_in_texel, caps.alignment), src_layout.pitch_in_block);
-			break;
+            if(use_bgra_fmt)
+                copy_decoded_rb_rg_block::copy_mipmap_level<_BGRA,false>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>(), w, h, depth, get_row_pitch_in_block<u32>(src_layout.width_in_texel, caps.alignment), src_layout.pitch_in_block);
+            else
+                copy_decoded_rb_rg_block::copy_mipmap_level<_RGBA,false>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>(), w, h, depth, get_row_pitch_in_block<u32>(src_layout.width_in_texel, caps.alignment), src_layout.pitch_in_block);
+            break;
 		}
 
 #ifndef __APPLE__
@@ -1052,16 +1069,17 @@ namespace rsx
 
 		case CELL_GCM_TEXTURE_A8R8G8B8:
 		case CELL_GCM_TEXTURE_D8R8G8B8:
-        {
-            if (is_swizzled)
-                copy_u32_ror8_block_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>()
-                        , w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+            if(!use_bgra_fmt){
+                if (is_swizzled)
+                    copy_u32_ror8_block_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>()
+                            , w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
 
-            else
-                copy_u32_ror8_block::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>()
-                        , w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
-            break;
-        }
+                else
+                    copy_u32_ror8_block::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u32>()
+                            , w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+                break;
+            }
+                [[fallthrough]];
 		case CELL_GCM_TEXTURE_DEPTH24_D8:
 		case CELL_GCM_TEXTURE_DEPTH24_D8_FLOAT: // Untested
 		{
@@ -1115,8 +1133,11 @@ namespace rsx
 		{
 			if (!caps.supports_dxt)
 			{
-				copy_decoded_bc1_block::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u64>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
-				break;
+                if(use_bgra_fmt)
+                    copy_decoded_bc1_block::copy_mipmap_level<_BGRA>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u64>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+                else
+                    copy_decoded_bc1_block::copy_mipmap_level<_RGBA>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u64>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+                break;
 			}
 
 			const bool is_3d = depth > 1;
@@ -1146,8 +1167,11 @@ namespace rsx
 		{
 			if (!caps.supports_dxt)
 			{
-				copy_decoded_bc2_block::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u128>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
-				break;
+                if(use_bgra_fmt)
+                    copy_decoded_bc2_block::copy_mipmap_level<_BGRA>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u128>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+                else
+                    copy_decoded_bc2_block::copy_mipmap_level<_RGBA>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u128>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+                break;
 			}
 			[[fallthrough]];
 		}
@@ -1155,8 +1179,11 @@ namespace rsx
 		{
 			if (!caps.supports_dxt)
 			{
-				copy_decoded_bc3_block::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u128>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
-				break;
+                if(use_bgra_fmt)
+                    copy_decoded_bc3_block::copy_mipmap_level<_BGRA>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u128>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+                else
+                    copy_decoded_bc3_block::copy_mipmap_level<_RGBA>(dst_buffer.as_span<u32>(), src_layout.data.as_span<const u128>(), w, h, depth, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block);
+                break;
 			}
 
 			const bool is_3d = depth > 1;
@@ -1206,6 +1233,8 @@ namespace rsx
         int word_size = 0;
         int words_per_block;
         u32 dst_pitch_in_block;
+
+        static const bool use_bgra_fmt=g_cfg.video.bgra_format.get();
 
         switch (format)
         {
@@ -1339,16 +1368,18 @@ namespace rsx
 
             case CELL_GCM_TEXTURE_A8R8G8B8:
             case CELL_GCM_TEXTURE_D8R8G8B8:
-            {
-                result.element_size=4;
-                result.block_length=1;
-                result.require_mth=texture_memory_info_require_mth::upload|texture_memory_info_require_mth::ror8_u32;
-                if (is_swizzled)
-                    result.require_mth|=texture_memory_info_require_mth::deswizzle;
+                if(!use_bgra_fmt){
+                    result.element_size=4;
+                    result.block_length=1;
+                    result.require_mth=texture_memory_info_require_mth::upload|texture_memory_info_require_mth::ror8_u32;
+                    if (is_swizzled)
+                        result.require_mth|=texture_memory_info_require_mth::deswizzle;
 
-                result.deferred_cmds= build_transfer_cmds(src_layout.data.data(),4*1,w,h,depth,src_layout.border,get_row_pitch_in_block<u32>(w, caps.alignment),src_layout.pitch_in_block);
-                break;
-            }
+                    result.deferred_cmds= build_transfer_cmds(src_layout.data.data(),4*1,w,h,depth,src_layout.border,get_row_pitch_in_block<u32>(w, caps.alignment),src_layout.pitch_in_block);
+                    break;
+                }
+
+                [[fallthrough]];
             case CELL_GCM_TEXTURE_DEPTH24_D8:
             case CELL_GCM_TEXTURE_DEPTH24_D8_FLOAT: // Untested
             {

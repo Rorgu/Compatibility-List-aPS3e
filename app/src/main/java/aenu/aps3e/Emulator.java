@@ -2,13 +2,16 @@
 
 package aenu.aps3e;
 import java.io.*;
+import java.util.Base64;
 import java.util.HashMap;
 
 import android.content.Context;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.view.*;
-import android.util.*;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Emulator
 {
@@ -26,6 +29,38 @@ public class Emulator
 		String category;
 		String version;
 		boolean decrypt;
+
+		static JSONObject to_json(MetaInfo  info) throws JSONException {
+			JSONObject jo=new JSONObject();
+			if(info.eboot_path!=null)
+			jo.put("eboot_path",info.eboot_path);
+			if(info.iso_uri!=null)
+			jo.put("iso_uri",info.iso_uri);
+			if(info.icon!=null)
+			jo.put("icon",Base64.getEncoder().encodeToString(info.icon));
+			jo.put("name",info.name);
+			jo.put("serial",info.serial);
+			jo.put("category",info.category);
+			jo.put("version",info.version);
+			jo.put("decrypt",info.decrypt);
+			return jo;
+		}
+
+		static MetaInfo from_json(JSONObject jo) throws JSONException{
+			MetaInfo meta=new MetaInfo();
+			if(jo.has("eboot_path"))
+			meta.eboot_path=jo.getString("eboot_path");
+			if(jo.has("iso_uri"))
+			meta.iso_uri=jo.getString("iso_uri");
+			if(jo.has("icon"))
+			meta.icon=Base64.getDecoder().decode(jo.getString("icon"));
+			meta.name=jo.getString("name");
+			meta.serial=jo.getString("serial");
+			meta.category=jo.getString("category");
+			meta.version=jo.getString("version");
+			meta.decrypt=jo.getBoolean("decrypt");
+			return meta;
+		}
 	}
 
 	public static class Config{

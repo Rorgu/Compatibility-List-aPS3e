@@ -33,19 +33,21 @@ namespace vk
 		const VkComponentMapping o_rgb = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_ONE };
 		const VkComponentMapping z_rgb = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_ZERO };
 
+        static const bool use_bgra8_fmt=g_cfg.video.bgra_format.get();
+
 		switch (color_format)
 		{
 #ifndef __APPLE__
-		case rsx::surface_color_format::r5g6b5:
-			return std::make_pair(VK_FORMAT_R5G6B5_UNORM_PACK16, vk::default_component_map);
+            case rsx::surface_color_format::r5g6b5:
+                return std::make_pair(VK_FORMAT_R5G6B5_UNORM_PACK16, vk::default_component_map);
 
-		case rsx::surface_color_format::x1r5g5b5_o1r5g5b5:
-			return std::make_pair(VK_FORMAT_A1R5G5B5_UNORM_PACK16, o_rgb);
+            case rsx::surface_color_format::x1r5g5b5_o1r5g5b5:
+                return std::make_pair(VK_FORMAT_A1R5G5B5_UNORM_PACK16, o_rgb);
 
-		case rsx::surface_color_format::x1r5g5b5_z1r5g5b5:
-			return std::make_pair(VK_FORMAT_A1R5G5B5_UNORM_PACK16, z_rgb);
+            case rsx::surface_color_format::x1r5g5b5_z1r5g5b5:
+                return std::make_pair(VK_FORMAT_A1R5G5B5_UNORM_PACK16, z_rgb);
 #else
-		// assign B8G8R8A8_UNORM to formats that are not supported by Metal
+                // assign B8G8R8A8_UNORM to formats that are not supported by Metal
 		case rsx::surface_color_format::r5g6b5:
 			return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, vk::default_component_map);
 
@@ -56,22 +58,22 @@ namespace vk
 			return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, z_rgb);
 #endif
             case rsx::surface_color_format::a8r8g8b8:
-                return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, vk::default_component_map);
+                return std::make_pair(use_bgra8_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM, vk::default_component_map);
 
             case rsx::surface_color_format::a8b8g8r8:
-                return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, vk::default_component_map);
+                return std::make_pair(use_bgra8_fmt?VK_FORMAT_R8G8B8A8_UNORM:VK_FORMAT_B8G8R8A8_UNORM, vk::default_component_map);
 
             case rsx::surface_color_format::x8b8g8r8_o8b8g8r8:
-                return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, o_rgb);
+                return std::make_pair(use_bgra8_fmt?VK_FORMAT_R8G8B8A8_UNORM:VK_FORMAT_B8G8R8A8_UNORM, o_rgb);
 
             case rsx::surface_color_format::x8b8g8r8_z8b8g8r8:
-                return std::make_pair(VK_FORMAT_B8G8R8A8_UNORM, z_rgb);
+                return std::make_pair(use_bgra8_fmt?VK_FORMAT_R8G8B8A8_UNORM:VK_FORMAT_B8G8R8A8_UNORM, z_rgb);
 
             case rsx::surface_color_format::x8r8g8b8_z8r8g8b8:
-                return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, z_rgb);
+                return std::make_pair(use_bgra8_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM, z_rgb);
 
             case rsx::surface_color_format::x8r8g8b8_o8r8g8b8:
-                return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, o_rgb);
+                return std::make_pair(use_bgra8_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM, o_rgb);
 
 		case rsx::surface_color_format::w16z16y16x16:
 			return std::make_pair(VK_FORMAT_R16G16B16A16_SFLOAT, vk::default_component_map);
@@ -99,7 +101,7 @@ namespace vk
 
 		default:
 			rsx_log.error("Surface color buffer: Unsupported surface color format (0x%x)", static_cast<u32>(color_format));
-			return std::make_pair(VK_FORMAT_R8G8B8A8_UNORM, vk::default_component_map);
+			return std::make_pair(use_bgra8_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM, vk::default_component_map);
 		}
 	}
 

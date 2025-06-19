@@ -124,6 +124,8 @@ Video:
   Output Scaling Mode: Bilinear
   Vertex Buffer Upload Mode: Auto
   Texture Upload Mode: CPU
+  Use BGRA Format: true
+  Force Convert Texture: false
   Vulkan:
     Adapter: ""
     Force FIFO present mode: true
@@ -205,7 +207,7 @@ System:
   Language: English (US)
   Keyboard Type: English keyboard (US standard)
   Enter button assignment: Enter with cross
-  System Name: RPCS3-824
+  System Name: RPCS3-955
   PSID high: 0
   PSID low: 0
   HDD Model Name: ""

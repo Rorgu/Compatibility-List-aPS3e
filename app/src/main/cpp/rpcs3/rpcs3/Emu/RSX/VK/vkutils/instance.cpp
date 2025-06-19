@@ -318,12 +318,13 @@ namespace vk
 			present_possible = false;
 		}
 
+        const VkFormat surf_color_fmt=g_cfg.video.bgra_format?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM;
 		if (!present_possible)
 		{
 			//Native(sw) swapchain
 			rsx_log.error("It is not possible for the currently selected GPU to present to the window (Likely caused by NVIDIA driver running the current display)");
 			rsx_log.warning("Falling back to software present support (native windowing API)");
-			auto swapchain = new swapchain_NATIVE(dev, -1, graphics_queue_idx, transfer_queue_idx);
+			auto swapchain = new swapchain_NATIVE(dev, -1, graphics_queue_idx, transfer_queue_idx,surf_color_fmt);
 			swapchain->create(window_handle);
 			return swapchain;
 		}
@@ -340,7 +341,7 @@ namespace vk
 
 		if (formatCount == 1 && surfFormats[0].format == VK_FORMAT_UNDEFINED)
 		{
-			format = VK_FORMAT_R8G8B8A8_UNORM;
+			format = surf_color_fmt;
 		}
 		else
 		{
@@ -350,9 +351,9 @@ namespace vk
 			//Prefer BGRA8_UNORM to avoid sRGB compression (RADV)
 			for (auto& surface_format : surfFormats)
 			{
-				if (surface_format.format == VK_FORMAT_R8G8B8A8_UNORM)
+				if (surface_format.format == surf_color_fmt)
 				{
-					format = VK_FORMAT_R8G8B8A8_UNORM;
+					format = surf_color_fmt;
 					break;
 				}
 			}

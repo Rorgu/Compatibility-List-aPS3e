@@ -11,7 +11,7 @@
             app:key="Core|PPU Decoder" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_ppu_threads"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_ppu_threads"
             app:min="1"
             android:max="8"
             app:showSeekBarValue="true"
@@ -34,7 +34,7 @@
             app:key="Core|Use LLVM CPU" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_max_llvm_compile_threads"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_max_llvm_compile_threads"
             app:min="0"
             android:max="12"
             app:showSeekBarValue="true"
@@ -61,14 +61,14 @@
             app:key="Core|SPU Decoder" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_spu_reservation_busy_waiting_percentage"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_spu_reservation_busy_waiting_percentage"
             app:min="0"
             android:max="100"
             app:showSeekBarValue="true"
             app:key="Core|SPU Reservation Busy Waiting Percentage" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_spu_getllar_busy_waiting_percentage"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_spu_getllar_busy_waiting_percentage"
             app:min="0"
             android:max="101"
             app:showSeekBarValue="true"
@@ -87,14 +87,14 @@
             app:key="Core|MFC Debug" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_preferred_spu_threads"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_preferred_spu_threads"
             app:min="0"
             android:max="6"
             app:showSeekBarValue="true"
             app:key="Core|Preferred SPU Threads" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_spu_delay_penalty"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_spu_delay_penalty"
             app:min="0"
             android:max="16"
             app:showSeekBarValue="true"
@@ -105,7 +105,7 @@
             app:key="Core|SPU loop detection" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_max_spurs_threads"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_max_spurs_threads"
             app:min="1"
             android:max="6"
             app:showSeekBarValue="true"
@@ -152,14 +152,14 @@
             app:key="Core|SPU Profiler" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_mfc_commands_shuffling_limit"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_mfc_commands_shuffling_limit"
             app:min="0"
             android:max="16"
             app:showSeekBarValue="true"
             app:key="Core|MFC Commands Shuffling Limit" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_mfc_commands_timeout"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_mfc_commands_timeout"
             app:min="0"
             android:max="10000"
             app:showSeekBarValue="true"
@@ -182,14 +182,14 @@
             app:key="Core|XFloat Accuracy" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_accurate_ppu_128byte_reservation_op_max_length"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_accurate_ppu_128byte_reservation_op_max_length"
             app:min="-1"
             android:max="14"
             app:showSeekBarValue="true"
             app:key="Core|Accurate PPU 128-byte Reservation Op Max Length" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_stub_ppu_traps"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_stub_ppu_traps"
             app:min="-64"
             android:max="64"
             app:showSeekBarValue="true"
@@ -244,42 +244,42 @@
             app:key="Core|HLE lwmutex" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_tsx_transaction_first_limit"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_tsx_transaction_first_limit"
             app:min="0"
             android:max="0x7fffffff"
             app:showSeekBarValue="true"
             app:key="Core|TSX Transaction First Limit" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_tsx_transaction_second_limit"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_tsx_transaction_second_limit"
             app:min="0"
             android:max="0x7fffffff"
             app:showSeekBarValue="true"
             app:key="Core|TSX Transaction Second Limit" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_clocks_scale"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_clocks_scale"
             app:min="10"
             android:max="3000"
             app:showSeekBarValue="true"
             app:key="Core|Clocks scale" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_spu_wakeup_delay"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_spu_wakeup_delay"
             app:min="0"
             android:max="3000"
             app:showSeekBarValue="true"
             app:key="Core|SPU Wake-Up Delay" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_spu_wakeup_delay_thread_mask"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_spu_wakeup_delay_thread_mask"
             app:min="0"
             android:max="63"
             app:showSeekBarValue="true"
             app:key="Core|SPU Wake-Up Delay Thread Mask" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_max_cpu_preempt_count"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_max_cpu_preempt_count"
             app:min="0"
             android:max="400"
             app:showSeekBarValue="true"
@@ -296,14 +296,14 @@
             app:key="Core|Sleep Timers Accuracy" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_usleep_time_addend"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_usleep_time_addend"
             app:min="-1000"
             android:max="1500"
             app:showSeekBarValue="true"
             app:key="Core|Usleep Time Addend" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_core_performance_report_threshold"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_core_performance_report_threshold"
             app:min="0"
             android:max="0x7fffffff"
             app:showSeekBarValue="true"
@@ -345,7 +345,7 @@
             app:key="Video|Frame limit" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_second_frame_limit"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_second_frame_limit"
             app:min="0"
             android:max="1000"
             app:showSeekBarValue="true"
@@ -492,70 +492,70 @@
             app:key="Video|Accurate ZCULL stats" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_consecutive_frames_to_draw"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_consecutive_frames_to_draw"
             app:min="1"
             android:max="8"
             app:showSeekBarValue="true"
             app:key="Video|Consecutive Frames To Draw" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_consecutive_frames_to_skip"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_consecutive_frames_to_skip"
             app:min="1"
             android:max="8"
             app:showSeekBarValue="true"
             app:key="Video|Consecutive Frames To Skip" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_resolution_scale"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_resolution_scale"
             app:min="25"
             android:max="800"
             app:showSeekBarValue="true"
             app:key="Video|Resolution Scale" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_anisotropic_filter_override"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_anisotropic_filter_override"
             app:min="0"
             android:max="16"
             app:showSeekBarValue="true"
             app:key="Video|Anisotropic Filter Override" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_texture_lod_bias_addend"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_texture_lod_bias_addend"
             app:min="-32"
             android:max="32"
             app:showSeekBarValue="true"
             app:key="Video|Texture LOD Bias Addend" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_minimum_scalable_dimension"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_minimum_scalable_dimension"
             app:min="1"
             android:max="1024"
             app:showSeekBarValue="true"
             app:key="Video|Minimum Scalable Dimension" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_shader_compiler_threads"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_shader_compiler_threads"
             app:min="0"
             android:max="16"
             app:showSeekBarValue="true"
             app:key="Video|Shader Compiler Threads" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_driver_recovery_timeout"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_driver_recovery_timeout"
             app:min="0"
             android:max="30000000"
             app:showSeekBarValue="true"
             app:key="Video|Driver Recovery Timeout" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_driver_wakeup_delay"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_driver_wakeup_delay"
             app:min="0"
             android:max="16667"
             app:showSeekBarValue="true"
             app:key="Video|Driver Wake-Up Delay" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_video_vblank_rate"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_vblank_rate"
             app:min="1"
             android:max="3000"
             app:showSeekBarValue="true"
@@ -595,6 +595,14 @@
             app:entryValues="@array/video_texture_upload_mode_values"
             app:key="Video|Texture Upload Mode" />
 
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_use_bgra_format"
+            app:key="Video|Use BGRA Format" />
+
+
+        <CheckBoxPreference app:title="@string/emulator_settings_video_force_convert_texture"
+            app:key="Video|Force Convert Texture" />
+
         <PreferenceScreen app:title="@string/emulator_settings_video_vulkan"
             app:key="Video|Vulkan" >
 
@@ -616,7 +624,7 @@
                 app:key="Video|Vulkan|Asynchronous Texture Streaming 2" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_vulkan_fidelityfx_cas_sharpening_intensity"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_vulkan_fidelityfx_cas_sharpening_intensity"
                 app:min="0"
                 android:max="100"
                 app:showSeekBarValue="true"
@@ -629,7 +637,7 @@
                 app:key="Video|Vulkan|Asynchronous Queue Scheduler" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_vulkan_vram_allocation_limit"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_vulkan_vram_allocation_limit"
                 app:min="256"
                 android:max="16384"
                 app:showSeekBarValue="true"
@@ -663,14 +671,14 @@
                 app:key="Video|Performance Overlay|Enable Frametime Graph" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_framerate_datapoints"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_performance_overlay_framerate_datapoints"
                 app:min="2"
                 android:max="6000"
                 app:showSeekBarValue="true"
                 app:key="Video|Performance Overlay|Framerate datapoints" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_frametime_datapoints"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_performance_overlay_frametime_datapoints"
                 app:min="2"
                 android:max="6000"
                 app:showSeekBarValue="true"
@@ -695,14 +703,14 @@
                 app:key="Video|Performance Overlay|Frametime graph detail level" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_metrics_update_interval"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_performance_overlay_metrics_update_interval"
                 app:min="1"
                 android:max="1000"
                 app:showSeekBarValue="true"
                 app:key="Video|Performance Overlay|Metrics update interval (ms)" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_font_size"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_performance_overlay_font_size"
                 app:min="4"
                 android:max="36"
                 app:showSeekBarValue="true"
@@ -715,14 +723,18 @@
                 app:key="Video|Performance Overlay|Position" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_horizontal_margin"
+            <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay_font"
+                app:key="Video|Performance Overlay|Font" />
+
+
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_performance_overlay_horizontal_margin"
                 app:min="0"
                 android:max="1280"
                 app:showSeekBarValue="true"
                 app:key="Video|Performance Overlay|Horizontal Margin (px)" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_vertical_margin"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_performance_overlay_vertical_margin"
                 app:min="0"
                 android:max="720"
                 app:showSeekBarValue="true"
@@ -737,7 +749,7 @@
                 app:key="Video|Performance Overlay|Center Vertically" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_performance_overlay_opacity"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_performance_overlay_opacity"
                 app:min="0"
                 android:max="100"
                 app:showSeekBarValue="true"
@@ -751,14 +763,14 @@
                 app:key="Video|Shader Loading Dialog|Allow custom background" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_shader_loading_dialog_darkening_effect_strength"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_shader_loading_dialog_darkening_effect_strength"
                 app:min="0"
                 android:max="100"
                 app:showSeekBarValue="true"
                 app:key="Video|Shader Loading Dialog|Darkening effect strength" />
 
 
-            <SeekBarPreference app:title="@string/emulator_settings_video_shader_loading_dialog_blur_effect_strength"
+            <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_video_shader_loading_dialog_blur_effect_strength"
                 app:min="0"
                 android:max="100"
                 app:showSeekBarValue="true"
@@ -801,7 +813,7 @@
             app:key="Audio|Audio Format" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_audio_audio_formats"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_audio_audio_formats"
             app:min="0"
             android:max="255"
             app:showSeekBarValue="true"
@@ -814,7 +826,7 @@
             app:key="Audio|Audio Channel Layout" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_audio_master_volume"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_audio_master_volume"
             app:min="0"
             android:max="200"
             app:showSeekBarValue="true"
@@ -825,7 +837,7 @@
             app:key="Audio|Enable Buffering" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_audio_desired_audio_buffer_duration"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_audio_desired_audio_buffer_duration"
             app:min="4"
             android:max="250"
             app:showSeekBarValue="true"
@@ -840,7 +852,7 @@
             app:key="Audio|Disable Sampling Skip" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_audio_time_stretching_threshold"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_audio_time_stretching_threshold"
             app:min="0"
             android:max="100"
             app:showSeekBarValue="true"
@@ -926,7 +938,7 @@
             app:key="Input/Output|Keep pads connected" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_input_output_pad_handler_sleep"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_input_output_pad_handler_sleep"
             app:min="0"
             android:max="100000"
             app:showSeekBarValue="true"
@@ -1072,7 +1084,7 @@
             app:key="Miscellaneous|Custom Font File Path" />
 
 
-        <SeekBarPreference app:title="@string/emulator_settings_miscellaneous_font_size"
+        <aenu.preference.SeekbarPreference app:title="@string/emulator_settings_miscellaneous_font_size"
             app:min="12"
             android:max="26"
             app:showSeekBarValue="true"

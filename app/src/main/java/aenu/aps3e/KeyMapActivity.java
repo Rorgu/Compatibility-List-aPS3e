@@ -40,6 +40,7 @@ public class KeyMapActivity extends Activity {
         super.onCreate(bundle);
 		sp=getSharedPreferences();
         lv=new ListView(this);
+		lv.setDividerHeight(32);
 		setContentView(lv);
 		update_config();
 		lv.setOnItemClickListener(click_l);
@@ -53,7 +54,7 @@ public class KeyMapActivity extends Activity {
 	void update_config(){
 		final SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(KeyMapActivity.this);
 		SharedPreferences.Editor sPrefsEditor = sPrefs.edit();
-		
+
 		for(int i=0;i<KeyMapConfig.KEY_NAMEIDS.length;i++){
 			String key_n=Integer.toString(KeyMapConfig.KEY_NAMEIDS[i]);
 			int default_v=KeyMapConfig.DEFAULT_KEYMAPPERS[i];
@@ -80,8 +81,8 @@ public class KeyMapActivity extends Activity {
 		public void onItemClick(final AdapterView<?> l, View v, final int position,long id)
 		{
 			AlertDialog.Builder builder = new AlertDialog.Builder(KeyMapActivity.this);
-            builder.setMessage("按任意键继续");
-            builder.setNegativeButton("清除", new DialogInterface.OnClickListener(){
+            builder.setMessage(R.string.press_a_key);
+            builder.setNegativeButton(R.string.clear, new DialogInterface.OnClickListener(){
 					@Override
 					public void onClick(DialogInterface p1, int p2)
 					{
@@ -130,6 +131,10 @@ public class KeyMapActivity extends Activity {
 		}
 
         public String getKey(int pos){
+            return Integer.toString(keyNameIdList_[pos]);
+        }
+
+		public String getKeyName(int pos){
             return context_.getString(keyNameIdList_[pos]);
         }
 
@@ -157,9 +162,8 @@ public class KeyMapActivity extends Activity {
             }
 			
 			TextView text=(TextView)curView;
-			text.setMinHeight(64);
 
-            text.setText(getKey(pos)+":    "+valueList_[pos]);
+            text.setText(getKeyName(pos)+":    "+valueList_[pos]);
 
             return curView;
         } 

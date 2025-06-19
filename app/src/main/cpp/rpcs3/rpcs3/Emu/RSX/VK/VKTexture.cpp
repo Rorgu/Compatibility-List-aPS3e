@@ -540,6 +540,8 @@ namespace vk
 
 		a_dst = a_src;
 
+        static const VkFormat dst_fmt=g_cfg.video.bgra_format.get()?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM;
+
 		if (vk::is_renderpass_open(cmd))
 		{
 			vk::end_renderpass(cmd);
@@ -701,13 +703,13 @@ namespace vk
 
 					if (use_unsafe_transport)
 					{
-						auto typeless = vk::get_typeless_helper(VK_FORMAT_R8G8B8A8_UNORM, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
+						auto typeless = vk::get_typeless_helper(dst_fmt, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
 						change_image_layout(cmd, typeless, VK_IMAGE_LAYOUT_GENERAL);
 						stretch_image_typeless_unsafe(src, dst, typeless, src_rect, dst_rect, depth_stencil);
 					}
 					else
 					{
-						auto typeless_depth = vk::get_typeless_helper(VK_FORMAT_R8G8B8A8_UNORM, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
+						auto typeless_depth = vk::get_typeless_helper(dst_fmt, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
 						auto typeless_stencil = vk::get_typeless_helper(VK_FORMAT_R8_UNORM, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
 						change_image_layout(cmd, typeless_depth, VK_IMAGE_LAYOUT_GENERAL);
 						change_image_layout(cmd, typeless_stencil, VK_IMAGE_LAYOUT_GENERAL);
@@ -726,7 +728,7 @@ namespace vk
 					// NOTE: While it may seem intuitive to use R32_SFLOAT as the carrier for the depth aspect, this does not work properly
 					// Floating point interpolation is non-linear from a bit-by-bit perspective and generates undesirable effects
 
-					auto typeless_depth = vk::get_typeless_helper(VK_FORMAT_R8G8B8A8_UNORM, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
+					auto typeless_depth = vk::get_typeless_helper(dst_fmt, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
 					auto typeless_stencil = vk::get_typeless_helper(VK_FORMAT_R8_UNORM, RSX_FORMAT_CLASS_COLOR, typeless_w, typeless_h);
 					change_image_layout(cmd, typeless_depth, VK_IMAGE_LAYOUT_GENERAL);
 					change_image_layout(cmd, typeless_stencil, VK_IMAGE_LAYOUT_GENERAL);

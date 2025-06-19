@@ -188,7 +188,13 @@ struct cfg_root : cfg::node
 
         cfg::_enum<vertex_buffer_upload_mode> vertex_buffer_upload_mode{ this, "Vertex Buffer Upload Mode", vertex_buffer_upload_mode::_auto, false };
         cfg::_enum<texture_upload_type> texture_upload_type{ this, "Texture Upload Mode", texture_upload_type::cpu, false };
+        cfg::_bool bgra_format{ this, "Use BGRA Format", true };
 
+#if defined (__APPLE__)
+        cfg::_bool force_convert_texture{ this, "Force Convert Texture",true };
+#else
+        cfg::_bool force_convert_texture{ this, "Force Convert Texture" };
+#endif
 		struct node_vk : cfg::node
 		{
 			node_vk(cfg::node* _this) : cfg::node(_this, "Vulkan") {}

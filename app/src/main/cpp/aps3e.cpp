@@ -1946,7 +1946,6 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved){
 		static std::unique_ptr<logs::listener> log_file;
 		{
 			//log_file = logs::make_file_listener(std::string(getenv("APS3E_LOG_DIR"))+"/rp3_log.txt", 1024*1024*1024);
-
 		}
 	}
 

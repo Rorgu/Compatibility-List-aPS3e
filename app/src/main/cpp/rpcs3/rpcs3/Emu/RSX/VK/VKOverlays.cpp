@@ -369,7 +369,7 @@ namespace vk
 
 		fs_src = fmt::replace_all(fs_src,
 		{
-			{ "%preprocessor", "// %preprocessor" },
+			{ "%preprocessor", g_cfg.video.bgra_format?"#define USE_BGRA":"// %preprocessor" },
 			{ "%push_block_offset", "layout(offset=68)" },
 			{ "%push_block", "push_constant" }
 		});
@@ -389,7 +389,7 @@ namespace vk
 	vk::image_view* ui_overlay_renderer::upload_simple_texture(vk::render_device& dev, vk::command_buffer& cmd,
 		vk::data_heap& upload_heap, u64 key, u32 w, u32 h, u32 layers, bool font, bool temp, const void* pixel_src, u32 owner_uid)
 	{
-		const VkFormat format = (font) ? VK_FORMAT_R8_UNORM : VK_FORMAT_R8G8B8A8_UNORM;
+		const VkFormat format = (font) ? VK_FORMAT_R8_UNORM : (g_cfg.video.bgra_format.get()?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM);
 		const u32 pitch = (font) ? w : w * 4;
 		const u32 data_size = pitch * h * layers;
 		const auto offset = upload_heap.alloc<512>(data_size);

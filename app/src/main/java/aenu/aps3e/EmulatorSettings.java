@@ -41,7 +41,8 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
-import androidx.preference.SeekBarPreference;
+//import androidx.preference.SeekBarPreference;
+import aenu.preference.SeekbarPreference;
 
 
 import java.io.File;
@@ -49,6 +50,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -271,6 +273,7 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Video|DECR memory layout",
                     "Video|Allow Host GPU Labels",
                     "Video|Disable Asynchronous Memory Manager",
+                    "Video|Use BGRA Format",
                     "Video|Vulkan|Force FIFO present mode",
                     "Video|Vulkan|Asynchronous Texture Streaming 2",
                     "Video|Vulkan|Use Custom Driver",
@@ -437,7 +440,7 @@ public class EmulatorSettings extends AppCompatActivity {
             }
 
             for (String key:INT_KEYS){
-                SeekBarPreference pref=findPreference(key);
+                SeekbarPreference pref=findPreference(key);
                 String val_str=config.load_config_entry(key);
                 if (val_str!=null) {
                     //FIXME
@@ -539,6 +542,12 @@ public class EmulatorSettings extends AppCompatActivity {
     public void onDisplayPreferenceDialog( @NonNull Preference pref) {
         if (pref instanceof ColorPickerDialog) {
             final DialogFragment f = ColorPickerDialog.ColorPickerPreferenceFragmentCompat.newInstance(pref.getKey());
+            f.setTargetFragment(this, 0);
+            f.show(getParentFragmentManager(), "DIALOG_FRAGMENT_TAG");
+            return;
+        }
+        if (pref instanceof aenu.preference.SeekbarPreference) {
+            final DialogFragment f = aenu.preference.SeekbarPreference.SeekbarPreferenceFragmentCompat.newInstance(pref.getKey());
             f.setTargetFragment(this, 0);
             f.show(getParentFragmentManager(), "DIALOG_FRAGMENT_TAG");
             return;
@@ -1030,13 +1039,14 @@ libs.put("libvpost2.sprx", 0);
 libs.put("libwmadec.sprx", 0);
         }
 
-        final String[] libs_name=libs.keySet().toArray(new String[0]);
+        String[] libs_name=libs.keySet().toArray(new String[0]);
 
         final Map<String,  Integer> modify=new HashMap<>();
 
         Context  context;
         LibraryControlAdapter(Context ctx){
             this.context=ctx;
+            Arrays.sort(libs_name);
         }
 
         int get_lib_type(int pos){

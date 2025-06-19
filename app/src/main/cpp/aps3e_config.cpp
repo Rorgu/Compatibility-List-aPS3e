@@ -233,6 +233,8 @@ static const std::string gen_skips[]={
         "Miscellaneous|GDB Server",
         "Miscellaneous|Window Title Format",
 
+        "Video|Force Convert Texture"
+
         "Video|Performance Overlay|Font",
         "Video|Performance Overlay|Body Color (hex)",
         "Video|Performance Overlay|Body Background (hex)",
@@ -263,7 +265,7 @@ static jstring generate_config_xml(JNIEnv* env,jobject self){
                 break;
             case cfg::type::_int:
             case cfg::type::uint:
-                out<<"<SeekBarPreference app:title=\"@string/emulator_settings_"<<parent_name_l<<"_"<<key<<"\" \n";
+                out<<"<aenu.preference.SeekbarPreference app:title=\"@string/emulator_settings_"<<parent_name_l<<"_"<<key<<"\" \n";
                 out<<"app:min=\""<<node->get_min()<<"\"\n";
                 if(node->get_max()!=-1)
                     out<<"android:max=\""<<node->get_max()<<"\"\n";

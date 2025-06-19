@@ -1245,6 +1245,7 @@ namespace vk
 
 	bool texture_cache::render_target_format_is_compatible(vk::image* tex, u32 gcm_format)
 	{
+        static const bool use_bgra8_fmt=g_cfg.video.bgra_format.get();
 		auto vk_format = tex->info.format;
 		switch (gcm_format)
 		{
@@ -1253,14 +1254,14 @@ namespace vk
 			err_once("Format incompatibility detected, reporting failure to force data copy (VK_FORMAT=0x%X, GCM_FORMAT=0x%X)", static_cast<u32>(vk_format), gcm_format);
 			return false;
 #ifndef __APPLE__
-		case CELL_GCM_TEXTURE_R5G6B5:
-			return (vk_format == VK_FORMAT_R5G6B5_UNORM_PACK16);
+            case CELL_GCM_TEXTURE_R5G6B5:
+                return (vk_format == VK_FORMAT_R5G6B5_UNORM_PACK16);
 #else
-		// R5G6B5 is not supported by Metal
+                // R5G6B5 is not supported by Metal
 		case CELL_GCM_TEXTURE_R5G6B5:
 			return (vk_format == VK_FORMAT_B8G8R8A8_UNORM);
 #endif
-		case CELL_GCM_TEXTURE_W16_Z16_Y16_X16_FLOAT:
+            case CELL_GCM_TEXTURE_W16_Z16_Y16_X16_FLOAT:
 			return (vk_format == VK_FORMAT_R16G16B16A16_SFLOAT);
 		case CELL_GCM_TEXTURE_W32_Z32_Y32_X32_FLOAT:
 			return (vk_format == VK_FORMAT_R32G32B32A32_SFLOAT);
@@ -1268,7 +1269,7 @@ namespace vk
 			return (vk_format == VK_FORMAT_R32_SFLOAT);
 		case CELL_GCM_TEXTURE_A8R8G8B8:
 		case CELL_GCM_TEXTURE_D8R8G8B8:
-			return (vk_format == VK_FORMAT_R8G8B8A8_UNORM || vk_format == VK_FORMAT_D24_UNORM_S8_UINT || vk_format == VK_FORMAT_D32_SFLOAT_S8_UINT);
+			return (vk_format == (use_bgra8_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM) || vk_format == VK_FORMAT_D24_UNORM_S8_UINT || vk_format == VK_FORMAT_D32_SFLOAT_S8_UINT);
 		case CELL_GCM_TEXTURE_B8:
 			return (vk_format == VK_FORMAT_R8_UNORM);
 		case CELL_GCM_TEXTURE_G8B8:

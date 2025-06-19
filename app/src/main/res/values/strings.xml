@@ -6,6 +6,8 @@
 	<string name="msg_processing">Processing...</string>
 	<string name="msg_failed">Failed!</string>
 
+	<string name="clear">Clear</string>
+	<string name="press_a_key">Press any key to continue...</string>
 	<string name="game_list_loading">The game list is loading...</string>
 	<string name="undecrypted_game">Running undecrypted games is not supported at this time</string>
 	<string name="delete_game_data">Delete Game Data</string>
@@ -323,6 +325,8 @@
 		<item>Bilinear</item>
 		<item>FidelityFX Super Resolution</item>
 	</string-array>
+	<string name="emulator_settings_video_use_bgra_format">Use BGRA Format</string>
+	<string name="emulator_settings_video_force_convert_texture">Force Convert Texture</string>
 	<string name="emulator_settings_video_vulkan">Vulkan</string>
 	<string name="emulator_settings_video_vulkan_adapter">Adapter</string>
 	<string name="emulator_settings_video_vulkan_force_fifo_present_mode">Force FIFO present mode</string>

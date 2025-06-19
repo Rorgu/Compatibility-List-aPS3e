@@ -4,6 +4,9 @@
     <string name="msg_processing">处理中...</string>
     <string name="msg_failed">失败!</string>
 
+
+    <string name="clear">清除</string>
+    <string name="press_a_key">按任意键继续...</string>
     <string name="game_list_loading">游戏列表载入中...</string>
     <string name="undecrypted_game">暂不支持运行未解密的游戏</string>
     <string name="delete_game_data">删除游戏数据</string>
@@ -328,6 +331,8 @@
     <item>FidelityFX超级分辨率</item>
 </string-array>
 
+    <string name="emulator_settings_video_use_bgra_format">使用BGRA格式</string>
+    <string name="emulator_settings_video_force_convert_texture">强制转换纹理</string>
 	<string name="emulator_settings_video_vulkan">Vulkan</string>
 <string name="emulator_settings_video_vulkan_adapter">适配器</string>
 <string name="emulator_settings_video_vulkan_force_fifo_present_mode">强制 FIFO 呈现模式</string>
