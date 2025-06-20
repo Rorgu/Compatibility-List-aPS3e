@@ -160,6 +160,7 @@ public class InnerDocumentsProvider extends android.provider.DocumentsProvider{
         if(!dir.delete()) {
             throw new FileNotFoundException("Failed to delete directory with id " + dir.getPath());
         }
+    }
     @Override
     public void deleteDocument(String documentId) throws FileNotFoundException {
         File file = getFileForDocId(documentId);
