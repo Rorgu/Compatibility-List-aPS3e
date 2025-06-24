@@ -25,155 +25,175 @@ namespace utils
 namespace
 {
 
-#ifndef __APPLE__
 u16 convert_rgb655_to_rgb565(const u16 bits)
 {
 	// g6 = g5
 	// r5 = (((bits & 0xFC00) >> 1) & 0xFC00) << 1 is equivalent to truncating the least significant bit
 	return (bits & 0xF81F) | (bits & 0x3E0) << 1;
 }
-#else
-u32 convert_rgb565_to_bgra8(const u16 bits)
-{
-	const u8 r5 = ((bits >> 11) & 0x1F);
-	const u8 g6 = ((bits >> 5) & 0x3F);
-	const u8 b5 = (bits & 0x1F);
 
-	const u8 b8 = ((b5 * 527) + 23) >> 6;
-	const u8 g8 = ((g6 * 259) + 33) >> 6;
-	const u8 r8 = ((r5 * 527) + 23) >> 6;
-	const u8 a8 = 255;
+    template <bool BGRA>
+    u32 convert_rgb565_to_8888(const u16 bits)
+    {
+        const u8 r5 = ((bits >> 11) & 0x1F);
+        const u8 g6 = ((bits >> 5) & 0x3F);
+        const u8 b5 = (bits & 0x1F);
 
-	return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
-}
+        const u8 b8 = ((b5 * 527) + 23) >> 6;
+        const u8 g8 = ((g6 * 259) + 33) >> 6;
+        const u8 r8 = ((r5 * 527) + 23) >> 6;
+        const u8 a8 = 255;
+        if constexpr(BGRA) {
+            return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
+        }
+        else{
+            return r8 | (g8 << 8) | (b8 << 16) | (a8 << 24);
+        }
+    }
 
-u32 convert_argb4_to_bgra8(const u16 bits)
-{
-	const u8 b8 = (bits & 0xF0);
-	const u8 g8 = ((bits >> 4) & 0xF0);
-	const u8 r8 = ((bits >> 8) & 0xF0);
-	const u8 a8 = ((bits << 4) & 0xF0);
 
-	return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
-}
+    template <bool BGRA>
+    u32 convert_argb4_to_8888(const u16 bits)
+    {
+        const u8 b8 = (bits & 0xF0);
+        const u8 g8 = ((bits >> 4) & 0xF0);
+        const u8 r8 = ((bits >> 8) & 0xF0);
+        const u8 a8 = ((bits << 4) & 0xF0);
+        if constexpr (BGRA)
+            return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
+        else
+            return r8 | (g8 << 8) | (b8 << 16) | (a8 << 24);
+    }
 
-u32 convert_a1rgb5_to_bgra8(const u16 bits)
-{
-	const u8 a1 = ((bits >> 11) & 0x80);
-	const u8 r5 = ((bits >> 10) & 0x1F);
-	const u8 g5 = ((bits >> 5) & 0x1F);
-	const u8 b5 = (bits & 0x1F);
+    template <bool BGRA>
+    u32 convert_a1rgb5_to_8888(const u16 bits)
+    {
+        const u8 a1 = ((bits >> 11) & 0x80);
+        const u8 r5 = ((bits >> 10) & 0x1F);
+        const u8 g5 = ((bits >> 5) & 0x1F);
+        const u8 b5 = (bits & 0x1F);
 
-	const u8 b8 = ((b5 * 527) + 23) >> 6;
-	const u8 g8 = ((g5 * 527) + 23) >> 6;
-	const u8 r8 = ((r5 * 527) + 23) >> 6;
-	const u8 a8 = a1;
+        const u8 b8 = ((b5 * 527) + 23) >> 6;
+        const u8 g8 = ((g5 * 527) + 23) >> 6;
+        const u8 r8 = ((r5 * 527) + 23) >> 6;
+        const u8 a8 = a1;
+        if constexpr (BGRA)
+            return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
+        else
+            return r8 | (g8 << 8) | (b8 << 16) | (a8 << 24);
+    }
 
-	return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
-}
+    template <bool BGRA>
+    u32 convert_rgb5a1_to_8888(const u16 bits)
+    {
+        const u8 r5 = ((bits >> 11) & 0x1F);
+        const u8 g5 = ((bits >> 6) & 0x1F);
+        const u8 b5 = ((bits >> 1) & 0x1F);
+        const u8 a1 = (bits & 0x80);
 
-u32 convert_rgb5a1_to_bgra8(const u16 bits)
-{
-	const u8 r5 = ((bits >> 11) & 0x1F);
-	const u8 g5 = ((bits >> 6) & 0x1F);
-	const u8 b5 = ((bits >> 1) & 0x1F);
-	const u8 a1 = (bits & 0x80);
+        const u8 b8 = ((b5 * 527) + 23) >> 6;
+        const u8 g8 = ((g5 * 527) + 23) >> 6;
+        const u8 r8 = ((r5 * 527) + 23) >> 6;
+        const u8 a8 = a1;
+        if constexpr (BGRA)
+            return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
+        else
+            return r8 | (g8 << 8) | (b8 << 16) | (a8 << 24);
+    }
 
-	const u8 b8 = ((b5 * 527) + 23) >> 6;
-	const u8 g8 = ((g5 * 527) + 23) >> 6;
-	const u8 r8 = ((r5 * 527) + 23) >> 6;
-	const u8 a8 = a1;
+    template <bool BGRA>
+    u32 convert_rgb655_to_8888(const u16 bits)
+    {
+        const u8 r6 = ((bits >> 10) & 0x3F);
+        const u8 g5 = ((bits >> 5) & 0x1F);
+        const u8 b5 = ((bits) & 0x1F);
 
-	return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
-}
+        const u8 b8 = ((b5 * 527) + 23) >> 6;
+        const u8 g8 = ((g5 * 527) + 23) >> 6;
+        const u8 r8 = ((r6 * 259) + 33) >> 6;
+        const u8 a8 = 1;
+        if constexpr (BGRA)
+            return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
+        else
+            return r8 | (g8 << 8) | (b8 << 16) | (a8 << 24);
+    }
 
-u32 convert_rgb655_to_bgra8(const u16 bits)
-{
-	const u8 r6 = ((bits >> 10) & 0x3F);
-	const u8 g5 = ((bits >> 5) & 0x1F);
-	const u8 b5 = ((bits) & 0x1F);
+    template <bool BGRA>
+    u32 convert_d1rgb5_to_8888(const u16 bits)
+    {
+        const u8 r5 = ((bits >> 10) & 0x1F);
+        const u8 g5 = ((bits >> 5) & 0x1F);
+        const u8 b5 = (bits & 0x1F);
 
-	const u8 b8 = ((b5 * 527) + 23) >> 6;
-	const u8 g8 = ((g5 * 527) + 23) >> 6;
-	const u8 r8 = ((r6 * 259) + 33) >> 6;
-	const u8 a8 = 1;
+        const u8 b8 = ((b5 * 527) + 23) >> 6;
+        const u8 g8 = ((g5 * 527) + 23) >> 6;
+        const u8 r8 = ((r5 * 527) + 23) >> 6;
+        const u8 a8 = 1;
+        if constexpr (BGRA)
+            return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
+        else
+            return r8 | (g8 << 8) | (b8 << 16) | (a8 << 24);
+    }
 
-	return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
-}
+    struct convert_16_block_32
+    {
+        template< u32 (*converter)(const u16),typename T>
+        static void copy_mipmap_level(std::span<u32> dst, std::span<const T> src, u16 width_in_block, u16 row_count, u16 depth, u8 border, u32 dst_pitch_in_block, u32 src_pitch_in_block)
+        {
+            static_assert(sizeof(T) == 2, "Type size doesn't match.");
 
-u32 convert_d1rgb5_to_bgra8(const u16 bits)
-{
-	const u8 r5 = ((bits >> 10) & 0x1F);
-	const u8 g5 = ((bits >> 5) & 0x1F);
-	const u8 b5 = (bits & 0x1F);
+            u32 src_offset = 0, dst_offset = 0;
+            const u32 v_porch = src_pitch_in_block * border;
 
-	const u8 b8 = ((b5 * 527) + 23) >> 6;
-	const u8 g8 = ((g5 * 527) + 23) >> 6;
-	const u8 r8 = ((r5 * 527) + 23) >> 6;
-	const u8 a8 = 1;
+            for (int layer = 0; layer < depth; ++layer)
+            {
+                // Front
+                src_offset += v_porch;
 
-	return b8 | (g8 << 8) | (r8 << 16) | (a8 << 24);
-}
+                for (u32 row = 0; row < row_count; ++row)
+                {
+                    for (int col = 0; col < width_in_block; ++col)
+                    {
+                        dst[dst_offset + col] = converter(src[src_offset + col + border]);
+                    }
 
-struct convert_16_block_32
-{
-	template<typename T>
-	static void copy_mipmap_level(std::span<u32> dst, std::span<const T> src, u16 width_in_block, u16 row_count, u16 depth, u8 border, u32 dst_pitch_in_block, u32 src_pitch_in_block, u32 (*converter)(const u16))
-	{
-		static_assert(sizeof(T) == 2, "Type size doesn't match.");
+                    src_offset += src_pitch_in_block;
+                    dst_offset += dst_pitch_in_block;
+                }
 
-		u32 src_offset = 0, dst_offset = 0;
-		const u32 v_porch = src_pitch_in_block * border;
+                // Back
+                src_offset += v_porch;
+            }
+        }
+    };
 
-		for (int layer = 0; layer < depth; ++layer)
-		{
-			// Front
-			src_offset += v_porch;
+    struct convert_16_block_32_swizzled
+    {
+        template<u32 (*converter)(const u16),typename T, typename U>
+        static void copy_mipmap_level(std::span<T> dst, std::span<const U> src, u16 width_in_block, u16 row_count, u16 depth, u8 border, u32 dst_pitch_in_block)
+        {
+            u32 padded_width, padded_height;
+            if (border)
+            {
+                padded_width = rsx::next_pow2(width_in_block + border + border);
+                padded_height = rsx::next_pow2(row_count + border + border);
+            }
+            else
+            {
+                padded_width = width_in_block;
+                padded_height = row_count;
+            }
 
-			for (u32 row = 0; row < row_count; ++row)
-			{
-				for (int col = 0; col < width_in_block; ++col)
-				{
-					dst[dst_offset + col] = converter(src[src_offset + col + border]);
-				}
+            u32 size = padded_width * padded_height * depth * 2;
+            rsx::simple_array<U> tmp(size);
 
-				src_offset += src_pitch_in_block;
-				dst_offset += dst_pitch_in_block;
-			}
+            rsx::convert_linear_swizzle_3d<U>(src.data(), tmp.data(), padded_width, padded_height, depth);
 
-			// Back
-			src_offset += v_porch;
-		}
-	}
-};
+            std::span<const U> src_span = tmp;
+            convert_16_block_32::copy_mipmap_level<converter>(dst, src_span, width_in_block, row_count, depth, border, dst_pitch_in_block, padded_width);
+        }
+    };
 
-struct convert_16_block_32_swizzled
-{
-	template<typename T, typename U>
-	static void copy_mipmap_level(std::span<T> dst, std::span<const U> src, u16 width_in_block, u16 row_count, u16 depth, u8 border, u32 dst_pitch_in_block, u32 (*converter)(const u16))
-	{
-		u32 padded_width, padded_height;
-		if (border)
-		{
-			padded_width = rsx::next_pow2(width_in_block + border + border);
-			padded_height = rsx::next_pow2(row_count + border + border);
-		}
-		else
-		{
-			padded_width = width_in_block;
-			padded_height = row_count;
-		}
-
-		u32 size = padded_width * padded_height * depth * 2;
-		rsx::simple_array<U> tmp(size);
-
-		rsx::convert_linear_swizzle_3d<U>(src.data(), tmp.data(), padded_width, padded_height, depth);
-
-		std::span<const U> src_span = tmp;
-		convert_16_block_32::copy_mipmap_level(dst, src_span, width_in_block, row_count, depth, border, dst_pitch_in_block, padded_width, converter);
-	}
-};
-#endif
     struct copy_u32_ror8_block {
         static void
         copy_mipmap_level(std::span<u32> dst, std::span<const u32> src, u16 width_in_block,
@@ -948,6 +968,8 @@ namespace rsx
         constexpr bool _BGRA=true;
         constexpr bool _RGBA=false;
 
+        const bool convert_texture=g_cfg.video.force_convert_texture.get();
+
 		switch (format)
 		{
 		case CELL_GCM_TEXTURE_B8:
@@ -983,72 +1005,241 @@ namespace rsx
             break;
 		}
 
-#ifndef __APPLE__
-		case CELL_GCM_TEXTURE_R6G5B5:
-		{
-			if (is_swizzled)
-				copy_rgb655_block_swizzled::copy_mipmap_level(dst_buffer.as_span<u16>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u16>(w, caps.alignment));
-			else
-				copy_rgb655_block::copy_mipmap_level(dst_buffer.as_span<u16>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u16>(w, caps.alignment), src_layout.pitch_in_block);
-			break;
-		}
+            case CELL_GCM_TEXTURE_R6G5B5:
+            {
+                if(!convert_texture) {
+                    if (is_swizzled)
+                        copy_rgb655_block_swizzled::copy_mipmap_level(dst_buffer.as_span<u16>(),
+                                                                      src_layout.data.as_span<const be_t<u16>>(),
+                                                                      w, h, depth, src_layout.border,
+                                                                      get_row_pitch_in_block<u16>(w,
+                                                                                                  caps.alignment));
+                    else
+                        copy_rgb655_block::copy_mipmap_level(dst_buffer.as_span<u16>(),
+                                                             src_layout.data.as_span<const be_t<u16>>(),
+                                                             w, h, depth, src_layout.border,
+                                                             get_row_pitch_in_block<u16>(w,
+                                                                                         caps.alignment),
+                                                             src_layout.pitch_in_block);
+                    break;
+                }
 
-		case CELL_GCM_TEXTURE_D1R5G5B5:
-		case CELL_GCM_TEXTURE_A1R5G5B5:
-		case CELL_GCM_TEXTURE_A4R4G4B4:
-		case CELL_GCM_TEXTURE_R5G5B5A1:
-		case CELL_GCM_TEXTURE_R5G6B5:
-#else
-		// convert the following formats to B8G8R8A8_UNORM, because they are not supported by Metal
-		case CELL_GCM_TEXTURE_R6G5B5:
-		{
-			if (is_swizzled)
-				convert_16_block_32_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), &convert_rgb655_to_bgra8);
-			else
-				convert_16_block_32::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block, &convert_rgb655_to_bgra8);
-			break;
-		}
-		case CELL_GCM_TEXTURE_D1R5G5B5:
-		{
-			if (is_swizzled)
-				convert_16_block_32_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), &convert_d1rgb5_to_bgra8);
-			else
-				convert_16_block_32::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block, &convert_d1rgb5_to_bgra8);
-			break;
-		}
-		case CELL_GCM_TEXTURE_A1R5G5B5:
-		{
-			if (is_swizzled)
-				convert_16_block_32_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), &convert_a1rgb5_to_bgra8);
-			else
-				convert_16_block_32::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block, &convert_a1rgb5_to_bgra8);
-			break;
-		}
-		case CELL_GCM_TEXTURE_A4R4G4B4:
-		{
-			if (is_swizzled)
-				convert_16_block_32_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), &convert_argb4_to_bgra8);
-			else
-				convert_16_block_32::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block, &convert_argb4_to_bgra8);
-			break;
-		}
-		case CELL_GCM_TEXTURE_R5G5B5A1:
-		{
-			if (is_swizzled)
-				convert_16_block_32_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), &convert_rgb5a1_to_bgra8);
-			else
-				convert_16_block_32::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block, &convert_rgb5a1_to_bgra8);
-			break;
-		}
-		case CELL_GCM_TEXTURE_R5G6B5:
-		{
-			if (is_swizzled)
-				convert_16_block_32_swizzled::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), &convert_rgb565_to_bgra8);
-			else
-				convert_16_block_32::copy_mipmap_level(dst_buffer.as_span<u32>(), src_layout.data.as_span<const be_t<u16>>(), w, h, depth, src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment), src_layout.pitch_in_block, &convert_rgb565_to_bgra8);
-			break;
-		}
-#endif
+                if (is_swizzled) {
+                    if (use_bgra_fmt)
+                        convert_16_block_32_swizzled::copy_mipmap_level<convert_rgb655_to_8888<_BGRA>>(
+                                dst_buffer.as_span<u32>(),
+                                src_layout.data.as_span<const be_t<u16>>(), w, h, depth,
+                                src_layout.border, get_row_pitch_in_block<u32>(
+                                        w, caps.alignment));
+                    else
+                        convert_16_block_32_swizzled::copy_mipmap_level<convert_rgb655_to_8888<_RGBA>>(
+                                dst_buffer.as_span<u32>(),
+                                src_layout.data.as_span<const be_t<u16>>(), w, h, depth,
+                                src_layout.border, get_row_pitch_in_block<u32>(
+                                        w, caps.alignment));
+
+                } else {
+                    if (use_bgra_fmt)
+                        convert_16_block_32::copy_mipmap_level<convert_rgb655_to_8888<_BGRA>>(
+                                dst_buffer.as_span<u32>(),
+                                src_layout.data.as_span<const be_t<u16>>(), w, h, depth,
+                                src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment),
+                                src_layout.pitch_in_block);
+                    else
+                        convert_16_block_32::copy_mipmap_level<convert_rgb655_to_8888<_RGBA>>(
+                                dst_buffer.as_span<u32>(),
+                                src_layout.data.as_span<const be_t<u16>>(), w, h, depth,
+                                src_layout.border, get_row_pitch_in_block<u32>(w, caps.alignment),
+                                src_layout.pitch_in_block);
+
+                }
+
+                break;
+            }
+
+            case CELL_GCM_TEXTURE_D1R5G5B5:
+                if(convert_texture)
+                {
+                    if (is_swizzled) {
+                        if(use_bgra_fmt)
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_d1rgb5_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                        else
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_d1rgb5_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                    }else {
+                        if(use_bgra_fmt)
+                            convert_16_block_32::copy_mipmap_level<convert_d1rgb5_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                        else
+
+                            convert_16_block_32::copy_mipmap_level<convert_d1rgb5_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                    }
+                    break;
+                }
+                [[fallthrough]];
+            case CELL_GCM_TEXTURE_A1R5G5B5:
+                if(convert_texture)
+                {
+                    if (is_swizzled) {
+                        if(use_bgra_fmt)
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_a1rgb5_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                        else
+
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_a1rgb5_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                    }
+                    else {
+                        if(use_bgra_fmt)
+                            convert_16_block_32::copy_mipmap_level<convert_a1rgb5_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                        else
+                            convert_16_block_32::copy_mipmap_level<convert_a1rgb5_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                    }
+                    break;
+                }
+
+                [[fallthrough]];
+            case CELL_GCM_TEXTURE_A4R4G4B4:
+                if(convert_texture)
+                {
+                    if (is_swizzled) {
+                        if(use_bgra_fmt)
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_argb4_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                          src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                          w, h, depth, src_layout.border,
+                                                                                                          get_row_pitch_in_block<u32>(w,
+                                                                                                                                      caps.alignment));
+                        else
+
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_argb4_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                          src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                          w, h, depth, src_layout.border,
+                                                                                                          get_row_pitch_in_block<u32>(w,
+                                                                                                                                      caps.alignment));
+                    }
+                    else {
+                        if(use_bgra_fmt)
+                            convert_16_block_32::copy_mipmap_level<convert_argb4_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                 src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                 w, h, depth, src_layout.border,
+                                                                                                 get_row_pitch_in_block<u32>(w,
+                                                                                                                             caps.alignment),
+                                                                                                 src_layout.pitch_in_block);
+                        else
+                            convert_16_block_32::copy_mipmap_level<convert_argb4_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                 src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                 w, h, depth, src_layout.border,
+                                                                                                 get_row_pitch_in_block<u32>(w,
+                                                                                                                             caps.alignment),
+                                                                                                 src_layout.pitch_in_block);
+                    }
+                    break;
+                }
+                [[fallthrough]];
+            case CELL_GCM_TEXTURE_R5G5B5A1:
+                if(convert_texture)
+                {
+                    if (is_swizzled) {
+                        if (use_bgra_fmt)
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_rgb5a1_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                        else
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_rgb5a1_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                    }else {
+                        if (use_bgra_fmt)
+                            convert_16_block_32::copy_mipmap_level<convert_rgb5a1_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                        else
+                            convert_16_block_32::copy_mipmap_level<convert_rgb5a1_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                    }
+                    break;
+                }
+                [[fallthrough]];
+            case CELL_GCM_TEXTURE_R5G6B5:
+                if(convert_texture)
+                {
+                    if (is_swizzled) {
+                        if (use_bgra_fmt)
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_rgb565_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                        else
+
+                            convert_16_block_32_swizzled::copy_mipmap_level<convert_rgb565_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                           src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                           w, h, depth, src_layout.border,
+                                                                                                           get_row_pitch_in_block<u32>(w,
+                                                                                                                                       caps.alignment));
+                    }else {
+                        if (use_bgra_fmt)
+                            convert_16_block_32::copy_mipmap_level<convert_rgb565_to_8888<_BGRA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                        else
+
+                            convert_16_block_32::copy_mipmap_level<convert_rgb565_to_8888<_RGBA>>(dst_buffer.as_span<u32>(),
+                                                                                                  src_layout.data.as_span<const be_t<u16>>(),
+                                                                                                  w, h, depth, src_layout.border,
+                                                                                                  get_row_pitch_in_block<u32>(w,
+                                                                                                                              caps.alignment),
+                                                                                                  src_layout.pitch_in_block);
+                    }
+                    break;
+                }
+                [[fallthrough]];
 		case CELL_GCM_TEXTURE_COMPRESSED_HILO8:
 		case CELL_GCM_TEXTURE_COMPRESSED_HILO_S8:
 			// TODO: Test if the HILO compressed formats support swizzling (other compressed_* formats ignore this option)

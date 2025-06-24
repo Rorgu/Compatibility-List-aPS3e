@@ -88,6 +88,19 @@ public class Application extends android.app.Application
         return new File(get_internal_data_dir(),"aps3e/driver");
     }
 
+    public static File get_custom_cfg_dir()
+    {
+        return new File(get_app_data_dir(),"config/custom_cfg");
+    }
+
+    public static File get_custom_cfg_file(String serial)
+    {
+        return new File(get_custom_cfg_dir(),serial+".yml");
+    }
+    public static File get_global_config_file(){
+        return new File(Application.get_app_data_dir(),"config/config.yml");
+    }
+
     public  static Context ctx;
     @Override
     public void onCreate()

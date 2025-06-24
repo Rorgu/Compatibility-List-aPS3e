@@ -2266,7 +2266,11 @@ namespace rsx
 
 					texture_control |= argb8_convert;
 				}
-
+#if 0
+                if(g_cfg.video.vk.disable_component_swizzle){
+                    texture_control|=sampler_descriptors[i]->encoded_component_map()<<16;
+                }
+#endif
 				current_fragment_program.texture_params[i].control = texture_control;
 			}
 		}

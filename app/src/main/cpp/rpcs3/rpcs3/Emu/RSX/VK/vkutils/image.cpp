@@ -364,16 +364,17 @@ namespace vk
 
 	u32 image_view::encoded_component_map() const
 	{
-#if	(VK_DISABLE_COMPONENT_SWIZZLE)
-		u32 result = static_cast<u32>(info.components.a) - 1;
-		result |= (static_cast<u32>(info.components.r) - 1) << 3;
-		result |= (static_cast<u32>(info.components.g) - 1) << 6;
-		result |= (static_cast<u32>(info.components.b) - 1) << 9;
+#if 0
+        if(g_cfg.video.vk.disable_component_swizzle) {
+            u32 result = static_cast<u32>(info.components.a) - 1;
+            result |= (static_cast<u32>(info.components.r) - 1) << 3;
+            result |= (static_cast<u32>(info.components.g) - 1) << 6;
+            result |= (static_cast<u32>(info.components.b) - 1) << 9;
 
-		return result;
-#else
-		return 0;
+            return result;
+        }
 #endif
+		return 0;
 	}
 
 	vk::image* image_view::image() const
@@ -383,17 +384,21 @@ namespace vk
 
 	void image_view::create_impl()
 	{
-#if (VK_DISABLE_COMPONENT_SWIZZLE)
-		// Force identity
-		const auto mapping = info.components;
-		info.components = { VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY };
+#if 0
+        const bool disable_component_swizzle = g_cfg.video.vk.disable_component_swizzle.get();
+        // Force identity
+        const auto mapping = info.components;
+        if(disable_component_swizzle) {
+            info.components = {VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY,
+                               VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY};
+        }
 #endif
-
 		CHECK_RESULT(_vkCreateImageView(m_device, &info, nullptr, &value));
-
-#if (VK_DISABLE_COMPONENT_SWIZZLE)
-		// Restore requested mapping
-		info.components = mapping;
+#if 0
+        if(disable_component_swizzle) {
+            // Restore requested mapping
+            info.components = mapping;
+        }
 #endif
 	}
 

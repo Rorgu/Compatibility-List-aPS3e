@@ -123,6 +123,7 @@ public class Emulator
 		aenu.lang.System.setenv("APS3E_LOG_DIR",app.get_app_log_dir().getAbsolutePath());
 		aenu.lang.System.setenv("APS3E_NATIVE_LIB_DIR",app.get_native_lib_dir());
 		aenu.lang.System.setenv("APS3E_ANDROID_API_VERSION", Integer.toString(Build.VERSION.SDK_INT));
+		aenu.lang.System.setenv("APS3E_GLOBAL_CONFIG_YAML_PATH", Application.get_global_config_file().getAbsolutePath());
 
 		final String localized_string_keys[] = {
 			"INVALID",
@@ -516,5 +517,7 @@ public class Emulator
     public void key_event(int key_code,boolean pressed){
         key_event(key_code,pressed,255);
     }
+
+	public native String simple_device_info();
     
 }

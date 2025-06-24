@@ -30,10 +30,20 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/enable_log"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/enable_log"
+        />
+
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@id/device_info"
+    android:layout_below="@+id/enable_log"
     >
     <TextView
         android:id="@+id/about_text"

@@ -31,7 +31,9 @@ import android.content.*;
 import android.icu.text.*;
 import android.view.*;
 
-public class KeyMapActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class KeyMapActivity extends AppCompatActivity {
     
 	SharedPreferences sp;
 	ListView lv;

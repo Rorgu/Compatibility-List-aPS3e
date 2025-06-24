@@ -224,7 +224,7 @@ private:
 	void present(vk::frame_context_t *ctx);
 	void reinitialize_swapchain();
 
-	vk::viewable_image* get_present_source(vk::present_surface_info* info, const rsx::avconf& avconfig);
+    vk::viewable_image* get_present_source(vk::present_surface_info* info, const rsx::avconf& avconfig);
 
 	void begin_render_pass();
 	void close_render_pass();

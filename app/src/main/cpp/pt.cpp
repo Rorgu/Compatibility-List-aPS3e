@@ -395,7 +395,7 @@ std::string get_auther_info(){
 
 std::pair<std::string,bool> vk_lib_info(){
     const std::pair<std::string,bool> dedault_info={"libvulkan.so",false};
-    const char* cfg_path=getenv("APS3E_CONFIG_YAML_PATH");
+    const char* cfg_path=getenv("APS3E_GLOBAL_CONFIG_YAML_PATH");
     if(!cfg_path)
         return dedault_info;
     if(!std::filesystem::exists(cfg_path))
@@ -571,9 +571,7 @@ std::string get_cpu_info() {
     return "CPU [" + cpu_name + "]:\n" + cpu_features;
 }
 
-extern "C"
-{
-	JNIEXPORT jstring JNICALL Java_aenu_proptest_HelloJni_stringFromJNI(JNIEnv* env, jobject thiz)
+	static jstring j_simple_device_info(JNIEnv* env, jobject thiz)
 	{
 
 		std::string vv;//=get_auther_info();
@@ -583,4 +581,4 @@ extern "C"
 
 		return env->NewStringUTF(vv.c_str());
 	}
-}
+

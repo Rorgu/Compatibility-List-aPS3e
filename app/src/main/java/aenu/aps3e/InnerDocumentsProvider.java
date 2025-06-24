@@ -144,13 +144,13 @@ public class InnerDocumentsProvider extends android.provider.DocumentsProvider{
         return newFile.getPath();
     }
 
-    void deleteDirectory(File dir) throws FileNotFoundException {
+    void recursive_delete_sub_files(File dir) throws FileNotFoundException {
         File[] files = dir.listFiles();
         if(files == null)
             return;
         for(File file : files){
             if(file.isDirectory()) {
-                deleteDirectory(file);
+                recursive_delete_sub_files(file);
             }
             if(!file.delete()) {
                 throw new FileNotFoundException("Failed to delete document with id " + file.getPath());
@@ -162,7 +162,7 @@ public class InnerDocumentsProvider extends android.provider.DocumentsProvider{
     public void deleteDocument(String documentId) throws FileNotFoundException {
         File file = getFileForDocId(documentId);
         if(file.isDirectory()){
-            deleteDirectory(file);
+            recursive_delete_sub_files(file);
         }
         //else
         {

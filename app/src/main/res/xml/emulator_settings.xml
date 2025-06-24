@@ -655,6 +655,47 @@
             <CheckBoxPreference app:title="@string/emulator_settings_video_vulkan_custom_driver_force_max_clocks"
                 app:key="Video|Vulkan|Custom Driver Force Max Clocks" />
 
+
+            <PreferenceScreen app:title="@string/emulator_settings_video_vulkan_debug"
+                app:key="Video|Vulkan|Debug" >
+                <CheckBoxPreference app:title="disable_barycentric_coords"
+                    app:key="Video|Vulkan|Debug|disable_barycentric_coords" />
+                <CheckBoxPreference app:title="disable_conditional_rendering"
+                    app:key="Video|Vulkan|Debug|disable_conditional_rendering" />
+                <CheckBoxPreference app:title="disable_debug_utils"
+                    app:key="Video|Vulkan|Debug|disable_debug_utils" />
+                <CheckBoxPreference app:title="disable_external_memory_host"
+                    app:key="Video|Vulkan|Debug|disable_external_memory_host" />
+                <CheckBoxPreference app:title="disable_framebuffer_loops"
+                    app:key="Video|Vulkan|Debug|disable_framebuffer_loops" />
+                <CheckBoxPreference app:title="disable_sampler_mirror_clamped"
+                    app:key="Video|Vulkan|Debug|disable_sampler_mirror_clamped" />
+                <CheckBoxPreference app:title="disable_shader_stencil_export"
+                    app:key="Video|Vulkan|Debug|disable_shader_stencil_export" />
+                <CheckBoxPreference app:title="disable_surface_capabilities_2"
+                    app:key="Video|Vulkan|Debug|disable_surface_capabilities_2" />
+                <CheckBoxPreference app:title="disable_synchronization_2"
+                    app:key="Video|Vulkan|Debug|disable_synchronization_2" />
+                <CheckBoxPreference app:title="disable_unrestricted_depth_range"
+                    app:key="Video|Vulkan|Debug|disable_unrestricted_depth_range" />
+                <CheckBoxPreference app:title="disable_extended_device_fault"
+                    app:key="Video|Vulkan|Debug|disable_extended_device_fault" />
+                <CheckBoxPreference app:title="disable_texture_compression_bc"
+                    app:key="Video|Vulkan|Debug|disable_texture_compression_bc" />
+                <CheckBoxPreference app:title="disable_depth_clamp"
+                    app:key="Video|Vulkan|Debug|disable_depth_clamp" />
+                <CheckBoxPreference app:title="disable_shader_clip_distance"
+                    app:key="Video|Vulkan|Debug|disable_shader_clip_distance" />
+                <CheckBoxPreference app:title="disable_depth_bounds"
+                    app:key="Video|Vulkan|Debug|disable_depth_bounds" />
+                <CheckBoxPreference app:title="disable_large_points"
+                    app:key="Video|Vulkan|Debug|disable_large_points" />
+                <CheckBoxPreference app:title="disable_wide_lines"
+                    app:key="Video|Vulkan|Debug|disable_wide_lines" />
+                <CheckBoxPreference app:title="disable_logic_op"
+                    app:key="Video|Vulkan|Debug|disable_logic_op" />
+            </PreferenceScreen>
+
         </PreferenceScreen>
         <PreferenceScreen app:title="@string/emulator_settings_video_performance_overlay"
             app:key="Video|Performance Overlay" >
@@ -1089,6 +1130,10 @@
             android:max="26"
             app:showSeekBarValue="true"
             app:key="Miscellaneous|Font Size" />
+
+
+        <CheckBoxPreference app:title="Memory Debug overlay"
+            app:key="Miscellaneous|Memory Debug overlay" />
 
     </PreferenceScreen>
 </PreferenceScreen>

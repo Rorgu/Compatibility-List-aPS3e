@@ -130,6 +130,7 @@
 #include "Emu/RSX/Overlays/overlay_fonts.h"
 
 #include "cpuinfo.h"
+#include "meminfo.h"
 
 #define LOG_TAG "aps3e_native"
 
@@ -1051,6 +1052,11 @@ namespace aps3e_emu{
 
     void init(){
 
+        const char* enable_log=getenv("APS3E_ENABLE_LOG");
+        if(enable_log&&strcmp(enable_log,"true")==0){
+            static std::unique_ptr<logs::listener> log_file = logs::make_file_listener(std::string(getenv("APS3E_LOG_DIR"))+"/rp3_log.txt", 1024*1024*1024);
+        }
+
         prctl(PR_SET_TIMERSLACK, 50000, 0, 0, 0);
 
         // Initialize TSC freq (in case it isn't)
@@ -1123,11 +1129,13 @@ namespace aps3e_emu{
             Emu.SetForceBoot(true);
 
             //const cfg_mode config_mode = config_path.empty() ? cfg_mode::custom : cfg_mode::config_override;
-            const cfg_mode config_mode = cfg_mode::global ;
+
+            const char* config_path=getenv("APS3E_CUSTOM_CONFIG_YAML_PATH");
+            const cfg_mode config_mode = config_path?cfg_mode::custom:cfg_mode::global ;
 
             aps3e_log.warning("iso_fd: %d",iso_fd);
-            const game_boot_result error =!eboot_path.empty()? Emu.BootGame(eboot_path, game_id, true, config_mode, "")
-                    :Emu.BootISO(":PS3_GAME/USRDIR/EBOOT.BIN",game_id,iso_fd);
+            const game_boot_result error =!eboot_path.empty()? Emu.BootGame(eboot_path, game_id, true, config_mode, config_path?:"")
+                    :Emu.BootISO(":PS3_GAME/USRDIR/EBOOT.BIN",game_id,iso_fd,config_mode, config_path?:"");
             LOGW("game_boot_result %d",error);
             return error==game_boot_result::no_errors;
         }//);
@@ -1628,6 +1636,8 @@ int register_Emulator(JNIEnv* env){
 
 	static const JNINativeMethod methods[] = {
 
+
+                    {"simple_device_info", "()Ljava/lang/String;",(void *)j_simple_device_info},
             {"get_support_llvm_cpu_list", "()[Ljava/lang/String;",(void *)j_get_support_llvm_cpu_list},
             {"get_vulkan_physical_dev_list", "()[Ljava/lang/String;",(void *)j_get_vulkan_physical_dev_list},
 
@@ -1694,41 +1704,6 @@ extern "C" jint JNI_GetCreatedJavaVMs(JavaVM** pvm, jsize count, jsize* found){
 	return JNI_OK;
 }*/
 
-struct MemoryMapEntry {
-    void* start_addr;
-    void* end_addr;
-    std::string permissions;
-    size_t offset;
-    int dev_major;
-    int dev_minor;
-    unsigned long inode;
-    std::string pathname;
-};
-
-std::vector<MemoryMapEntry> parseProcSelfMaps() {
-    std::vector<MemoryMapEntry> entries;
-    std::ifstream maps_file("/proc/self/maps");
-    std::string line;
-
-    while (std::getline(maps_file, line)) {
-        std::istringstream iss(line);
-        MemoryMapEntry entry;
-        char dash;
-        char colon;
-        iss >> std::hex >> entry.start_addr >> dash >> entry.end_addr;
-        iss >> entry.permissions;
-        iss >> std::hex >> entry.offset;
-        iss >> std::dec >> entry.dev_major >> colon >> entry.dev_minor;
-        iss >> entry.inode;
-        std::getline(iss, entry.pathname);
-        if (!entry.pathname.empty() && entry.pathname[0] == ' ') {
-            entry.pathname.erase(0, 1);
-        }
-        entries.push_back(entry);
-    }
-
-    return entries;
-}
 /*
 int main() {
     std::vector<MemoryMapEntry> maps = parseProcSelfMaps();
@@ -1938,16 +1913,6 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved){
 			LOGE("register_Emulator_cfg failed");
 			goto bail;
 		}
-
-    //LOGE("---- %s %s",emu_pn,pn);
-    //if(strlen(emu_pn)==strlen(pn)&&memcmp(emu_pn,pn,strlen(emu_pn))==0)
-    if(const char* p=strrchr(pn,':');p&& strcmp(p,":emu")==0)
-    {
-		static std::unique_ptr<logs::listener> log_file;
-		{
-			//log_file = logs::make_file_listener(std::string(getenv("APS3E_LOG_DIR"))+"/rp3_log.txt", 1024*1024*1024);
-		}
-	}
 
     result = JNI_VERSION_1_6;
 

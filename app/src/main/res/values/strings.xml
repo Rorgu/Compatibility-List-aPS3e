@@ -6,6 +6,11 @@
 	<string name="msg_processing">Processing...</string>
 	<string name="msg_failed">Failed!</string>
 
+	<string name="emulator_settings_video_vulkan_debug">Debug</string>
+
+	<string name="enable_log">Enable Log</string>
+	<string name="use_global_config">Use Global Config</string>
+	<string name="edit_custom_config">Edit Custom Config</string>
 	<string name="clear">Clear</string>
 	<string name="press_a_key">Press any key to continue...</string>
 	<string name="game_list_loading">The game list is loading...</string>

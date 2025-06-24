@@ -47,6 +47,7 @@ target_sources(emu
         vkutil.cpp
         cpuinfo.cpp
         glsl2spv.cpp
+        meminfo.cpp
 )
 
 target_link_libraries(emu PRIVATE rpcs3_emu)

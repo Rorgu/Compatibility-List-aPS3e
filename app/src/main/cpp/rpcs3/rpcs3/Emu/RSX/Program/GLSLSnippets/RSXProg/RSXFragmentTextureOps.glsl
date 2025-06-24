@@ -180,10 +180,23 @@ vec4 _sext_unorm8x4(const in vec4 x)
 	const vec4 ret = _select(bits - 256.f, bits, sign_check);
 	return ret / 127.f;
 }
+#if 0
+vec4 _remap_vector(const in vec4 rgba, const in uint remap_bits){
+	uvec4 selector = (uvec4(remap_bits) >> uvec4(3, 6, 9, 0)) & 0x7;
+				bvec4 choice = greaterThan(selector, uvec4(1));
 
+				vec4 direct = vec4(selector);
+				selector = min(selector - 2, selector);
+				vec4 indexed = vec4(rgba[selector.r], rgba[selector.g], rgba[selector.b], rgba[selector.a]);
+				return mix(direct, indexed, choice);
+			}
+#endif
 vec4 _process_texel(in vec4 rgba, const in uint control_bits)
 {
-	if (control_bits == 0)
+//uint remap_bits = (control_bits >> 16) & 0xFFFF;
+//				if (remap_bits !=0 ) rgba = _remap_vector(rgba, remap_bits);
+//	if ((control_bits&0xffffff) == 0)
+if (control_bits == 0)
 	{
 		return rgba;
 	}

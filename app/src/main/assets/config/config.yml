@@ -129,6 +129,7 @@ Video:
   Vulkan:
     Adapter: ""
     Force FIFO present mode: true
+    Disable Component Swizzle: false
     Exclusive Fullscreen Mode: Automatic
     Asynchronous Texture Streaming 2: false
     FidelityFX CAS Sharpening Intensity: 50
@@ -137,6 +138,26 @@ Video:
     Use Custom Driver: false
     Custom Driver Library Path: ""
     Custom Driver Force Max Clocks: false
+    Debug:
+      disable_barycentric_coords: false
+      disable_conditional_rendering: false
+      disable_debug_utils: false
+      disable_external_memory_host: false
+      disable_framebuffer_loops: false
+      disable_sampler_mirror_clamped: false
+      disable_shader_stencil_export: false
+      disable_surface_capabilities_2: false
+      disable_synchronization_2: false
+      disable_unrestricted_depth_range: false
+      disable_extended_device_fault: false
+      disable_texture_compression_bc: false
+      disable_multidraw: false
+      disable_depth_clamp: false
+      disable_shader_clip_distance: false
+      disable_depth_bounds: false
+      disable_large_points: false
+      disable_wide_lines: false
+      disable_logic_op: false
   Performance Overlay:
     Enabled: false
     Enable Framerate Graph: false
@@ -207,7 +228,7 @@ System:
   Language: English (US)
   Keyboard Type: English keyboard (US standard)
   Enter button assignment: Enter with cross
-  System Name: RPCS3-955
+  System Name: RPCS3-963
   PSID high: 0
   PSID low: 0
   HDD Model Name: ""
@@ -247,5 +268,6 @@ Miscellaneous:
   Font File Selection: From Firmware
   Custom Font File Path: ""
   Font Size: 22
+  Memory Debug overlay: false
 Log:
   {}

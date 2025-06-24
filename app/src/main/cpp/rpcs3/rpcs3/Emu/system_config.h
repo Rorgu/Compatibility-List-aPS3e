@@ -189,18 +189,19 @@ struct cfg_root : cfg::node
         cfg::_enum<vertex_buffer_upload_mode> vertex_buffer_upload_mode{ this, "Vertex Buffer Upload Mode", vertex_buffer_upload_mode::_auto, false };
         cfg::_enum<texture_upload_type> texture_upload_type{ this, "Texture Upload Mode", texture_upload_type::cpu, false };
         cfg::_bool bgra_format{ this, "Use BGRA Format", true };
-
 #if defined (__APPLE__)
         cfg::_bool force_convert_texture{ this, "Force Convert Texture",true };
 #else
         cfg::_bool force_convert_texture{ this, "Force Convert Texture" };
 #endif
+
 		struct node_vk : cfg::node
 		{
 			node_vk(cfg::node* _this) : cfg::node(_this, "Vulkan") {}
 
 			cfg::string adapter{ this, "Adapter" };
 			cfg::_bool force_fifo{ this, "Force FIFO present mode",true };
+            cfg::_bool disable_component_swizzle{ this, "Disable Component Swizzle" };
 #ifdef _WIN32
 			cfg::_bool force_primitive_restart{ this, "Force primitive restart flag" };
 #endif
@@ -212,6 +213,35 @@ struct cfg_root : cfg::node
             cfg::_bool use_custom_driver{ this, "Use Custom Driver", false, false };
             cfg::string custom_driver_lib_path{ this, "Custom Driver Library Path","",false};
             cfg::_bool custom_driver_force_max_gpu_clocks{ this, "Custom Driver Force Max Clocks", false, false };
+
+            struct node_vk_debug : cfg::node {
+
+                node_vk_debug(cfg::node* _this) : cfg::node(_this, "Debug") {}
+
+                cfg::_bool disable_barycentric_coords{this, "disable_barycentric_coords"};
+                cfg::_bool disable_conditional_rendering{this, "disable_conditional_rendering"};
+                cfg::_bool disable_debug_utils{this, "disable_debug_utils"};
+                cfg::_bool disable_external_memory_host{this, "disable_external_memory_host"};
+                cfg::_bool disable_framebuffer_loops{this, "disable_framebuffer_loops"};
+                cfg::_bool disable_sampler_mirror_clamped{this, "disable_sampler_mirror_clamped"};
+                cfg::_bool disable_shader_stencil_export{this, "disable_shader_stencil_export"};
+                cfg::_bool disable_surface_capabilities_2{this, "disable_surface_capabilities_2"};
+                cfg::_bool disable_synchronization_2{this, "disable_synchronization_2"};
+                cfg::_bool disable_unrestricted_depth_range{this,
+                                                            "disable_unrestricted_depth_range"};
+                cfg::_bool disable_extended_device_fault{this, "disable_extended_device_fault"};
+                cfg::_bool disable_texture_compression_bc{this, "disable_texture_compression_bc"};
+                cfg::_bool disable_multidraw{this,
+                                                                "disable_multidraw"};
+
+                cfg::_bool disable_depth_clamp{this, "disable_depth_clamp"};
+                cfg::_bool disable_shader_clip_distance{this, "disable_shader_clip_distance"};
+                cfg::_bool disable_depth_bounds{this, "disable_depth_bounds"};
+                cfg::_bool disable_large_points{this, "disable_large_points"};
+                cfg::_bool disable_wide_lines{this, "disable_wide_lines"};
+                cfg::_bool disable_logic_op{this, "disable_logic_op"};
+
+            } debug{ this };
 
 		} vk{ this };
 
@@ -379,6 +409,8 @@ struct cfg_root : cfg::node
         cfg::_enum<font_file_selection> font_file_selection{this, "Font File Selection", font_file_selection::from_firmware, false };
         cfg::string custom_font_file_path{this, "Custom Font File Path", "", false };
         cfg::uint<12, 26> font_size{ this, "Font Size", 22, false };
+
+        cfg::_bool mem_debug_overlay{ this, "Memory Debug overlay" };
 
 	} misc{ this };
 

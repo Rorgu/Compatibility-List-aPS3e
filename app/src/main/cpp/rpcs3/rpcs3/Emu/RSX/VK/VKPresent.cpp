@@ -11,6 +11,8 @@
 #include "util/asm.hpp"
 #include "util/video_provider.h"
 
+#include "meminfo.h"
+
 extern atomic_t<bool> g_user_asked_for_screenshot;
 extern atomic_t<recording_mode> g_recording_mode;
 
@@ -19,6 +21,7 @@ namespace
 	VkFormat RSX_display_format_to_vk_format(u8 format)
 	{
         static const bool use_bgra_fmt=g_cfg.video.bgra_format.get();
+
 		switch (format)
 		{
 		default:
@@ -400,7 +403,7 @@ vk::viewable_image* VKGSRender::get_present_source(/* inout */ vk::present_surfa
 
 		m_texture_cache.invalidate_range(*m_current_command_buffer, range, rsx::invalidation_cause::read);
 		image_to_flip = m_texture_cache.upload_image_simple(*m_current_command_buffer, expected_format, info->address, info->width, info->height, info->pitch);
-	}
+    }
 	else if (image_to_flip->format() != expected_format)
 	{
 		// Devs are being creative. Force-cast this to the proper pixel layout.
@@ -784,7 +787,7 @@ void VKGSRender::flip(const rsx::display_flip_info_t& info)
 	}
 
 	const bool has_overlay = (m_overlay_manager && m_overlay_manager->has_visible());
-	if (g_cfg.video.debug_overlay || has_overlay)
+	if (g_cfg.video.debug_overlay || has_overlay||g_cfg.misc.mem_debug_overlay)
 	{
 		if (target_layout != VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
 		{
@@ -826,7 +829,22 @@ void VKGSRender::flip(const rsx::display_flip_info_t& info)
 				ui_renderer->run(*m_current_command_buffer, areau(aspect_ratio), direct_fbo, single_target_pass, m_texture_upload_buffer_ring_info, *view.get());
 			}
 		}
+#if 0
 
+        static int64_t last_use_mem=0;
+
+        if(last_use_mem==0){
+            meminfo_init();
+        }
+
+        const std::vector<mem_map_entry_t> mem_info=meminfo_update();
+
+        int64_t cur_use_mem= static_cast<int64_t>(meminfo_calc_total_mem(mem_info));
+        if(cur_use_mem-last_use_mem>1024*1024){
+            rsx_log.warning("aaaa %f mb",static_cast<float>(cur_use_mem-last_use_mem)/1024.0f/1024.0f);
+        }
+        last_use_mem=cur_use_mem;
+#endif
 		if (g_cfg.video.debug_overlay)
 		{
 			const auto num_dirty_textures = m_texture_cache.get_unreleased_textures_count();
@@ -880,6 +898,22 @@ void VKGSRender::flip(const rsx::display_flip_info_t& info)
 				program_cache_ellided, program_cache_lookups, program_cache_ellision_rate)
 			);
 		}
+        else if(g_cfg.misc.mem_debug_overlay){
+#if 0
+            const std::string usage= meminfo_print_calc_total_mem(mem_info);
+            const std::string detail= meminfo_to_string(mem_info,4);
+
+            rsx::overlays::set_debug_overlay_text(fmt::format(
+                    "usage:      %s\n"
+                    "detail:\n"
+                    "%s \n",
+                     usage,detail)
+            );
+#else
+            const u32 mem_usage= static_cast<u32>(meminfo_sys_mem_usage(100.f));
+            rsx::overlays::set_debug_overlay_text(fmt::format("%02u%%",mem_usage));
+#endif
+        }
 
 		direct_fbo->release();
 	}

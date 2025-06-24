@@ -13,6 +13,8 @@ import android.util.*;
 import org.vita3k.emulator.overlay.InputOverlay.ControlId;
 import android.content.res.*;
 
+import java.io.File;
+
 //import org.libsdl.app.*;
 
 public class EmulatorActivity extends Activity implements View.OnGenericMotionListener,SurfaceHolder.Callback
@@ -23,6 +25,16 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
     private GameFrameView gv;
 
 	boolean started=false;
+
+	void setup_env(String serial){
+		File custom_cfg=Application.get_custom_cfg_file(serial);
+		if(custom_cfg.exists())
+			aenu.lang.System.setenv("APS3E_CUSTOM_CONFIG_YAML_PATH",custom_cfg.getAbsolutePath());
+
+		boolean enable_log=getSharedPreferences("debug",MODE_PRIVATE).getBoolean("enable_log",false);
+		aenu.lang.System.setenv("APS3E_ENABLE_LOG",Boolean.toString(enable_log));
+
+	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +54,15 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 		
         load_key_map();
 		Emulator.MetaInfo meta_info = (Emulator.MetaInfo) getIntent().getSerializableExtra("meta_info");
+		setup_env(meta_info.serial);
 		/*if(meta_info==null){
 			meta_info=Emulator.get.meta_info_from_dir("/storage/emulated/0/Android/data/aenu.aps3e/files/aps3e/config/dev_hdd0/game/NPJB00521");
 			Emulator.get.setup_game_info(meta_info);
 			return;
 		}*/
-		if(meta_info.eboot_path!=null&&meta_info.iso_uri==null)
-		Emulator.get.setup_game_info(meta_info);
+		if(meta_info.eboot_path!=null&&meta_info.iso_uri==null) {
+			Emulator.get.setup_game_info(meta_info);
+		}
 		else if(meta_info.eboot_path==null&&meta_info.iso_uri!=null){
 
 			try {
@@ -136,7 +150,7 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
     }
 
 	boolean handle_dpad(InputEvent event) {
-		
+
 		boolean pressed=false;
 		if (event instanceof MotionEvent) {
 
@@ -149,18 +163,22 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
             // LEFT and RIGHT direction accordingly.
             if (Float.compare(xaxis, -1.0f) == 0) {
                 Emulator.get.key_event(ControlId.l, true);
+				Emulator.get.key_event(ControlId.r, false);
 				pressed=true;
             } else if (Float.compare(xaxis, 1.0f) == 0) {
                 Emulator.get.key_event(ControlId.r, true);
+				Emulator.get.key_event(ControlId.l, false);
 				pressed=true;
             }
             // Check if the AXIS_HAT_Y value is -1 or 1, and set the D-pad
             // UP and DOWN direction accordingly.
             if (Float.compare(yaxis, -1.0f) == 0) {
                 Emulator.get.key_event(ControlId.u, true);
+				Emulator.get.key_event(ControlId.d, false);
 				pressed=true;
             } else if (Float.compare(yaxis, 1.0f) == 0) {
                 Emulator.get.key_event(ControlId.d, true);
+				Emulator.get.key_event(ControlId.u, false);
 				pressed=true;
             }
         }
@@ -170,23 +188,27 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
             KeyEvent keyEvent = (KeyEvent) event;
             if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT) {
                 Emulator.get.key_event(ControlId.l, true);
+				Emulator.get.key_event(ControlId.r, false);
 				pressed=true;
 				
             } else if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT) {
                 Emulator.get.key_event(ControlId.r, true);
+				Emulator.get.key_event(ControlId.l, false);
 				pressed=true;
 				
             } else if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP) {
                 Emulator.get.key_event(ControlId.u, true);
+				Emulator.get.key_event(ControlId.d, false);
 				pressed=true;
-				
+
             } else if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN) {
                 Emulator.get.key_event(ControlId.d, true);
+				Emulator.get.key_event(ControlId.u, false);
 				pressed=true;
 				
             }
 		}
-		
+
 		if(pressed) return true;
 		Emulator.get.key_event(ControlId.l, false);
 		Emulator.get.key_event(ControlId.u, false);
@@ -211,23 +233,16 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 		
 		if(isDpadDevice(event)&& handle_dpad(event)) return true;
 		
-		if ((event.getSource() & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK&&
-			event.getAction() == MotionEvent.ACTION_MOVE) {
+		if ((event.getSource() & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK/*&&
+			event.getAction() == MotionEvent.ACTION_MOVE*/) {
 			float laxisX = event.getAxisValue(MotionEvent.AXIS_X);
 			float laxisY = event.getAxisValue(MotionEvent.AXIS_Y);
 			float raxisX = event.getAxisValue(MotionEvent.AXIS_Z);
 			float raxisY = event.getAxisValue(MotionEvent.AXIS_RZ);
 
-			for(int i=ControlId.lsl;i<ControlId.rsd;i++){
-				Emulator.get.key_event(i,false);
-			}
-
+			//左摇杆
 			{
-
-				//左摇杆
-
-
-				if(Math.abs(laxisX)>0.37){
+				if(laxisX!=0){
 					if(laxisX<0){
 						Emulator.get.key_event(ControlId.lsr,false);
 						Emulator.get.key_event(ControlId.lsl,true,(int)(Math.abs(laxisX)*255.0));
@@ -237,8 +252,12 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 						Emulator.get.key_event(ControlId.lsr,true,(int)(Math.abs(laxisX)*255.0));
 					}
 				}
+				else{
+					Emulator.get.key_event(ControlId.lsr,false);
+					Emulator.get.key_event(ControlId.lsl,false);
+				}
 
-				if(Math.abs(laxisY)>0.37){
+				if(laxisY!=0){
 					if(laxisY<0){
 						Emulator.get.key_event(ControlId.lsd,false);
 						Emulator.get.key_event(ControlId.lsu,true,(int)(Math.abs(laxisY)*255.0));
@@ -247,9 +266,14 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 						Emulator.get.key_event(ControlId.lsd,true,(int)(Math.abs(laxisY)*255.0));
 					}
 				}
+				else{
+					Emulator.get.key_event(ControlId.lsd,false);
+					Emulator.get.key_event(ControlId.lsu,false);
+				}
 			}
+			//右摇杆
 			{
-				if(Math.abs(raxisX)>0.37){
+				if(raxisX!=0){
 					if(raxisX<0){
 						Emulator.get.key_event(ControlId.rsr,false);
 						Emulator.get.key_event(ControlId.rsl,true,(int)(Math.abs(raxisX)*255.0));
@@ -258,8 +282,12 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 						Emulator.get.key_event(ControlId.rsr,true,(int)(Math.abs(raxisX)*255.0));
 					}
 				}
+				else{
+					Emulator.get.key_event(ControlId.rsr,false);
+					Emulator.get.key_event(ControlId.rsl,false);
+				}
 
-				if(Math.abs(raxisY)>0.37){
+				if(raxisY!=0){
 					if(raxisY<0){
 						Emulator.get.key_event(ControlId.rsd,false);
 						Emulator.get.key_event(ControlId.rsu,true,(int)(Math.abs(raxisY)*255.0));
@@ -267,7 +295,10 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 						Emulator.get.key_event(ControlId.rsu,false);
 						Emulator.get.key_event(ControlId.rsd,true,(int)(Math.abs(raxisY)*255.0));
 					}
-
+				}
+				else{
+					Emulator.get.key_event(ControlId.rsd,false);
+					Emulator.get.key_event(ControlId.rsu,false);
 				}
 			}
 			return true;

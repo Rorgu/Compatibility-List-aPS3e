@@ -306,7 +306,11 @@ namespace vk
 
 		swap_info.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 		swap_info.preTransform = pre_transform;
+#ifdef __ANDROID__
+        swap_info.compositeAlpha = VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
+#else
 		swap_info.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+#endif
 		swap_info.imageArrayLayers = 1;
 		swap_info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		swap_info.presentMode = swapchain_present_mode;

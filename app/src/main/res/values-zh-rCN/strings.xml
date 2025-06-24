@@ -4,7 +4,11 @@
     <string name="msg_processing">处理中...</string>
     <string name="msg_failed">失败!</string>
 
+    <string name="emulator_settings_video_vulkan_debug">调试</string>
 
+    <string name="enable_log">启用日志</string>
+    <string name="use_global_config">使用全局配置</string>
+    <string name="edit_custom_config">编辑自定义配置</string>
     <string name="clear">清除</string>
     <string name="press_a_key">按任意键继续...</string>
     <string name="game_list_loading">游戏列表载入中...</string>

@@ -1,6 +1,7 @@
 #include "device.h"
 #include "memory.h"
 
+#include "meminfo.h"
 namespace
 {
 	// Copied from rsx_utils.h. Move to a more convenient location
@@ -299,6 +300,7 @@ namespace vk
 
 	f32 mem_allocator_vma::get_memory_usage()
 	{
+#if 1
 		vmaGetBudget(m_allocator, stats.data());
 
 		float max_usage = 0.f;
@@ -314,6 +316,9 @@ namespace vk
 		}
 
 		return max_usage;
+#else
+        return meminfo_sys_mem_usage(100.f);
+#endif
 	}
 
 	void mem_allocator_vma::set_safest_allocation_flags()

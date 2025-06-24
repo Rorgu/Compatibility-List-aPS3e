@@ -313,6 +313,9 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
               {
 				  Emulator.get.key_event(dpad.getControl(i), true);
               }
+              else{
+                Emulator.get.key_event(dpad.getControl(i), false);
+              }
             }
             setDpadState(dpad, dpadPressed[0], dpadPressed[1], dpadPressed[2], dpadPressed[3]);
           }
@@ -345,60 +348,72 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
         int joyY = Math.round(joystick.getY() * (1 << 15));
         joyY = Math.max(Short.MIN_VALUE, Math.min(Short.MAX_VALUE, joyY));*/
 		  int control=joystick.getXControl();
+
+        //左摇杆
 		if(control==0){
-			  
-			  //左摇杆
-			  Emulator.get.key_event(ControlId.lsr,false);
-			  Emulator.get.key_event(ControlId.lsl,false);
-			  Emulator.get.key_event(ControlId.lsd,false);
-			  Emulator.get.key_event(ControlId.lsu,false);
-			  
-			  if(Math.abs(joystick.getX())>0.37){
-				  if(joystick.getX()<0){
+			  float  x=joystick.getX();
+              float  y=joystick.getY();
+
+			  if(x!=0){
+				  if(x<0){
 					  Emulator.get.key_event(ControlId.lsr,false);
-					  Emulator.get.key_event(ControlId.lsl,true,(int)Math.abs(joystick.getX()*255.0));
+					  Emulator.get.key_event(ControlId.lsl,true,(int)Math.abs(x*255.0));
 				  }
 				else{
 					  Emulator.get.key_event(ControlId.lsl,false);
-				  Emulator.get.key_event(ControlId.lsr,true,(int)Math.abs(joystick.getX()*255.0));
+				  Emulator.get.key_event(ControlId.lsr,true,(int)Math.abs(x*255.0));
 				 }
 			  }
+              else{
+                Emulator.get.key_event(ControlId.lsr,false);
+                Emulator.get.key_event(ControlId.lsl,false);
+              }
 			  
-			  if(Math.abs(joystick.getY())>0.37){
-				  if(joystick.getY()<0){
+			  if(y!=0){
+				  if(y<0){
 					  Emulator.get.key_event(ControlId.lsd,false);
-					  Emulator.get.key_event(ControlId.lsu,true,(int)Math.abs(joystick.getY()*255.0));
+					  Emulator.get.key_event(ControlId.lsu,true,(int)Math.abs(y*255.0));
 				  }else{
 					  Emulator.get.key_event(ControlId.lsu,false);
-					  Emulator.get.key_event(ControlId.lsd,true,(int)Math.abs(joystick.getY()*255.0));
+					  Emulator.get.key_event(ControlId.lsd,true,(int)Math.abs(y*255.0));
 				}
 			  }
+              else{
+                Emulator.get.key_event(ControlId.lsd,false);
+                Emulator.get.key_event(ControlId.lsu,false);
+              }
 		  }
+        //右摇杆
 		else if(control==1){
-			  Emulator.get.key_event(ControlId.rsr,false);
-			  Emulator.get.key_event(ControlId.rsl,false);
-			  Emulator.get.key_event(ControlId.rsd,false);
-			  Emulator.get.key_event(ControlId.rsu,false);
-			  
-			  if(Math.abs(joystick.getX())>0.37){
+          float  x=joystick.getX();
+          float  y=joystick.getY();
+			  if(x!=0){
 				  if(joystick.getX()<0){
 					  Emulator.get.key_event(ControlId.rsr,false);
-					  Emulator.get.key_event(ControlId.rsl,true,(int)Math.abs(joystick.getX()*255.0));
+					  Emulator.get.key_event(ControlId.rsl,true,(int)Math.abs(x*255.0));
 				  }else{
 					  Emulator.get.key_event(ControlId.rsl,false);
-					  Emulator.get.key_event(ControlId.rsr,true,(int)Math.abs(joystick.getX()*255.0));
+					  Emulator.get.key_event(ControlId.rsr,true,(int)Math.abs(x*255.0));
 					  }
 			  }
+              else{
+                Emulator.get.key_event(ControlId.rsr,false);
+                Emulator.get.key_event(ControlId.rsl,false);
+              }
 
-			  if(Math.abs(joystick.getY())>0.37){
+			  if(y!=0){
 				  if(joystick.getY()<0){
 					  Emulator.get.key_event(ControlId.rsd,false);
-					  Emulator.get.key_event(ControlId.rsu,true,(int)Math.abs(joystick.getY()*255.0));
+					  Emulator.get.key_event(ControlId.rsu,true,(int)Math.abs(y*255.0));
 				  }else{
 					  Emulator.get.key_event(ControlId.rsu,false);
-					  Emulator.get.key_event(ControlId.rsd,true,(int)Math.abs(joystick.getY()*255.0));
+					  Emulator.get.key_event(ControlId.rsd,true,(int)Math.abs(y*255.0));
 				}
 			  }
+              else{
+                Emulator.get.key_event(ControlId.rsd,false);
+                Emulator.get.key_event(ControlId.rsu,false);
+              }
 		  }
 		  }
     }

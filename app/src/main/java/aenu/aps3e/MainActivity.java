@@ -62,17 +62,17 @@ import android.Manifest;
 import java.util.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import aenu.proptest.*;
 import java.io.*;
 import android.view.*;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends Activity{
+public class MainActivity extends AppCompatActivity {
 
 	private static final int REQUEST_INSTALL_FIRMWARE=6001;
 	private static final int REQUEST_INSTALL_GAME=6002;
@@ -105,9 +105,6 @@ public class MainActivity extends Activity{
 
 	public static File get_disc_game_dir(){
 		return new File(Application.get_app_data_dir(),"config/games");
-	}
-	public static File get_config_file(){
-		return new File(Application.get_app_data_dir(),"config/config.yml");
 	}
 
 	public static File get_game_list_file(){
@@ -150,7 +147,7 @@ public class MainActivity extends Activity{
 
         super.onCreate(savedInstanceState);
 
-		getActionBar().setTitle(getString(R.string.select_game));//"选择游戏");
+		getSupportActionBar().setTitle(getString(R.string.select_game));//"选择游戏");
 		android.util.Log.e("aps3e_java","main");
 
         setContentView(R.layout.activity_main);
@@ -246,7 +243,7 @@ public class MainActivity extends Activity{
 			return true;
 		}
 		else if(item_id==R.id.menu_about){
-			startActivity(new Intent(this,HelloJni.class));
+			startActivity(new Intent(this,AboutActivity.class));
 			return true;
 		}
 		/*else if(item_id==R.id.menu_update_log){
@@ -470,14 +467,15 @@ public class MainActivity extends Activity{
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 		if(adapter.is_disc_game(info.position)){
 			menu.add(0, R.string.delete_hdd0_install_data, 0, getString(R.string.delete_hdd0_install_data));
-			menu.add(0, R.string.delete_game_data, 0, getString(R.string.delete_game_data));
-			menu.add(0, R.string.delete_shaders_cache, 0, getString(R.string.delete_shaders_cache));
 		}
 		else{
-			menu.add(0, R.string.delete_game_data, 0, getString(R.string.delete_game_data));
 			menu.add(0, R.string.delete_game_and_data, 0, getString(R.string.delete_game_and_data));
-			menu.add(0, R.string.delete_shaders_cache, 0, getString(R.string.delete_shaders_cache));
 		}
+
+		menu.add(0, R.string.delete_game_data, 0, getString(R.string.delete_game_data));
+		menu.add(0, R.string.delete_shaders_cache, 0, getString(R.string.delete_shaders_cache));
+		menu.add(0, R.string.edit_custom_config, 0, getString(R.string.edit_custom_config));
+
 	}
 	
 	@Override
@@ -549,7 +547,31 @@ public class MainActivity extends Activity{
 				}
 			});
 		}
+		else if(item_id==R.string.edit_custom_config){
+			Intent intent=new Intent(this,EmulatorSettings.class);
+			File cfg_file=Application.get_custom_cfg_file(adapter.getMetaInfo(position).serial);
+			if(!cfg_file.exists()){
+				copy_file(Application.get_global_config_file(),cfg_file);
+			}
+			intent.putExtra(EmulatorSettings.EXTRA_CONFIG_PATH, cfg_file.getAbsolutePath());
+			startActivity(intent);
+		}
 		return super.onContextItemSelected(item);
+	}
+
+	static void copy_file(File src,File dst){
+		try {
+			FileInputStream in=new FileInputStream(src);
+			FileOutputStream out=new FileOutputStream(dst);
+			byte buf[]=new byte[16384];
+			int n;
+			while((n=in.read(buf))!=-1)
+				out.write(buf,0,n);
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -587,8 +609,10 @@ public class MainActivity extends Activity{
 			"aps3e/config/Icons",
 				"aps3e/config/games",
 			"aps3e/config/Icons/ui",
+				"aps3e/config/custom_cfg",
 			"aps3e/logs",
 				"aps3e/font",
+
 		};
 
 		for(String sp:sub_dir_paths){
@@ -603,16 +627,19 @@ public class MainActivity extends Activity{
 
 		File xxxx_txt=new File(Application.get_app_data_dir(),"xxxx.txt");
 		if(!xxxx_txt.exists()) {
+			String xxxx_txt_str="";
+			xxxx_txt_str+=Emulator.get.generate_config_xml();
+			xxxx_txt_str+="\n\n";
+			xxxx_txt_str+=Emulator.get.generate_strings_xml();
+			xxxx_txt_str+="\n\n";
+			xxxx_txt_str+=Emulator.get.generate_java_string_arr();
+
             FileOutputStream fos= null;
             try {
                 fos = new FileOutputStream(xxxx_txt);
-				fos.write(Emulator.get.generate_config_xml().getBytes());
-				fos.write("\n\n".getBytes());
-				fos.write(Emulator.get.generate_strings_xml().getBytes());
-				fos.write("\n\n".getBytes());
-				fos.write(Emulator.get.generate_java_string_arr().getBytes());
+				fos.write(xxxx_txt_str.getBytes());
             } catch (Exception e) {
-
+				Log.w("aps3e_java","xxxx msg:"+e.getMessage());
             } finally {
 				try {
 					if (fos != null) fos.close();

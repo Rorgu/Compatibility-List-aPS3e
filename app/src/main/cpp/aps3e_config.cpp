@@ -290,6 +290,31 @@ static jstring generate_config_xml(JNIEnv* env,jobject self){
         return out.str();
     };
 
+    auto gen_vk_debug_preferences=[&](const std::string parent_name,cfg::_base* node)->std::string {
+        std::stringstream out;
+
+        std::string parent_name_l=gen_key(parent_name);
+        const std::string &name = node->get_name();
+        const std::string key = gen_key(name);
+
+        if(node->get_type()==cfg::type::node){
+            out<<"<PreferenceScreen app:title=\"@string/emulator_settings_"<<parent_name_l<<"_"<<key<<"\" \n";
+            out<<"app:key=\""<<parent_name<<"|"<<name<<"\" >\n";
+            std::string node_key=parent_name+"|"+name;
+            for(auto n3:reinterpret_cast<cfg::node*>(node)->get_nodes()) {
+                if(n3->get_type()!=cfg::type::_bool){
+                    LOGE("unexpected type");
+                    continue;
+                }
+                out<<"<CheckBoxPreference app:title=\""<<n3->get_name()<<"\" \n";
+                out<<"app:key=\""<<node_key<<"|"<<n3->get_name()<<"\" />\n";
+            }
+            out<<"</PreferenceScreen>\n";
+        }
+
+        return out.str();
+    };
+
     std::ostringstream out;
     out<<R"(
 <?xml version="1.0" encoding="utf-8"?>
@@ -316,6 +341,12 @@ static jstring generate_config_xml(JNIEnv* env,jobject self){
                     for(auto n3:reinterpret_cast<cfg::node*>(n2)->get_nodes()) {
                         if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name()+"|"+n3->get_name())!=std::end(gen_skips))
                             continue;
+                        //
+                        if(n3->get_type()==cfg::type::node){
+                            out << "\n" <<gen_vk_debug_preferences(name+"|"+n2->get_name(),n3)<< "\n";
+                            continue;
+                        }
+
                         out << "\n" << gen_one_preference(name+"|"+n2->get_name(), n3) << "\n";
                     }
                     out<<"</PreferenceScreen>\n";
@@ -447,16 +478,24 @@ static jstring generate_java_string_arr(JNIEnv* env,jobject self){
                     if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name())!=std::end(gen_skips))
                         continue;
 
-                    //Video下的3个子项
-                    if(n2->get_type()==cfg::type::node){
-                        for(auto n3:reinterpret_cast<cfg::node*>(n2)->get_nodes()) {
-                            if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name()+"|"+n3->get_name())!=std::end(gen_skips))
-                                continue;
-                            out << gen_one_key_string(name+"|"+n2->get_name(), n3,test_ty);
-                        }
-                    }
-                    else{
+
+                    if(n2->get_type()!=cfg::type::node) {
                         out<< gen_one_key_string(name,n2,test_ty);
+                        continue;
+                    }
+
+                    //node
+                    for(auto n3:reinterpret_cast<cfg::node*>(n2)->get_nodes()) {
+                        if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name()+"|"+n3->get_name())!=std::end(gen_skips))
+                            continue;
+                        if(n3->get_type()!=cfg::type::node){
+                            out << gen_one_key_string(name+"|"+n2->get_name(), n3,test_ty);
+                            continue;
+                        }
+
+                        for(auto n4:reinterpret_cast<cfg::node*>(n3)->get_nodes()){
+                            out << gen_one_key_string(name+"|"+n2->get_name()+"|"+n3->get_name(), n4,test_ty);
+                        }
                     }
                 }
             }
@@ -476,13 +515,21 @@ static jstring generate_java_string_arr(JNIEnv* env,jobject self){
                 out<<"\""<<name<<"\",\n";
 
                 for(auto n2:reinterpret_cast<cfg::node*>(n)->get_nodes()){
+                    if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name())!=std::end(gen_skips))
+                        continue;
 
-                    //if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name())!=std::end(gen_skips))
-                    //    continue;
-
-                    //Video下的3个子项
                     if(n2->get_type()==cfg::type::node){
                         out<<"\""<<name+"|"+n2->get_name()<<"\",\n";
+
+                        for(auto n3:reinterpret_cast<cfg::node*>(n2)->get_nodes()) {
+
+                            if(std::find(std::begin(gen_skips),std::end(gen_skips),name+"|"+n2->get_name()+"|"+n3->get_name()))
+                                continue;
+
+                            if(n3->get_type()==cfg::type::node){
+                                out<<"\""<<name+"|"+n2->get_name()+"|"+n3->get_name()<<"\",\n";
+                            }
+                        }
                     }
                 }
             }

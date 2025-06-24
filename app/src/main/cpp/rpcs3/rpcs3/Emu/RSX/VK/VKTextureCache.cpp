@@ -566,7 +566,7 @@ namespace vk
 		case rsx::component_order::default_:
 		{
 			mapping = vk::apply_swizzle_remap(vk::get_component_mapping(gcm_format), remap_vector);
-			break;
+            break;
 		}
 		case rsx::component_order::native:
 		{
@@ -1246,21 +1246,16 @@ namespace vk
 	bool texture_cache::render_target_format_is_compatible(vk::image* tex, u32 gcm_format)
 	{
         static const bool use_bgra8_fmt=g_cfg.video.bgra_format.get();
-		auto vk_format = tex->info.format;
+		const auto vk_format = tex->info.format;
+        const bool converted_texture=g_cfg.video.force_convert_texture.get();
 		switch (gcm_format)
 		{
 		default:
 			//TODO
 			err_once("Format incompatibility detected, reporting failure to force data copy (VK_FORMAT=0x%X, GCM_FORMAT=0x%X)", static_cast<u32>(vk_format), gcm_format);
 			return false;
-#ifndef __APPLE__
             case CELL_GCM_TEXTURE_R5G6B5:
-                return (vk_format == VK_FORMAT_R5G6B5_UNORM_PACK16);
-#else
-                // R5G6B5 is not supported by Metal
-		case CELL_GCM_TEXTURE_R5G6B5:
-			return (vk_format == VK_FORMAT_B8G8R8A8_UNORM);
-#endif
+                return (vk_format == (converted_texture?(use_bgra8_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM):VK_FORMAT_R5G6B5_UNORM_PACK16));
             case CELL_GCM_TEXTURE_W16_Z16_Y16_X16_FLOAT:
 			return (vk_format == VK_FORMAT_R16G16B16A16_SFLOAT);
 		case CELL_GCM_TEXTURE_W32_Z32_Y32_X32_FLOAT:
@@ -1482,8 +1477,9 @@ namespace vk
 		reset_frame_statistics();
 	}
 
-	vk::viewable_image* texture_cache::upload_image_simple(vk::command_buffer& cmd, VkFormat format, u32 address, u32 width, u32 height, u32 pitch)
+    vk::viewable_image* texture_cache::upload_image_simple(vk::command_buffer& cmd, VkFormat format, u32 address, u32 width, u32 height, u32 pitch)
 	{
+#if 0
 		bool linear_format_supported = false;
 
 		switch (format)
@@ -1503,7 +1499,7 @@ namespace vk
 		{
 			return nullptr;
 		}
-
+#endif
 		// Uploads a linear memory range as a BGRA8 texture
 		auto image = std::make_unique<vk::viewable_image>(*m_device, m_memory_types.host_visible_coherent,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,

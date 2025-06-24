@@ -62,6 +62,8 @@ import aenu.preference.ColorPickerDialog;
 
 public class EmulatorSettings extends AppCompatActivity {
 
+    static final String EXTRA_CONFIG_PATH="config_path";
+
     static final int REQUEST_CODE_SELECT_CUSTOM_DRIVER=6001;
     static final int REQUEST_CODE_SELECT_CUSTOM_FONT=6002;
 
@@ -69,8 +71,15 @@ public class EmulatorSettings extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragmentCompat implements
             Preference.OnPreferenceClickListener{
 
+        boolean is_global;
+        String config_path;
         Emulator.Config config;
         PreferenceScreen root_pref;
+
+        SettingsFragment(String config_path,boolean is_global){
+            this.config_path=config_path;
+            this.is_global=is_global;
+        }
 
         OnBackPressedCallback back_callback=new OnBackPressedCallback(true) {
             @Override
@@ -158,8 +167,35 @@ public class EmulatorSettings extends AppCompatActivity {
                                         config.close_config_file();
                                         config=null;
                                     }
-                                    MainActivity.get_config_file().delete();
-                                    Application.extractAssetsDir(requireContext(),"config",MainActivity.get_config_file().getParentFile());
+                                    Application.get_global_config_file().delete();
+                                    Application.extractAssetsDir(requireContext(),"config",Application.get_global_config_file().getParentFile());
+                                    requireActivity().finish();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .create().show();
+                    return true;
+                }
+            });
+            return p;
+        }
+
+        Preference reset_as_global_pref(){
+            Preference p=new Preference(requireContext());
+            p.setTitle(R.string.use_global_config);
+            p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
+                public boolean onPreferenceClick(@NonNull Preference preference) {
+                    new AlertDialog.Builder(requireContext())
+                            .setMessage(getString(R.string.use_global_config)+"?")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (config!=null) {
+                                        config.close_config_file();
+                                        config=null;
+                                    }
+
+                                    new File(config_path).delete();
                                     requireActivity().finish();
                                 }
                             })
@@ -187,17 +223,20 @@ public class EmulatorSettings extends AppCompatActivity {
             setPreferencesFromResource(R.xml.emulator_settings, rootKey);
             root_pref=getPreferenceScreen();
 
+            if(is_global)
             root_pref.addPreference(reset_as_default_pref());
+            else
+            root_pref.addPreference(reset_as_global_pref());
 
             requireActivity().getOnBackPressedDispatcher().addCallback(back_callback);
 
-            if(!MainActivity.get_config_file().exists()){
+            if(!new File(config_path).exists()){
                 root_pref.setEnabled(false);
                 return;
             }
 
             try{
-                config=Emulator.Config.open_config_file(MainActivity.get_config_file().getAbsolutePath());
+                config=Emulator.Config.open_config_file(config_path);
             }catch(Exception e){
                 Log.e("EmulatorSettings",e.toString());
                 root_pref.setEnabled(false);
@@ -209,6 +248,28 @@ public class EmulatorSettings extends AppCompatActivity {
 
 
             final String[] BOOL_KEYS={
+                    "Video|Force Convert Texture",
+                    "Miscellaneous|Memory Debug overlay",
+
+                    "Video|Vulkan|Debug|disable_barycentric_coords",
+                    "Video|Vulkan|Debug|disable_conditional_rendering",
+                    "Video|Vulkan|Debug|disable_debug_utils",
+                    "Video|Vulkan|Debug|disable_external_memory_host",
+                    "Video|Vulkan|Debug|disable_framebuffer_loops",
+                    "Video|Vulkan|Debug|disable_sampler_mirror_clamped",
+                    "Video|Vulkan|Debug|disable_shader_stencil_export",
+                    "Video|Vulkan|Debug|disable_surface_capabilities_2",
+                    "Video|Vulkan|Debug|disable_synchronization_2",
+                    "Video|Vulkan|Debug|disable_unrestricted_depth_range",
+                    "Video|Vulkan|Debug|disable_extended_device_fault",
+                    "Video|Vulkan|Debug|disable_texture_compression_bc",
+                    "Video|Vulkan|Debug|disable_depth_clamp",
+                    "Video|Vulkan|Debug|disable_shader_clip_distance",
+                    "Video|Vulkan|Debug|disable_depth_bounds",
+                    "Video|Vulkan|Debug|disable_large_points",
+                    "Video|Vulkan|Debug|disable_wide_lines",
+                    "Video|Vulkan|Debug|disable_logic_op",
+
                     "Core|PPU Debug",
                     "Core|PPU Calling History",
                     "Core|Save LLVM logs",
@@ -418,6 +479,7 @@ public class EmulatorSettings extends AppCompatActivity {
                     "Core",
                     "Video",
                     "Video|Vulkan",
+                    "Video|Vulkan|Debug",
                     "Video|Performance Overlay",
                     "Video|Shader Loading Dialog",
                     "Audio",
@@ -779,8 +841,16 @@ public class EmulatorSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //PreferenceFragmentCompat
-        fragment=new SettingsFragment();
+        String config_path=getIntent().getStringExtra(EXTRA_CONFIG_PATH);
+
+
+        if(config_path!=null) {
+            fragment=new SettingsFragment(config_path,false);
+        }
+        else{
+            fragment=new SettingsFragment(Application.get_global_config_file().getAbsolutePath(),true);
+        }
+
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content,fragment).commit();
     }
 

@@ -150,6 +150,23 @@ namespace vk
 		// v3dv and PanVK support BC1-BC3 which is all we require, support is reported as false since not all formats are supported
 		optional_features_support.texture_compression_bc = features.textureCompressionBC
 				|| get_driver_vendor() == driver_vendor::V3DV || get_driver_vendor() == driver_vendor::PANVK;
+
+        if(g_cfg.video.vk.debug.disable_barycentric_coords) optional_features_support.barycentric_coords = false;
+        if(g_cfg.video.vk.debug.disable_conditional_rendering) optional_features_support.conditional_rendering = false;
+        if(g_cfg.video.vk.debug.disable_debug_utils) optional_features_support.debug_utils = false;
+        if(g_cfg.video.vk.debug.disable_external_memory_host) optional_features_support.external_memory_host = false;
+        if(g_cfg.video.vk.debug.disable_framebuffer_loops) optional_features_support.framebuffer_loops = false;
+
+        if(g_cfg.video.vk.debug.disable_sampler_mirror_clamped) optional_features_support.sampler_mirror_clamped = false;
+        if(g_cfg.video.vk.debug.disable_shader_stencil_export) optional_features_support.shader_stencil_export = false;
+        if(g_cfg.video.vk.debug.disable_surface_capabilities_2) optional_features_support.surface_capabilities_2 = false;
+        if(g_cfg.video.vk.debug.disable_synchronization_2) optional_features_support.synchronization_2 = false;
+        if(g_cfg.video.vk.debug.disable_unrestricted_depth_range) optional_features_support.unrestricted_depth_range = false;
+
+        if(g_cfg.video.vk.debug.disable_extended_device_fault) optional_features_support.extended_device_fault = false;
+        if(g_cfg.video.vk.debug.disable_texture_compression_bc) optional_features_support.texture_compression_bc = false;
+
+        if(g_cfg.video.vk.debug.disable_multidraw) multidraw_support.supported=false;
 	}
 
 	void physical_device::get_physical_device_properties(bool allow_extensions)
@@ -468,7 +485,7 @@ namespace vk
 	// Render Device - The actual usable device
 	void render_device::create(vk::physical_device& pdev, u32 graphics_queue_idx, u32 present_queue_idx, u32 transfer_queue_idx)
 	{
-		float queue_priorities[1] = { 0.f };
+		float queue_priorities[2] = { 0.f ,0.f};
 		pgpu = &pdev;
 
 		ensure(graphics_queue_idx == present_queue_idx || present_queue_idx == umax); // TODO
@@ -621,7 +638,7 @@ namespace vk
 		enabled_features.textureCompressionBC = pgpu->optional_features_support.texture_compression_bc;
 		enabled_features.shaderStorageBufferArrayDynamicIndexing = VK_TRUE;
 
-        if (!pgpu->features.depthClamp)
+        if (!pgpu->features.depthClamp||g_cfg.video.vk.debug.disable_depth_clamp)
 		{
             enabled_features.depthClamp = VK_FALSE;
             rsx_log.error("Your GPU driver does not support depth clamp. This may result in graphical corruption or crashes in some cases.");
@@ -650,7 +667,7 @@ namespace vk
 			enabled_features.shaderStorageImageWriteWithoutFormat = VK_FALSE;
 		}
 
-		if (!pgpu->features.shaderClipDistance)
+		if (!pgpu->features.shaderClipDistance||g_cfg.video.vk.debug.disable_shader_clip_distance)
 		{
 			rsx_log.error("Your GPU does not support shader clip distance. Graphics will not render correctly.");
 			enabled_features.shaderClipDistance = VK_FALSE;
@@ -674,19 +691,19 @@ namespace vk
 			enabled_features.shaderFloat64 = VK_FALSE;
 		}
 
-		if (!pgpu->features.depthBounds)
+		if (!pgpu->features.depthBounds||g_cfg.video.vk.debug.disable_depth_bounds)
 		{
 			rsx_log.error("Your GPU does not support depth bounds testing. Graphics may not render correctly.");
 			enabled_features.depthBounds = VK_FALSE;
 		}
 
-		if (!pgpu->features.largePoints)
+		if (!pgpu->features.largePoints||g_cfg.video.vk.debug.disable_large_points)
 		{
 			rsx_log.error("Your GPU does not support large points. Graphics may not render correctly.");
 			enabled_features.largePoints = VK_FALSE;
 		}
 
-		if (!pgpu->features.wideLines)
+		if (!pgpu->features.wideLines||g_cfg.video.vk.debug.disable_wide_lines)
 		{
 			rsx_log.error("Your GPU does not support wide lines. Graphics may not render correctly.");
 			enabled_features.wideLines = VK_FALSE;
@@ -711,7 +728,7 @@ namespace vk
 			enabled_features.occlusionQueryPrecise = VK_FALSE;
 		}
 
-		if (!pgpu->features.logicOp)
+		if (!pgpu->features.logicOp||g_cfg.video.vk.debug.disable_logic_op)
 		{
 			rsx_log.error("Your GPU does not support framebuffer logical operations. Graphics may not render correctly.");
 			enabled_features.logicOp = VK_FALSE;
