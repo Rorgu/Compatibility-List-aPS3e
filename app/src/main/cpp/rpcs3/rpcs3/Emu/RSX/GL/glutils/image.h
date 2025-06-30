@@ -45,7 +45,8 @@ namespace gl
 	enum remap_constants : u32
 	{
 		GL_REMAP_IDENTITY = 0xCAFEBABE,
-		GL_REMAP_BGRA = 0x0000AA6C
+		GL_REMAP_BGRA = 0x0000AA6C,
+		GL_REMAP_VIEW_MULTISAMPLED = 0xDEADBEEF
 	};
 
 	struct subresource_range
@@ -68,19 +69,27 @@ namespace gl
 			ushort = GL_UNSIGNED_SHORT,
 			uint = GL_UNSIGNED_INT,
 
+#ifndef USE_GLES
 			ubyte_3_3_2 = GL_UNSIGNED_BYTE_3_3_2,
-			//ubyte_2_3_3_rev = GL_UNSIGNED_BYTE_2_3_3_REV,
+			ubyte_2_3_3_rev = GL_UNSIGNED_BYTE_2_3_3_REV,
 
-			ushort_5_6_5 = GL_UNSIGNED_SHORT_5_6_5,
-			//ushort_5_6_5_rev = GL_UNSIGNED_SHORT_5_6_5_REV,
-			ushort_4_4_4_4 = GL_UNSIGNED_SHORT_4_4_4_4,
-			//ushort_4_4_4_4_rev = GL_UNSIGNED_SHORT_4_4_4_4_REV,
-			ushort_5_5_5_1 = GL_UNSIGNED_SHORT_5_5_5_1,
-			//ushort_1_5_5_5_rev = GL_UNSIGNED_SHORT_1_5_5_5_REV,
 
-			//uint_8_8_8_8 = GL_UNSIGNED_INT_8_8_8_8,
+			ushort_5_6_5_rev = GL_UNSIGNED_SHORT_5_6_5_REV,
+
+			ushort_4_4_4_4_rev = GL_UNSIGNED_SHORT_4_4_4_4_REV,
+
+			ushort_1_5_5_5_rev = GL_UNSIGNED_SHORT_1_5_5_5_REV,
+
+			uint_8_8_8_8 = GL_UNSIGNED_INT_8_8_8_8,
 			uint_8_8_8_8_rev = GL_UNSIGNED_INT_8_8_8_8_REV,
-			//uint_10_10_10_2 = GL_UNSIGNED_INT_10_10_10_2,
+			uint_10_10_10_2 = GL_UNSIGNED_INT_10_10_10_2,
+
+			f64 = GL_DOUBLE,
+#endif
+			ushort_5_6_5 = GL_UNSIGNED_SHORT_5_6_5,
+			ushort_4_4_4_4 = GL_UNSIGNED_SHORT_4_4_4_4,
+			ushort_5_5_5_1 = GL_UNSIGNED_SHORT_5_5_5_1,
+
 			uint_2_10_10_10_rev = GL_UNSIGNED_INT_2_10_10_10_REV,
 			uint_24_8 = GL_UNSIGNED_INT_24_8,
 			float32_uint8 = GL_FLOAT_32_UNSIGNED_INT_24_8_REV,
@@ -90,7 +99,6 @@ namespace gl
 			sint = GL_INT,
 			f16 = GL_HALF_FLOAT,
 			f32 = GL_FLOAT,
-			//f64 = GL_DOUBLE,
 		};
 
 		enum class channel
@@ -110,9 +118,10 @@ namespace gl
 			rgb = GL_RGB,
 			rgba = GL_RGBA,
 
+#ifndef USE_GLES
 			bgr = GL_BGR,
 			bgra = GL_BGRA,
-
+#endif
 			stencil = GL_STENCIL_INDEX,
 			depth = GL_DEPTH_COMPONENT,
 			depth_stencil = GL_DEPTH_STENCIL
@@ -126,11 +135,12 @@ namespace gl
 			depth24_stencil8 = GL_DEPTH24_STENCIL8,
 			depth32f_stencil8 = GL_DEPTH32F_STENCIL8,
 
-			//compressed_rgb_s3tc_dxt1 = GL_COMPRESSED_RGB_S3TC_DXT1_EXT,
-			//compressed_rgba_s3tc_dxt1 = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
-			//compressed_rgba_s3tc_dxt3 = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
-			//compressed_rgba_s3tc_dxt5 = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
-
+#ifndef USE_GLES
+			compressed_rgb_s3tc_dxt1 = GL_COMPRESSED_RGB_S3TC_DXT1_EXT,
+			compressed_rgba_s3tc_dxt1 = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
+			compressed_rgba_s3tc_dxt3 = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+			compressed_rgba_s3tc_dxt5 = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
+#endif
 			//Sized internal formats, see opengl spec document on glTexImage2D, table 3
 			rgba8 = GL_RGBA8,
 			bgra8 = GL_BGRA8,
@@ -139,10 +149,16 @@ namespace gl
 			bgr5a1 = GL_BGR5_A1,
 			rgba4 = GL_RGBA4,
 			r8 = GL_R8,
-			//r16 = GL_R16,
+
+#ifndef USE_GLES
+			r16 = GL_R16,
+#endif
 			r32f = GL_R32F,
 			rg8 = GL_RG8,
-			//rg16 = GL_RG16,
+
+#ifndef USE_GLES
+			rg16 = GL_RG16,
+#endif
 			rg16f = GL_RG16F,
 			rgba16f = GL_RGBA16F,
 			rgba32f = GL_RGBA32F,
@@ -156,9 +172,12 @@ namespace gl
 			mirrored_repeat = GL_MIRRORED_REPEAT,
 			clamp_to_edge = GL_CLAMP_TO_EDGE,
 			clamp_to_border = GL_CLAMP_TO_BORDER,
-			//mirror_clamp = GL_MIRROR_CLAMP_EXT,
+
+#ifndef USE_GLES
+			mirror_clamp = GL_MIRROR_CLAMP_EXT,
 			//mirror_clamp_to_edge = GL_MIRROR_CLAMP_TO_EDGE,
 			mirror_clamp_to_border = GL_MIRROR_CLAMP_TO_BORDER_EXT
+#endif
 		};
 
 		enum class compare_mode
@@ -169,12 +188,16 @@ namespace gl
 
 		enum class target
 		{
+
+#ifndef USE_GLES
 			texture1D = GL_TEXTURE_1D,
+#endif
 			texture2D = GL_TEXTURE_2D,
 			texture3D = GL_TEXTURE_3D,
 			textureCUBE = GL_TEXTURE_CUBE_MAP,
 			textureBuffer = GL_TEXTURE_BUFFER,
-			texture2DArray = GL_TEXTURE_2D_ARRAY
+			texture2DArray = GL_TEXTURE_2D_ARRAY,
+			texture2DMS = GL_TEXTURE_2D_MULTISAMPLE
 		};
 
 	protected:
@@ -183,6 +206,7 @@ namespace gl
 		GLuint m_height = 0;
 		GLuint m_depth = 0;
 		GLuint m_mipmaps = 0;
+		GLubyte m_samples = 0;
 		GLuint m_pitch = 0;
 		GLuint m_compressed = GL_FALSE;
 		GLuint m_aspect_flags = 0;
@@ -197,7 +221,7 @@ namespace gl
 		texture(const texture&) = delete;
 		texture(texture&& texture_) = delete;
 
-		texture(GLenum target, GLuint width, GLuint height, GLuint depth, GLuint mipmaps, GLenum sized_format, rsx::format_class format_class = rsx::RSX_FORMAT_CLASS_UNDEFINED);
+		texture(GLenum target, GLuint width, GLuint height, GLuint depth, GLuint mipmaps, GLubyte samples, GLenum sized_format, rsx::format_class format_class);
 		virtual ~texture();
 
 		// Getters/setters
@@ -214,6 +238,7 @@ namespace gl
 			return m_target;
 		}
 
+#ifndef USE_GLES
 		static bool compressed_format(internal_format format_) noexcept
 		{
 			switch (format_)
@@ -227,7 +252,7 @@ namespace gl
 				return false;
 			}
 		}
-
+#endif
 		uint id() const noexcept
 		{
 			return m_id;
@@ -276,9 +301,9 @@ namespace gl
 			return m_pitch;
 		}
 
-		constexpr GLubyte samples() const
+		GLubyte samples() const
 		{
-			return 1;
+			return m_samples;
 		}
 
 		GLboolean compressed() const

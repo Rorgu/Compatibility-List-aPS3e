@@ -17,26 +17,26 @@ public class KeyMapConfig {
     };
 
     public static final int[] KEY_NAMEIDS = new int[]{
-		R.string.keymapper_l,
-		R.string.keymapper_u,
-		R.string.keymapper_r,
-		R.string.keymapper_d,
-		R.string.keymapper_square,
-		R.string.keymapper_cross,
-		R.string.keymapper_circle,
-		R.string.keymapper_triangle,
+		R.string.left,
+		R.string.up,
+		R.string.right,
+		R.string.down,
+		R.string.square,
+		R.string.cross,
+		R.string.circle,
+		R.string.triangle,
     
-		R.string.keymapper_l1,
-		R.string.keymapper_l2,
-		R.string.keymapper_l3,
+		R.string.l1,
+		R.string.l2,
+		R.string.l3,
 
-		R.string.keymapper_r1,
-		R.string.keymapper_r2,
-		R.string.keymapper_r3,
+		R.string.r1,
+		R.string.r2,
+		R.string.r3,
 		
-		R.string.keymapper_start,
-		R.string.keymapper_select,
-		R.string.keymapper_ps,
+		R.string.start,
+		R.string.select,
+		R.string.ps,
         };
 
     public static final int[] KEY_VALUES = new int[]{

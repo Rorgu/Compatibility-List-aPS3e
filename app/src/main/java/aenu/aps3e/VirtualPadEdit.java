@@ -6,6 +6,7 @@ import android.os.*;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.window.OnBackInvokedDispatcher;
@@ -72,27 +73,122 @@ public class VirtualPadEdit extends Activity
 		});
 
 		final String scale_text=getString(R.string.scale_rate)+": ";
-		float scale=iv.getScale();
+		float joystick_scale=iv.getScale(InputOverlay.ScaleType.JOYSTICK);
+		float dpad_scale=iv.getScale(InputOverlay.ScaleType.DPAD);
+		float abxy_scale=iv.getScale(InputOverlay.ScaleType.ABXY);
+		float ss_scale=iv.getScale(InputOverlay.ScaleType.START_SELECT);
+		float lr_scale=iv.getScale(InputOverlay.ScaleType.LR);
+		float ps_scale=iv.getScale(InputOverlay.ScaleType.PS);
 
-		((TextView)d.findViewById(R.id.virtual_pad_scale_hint)).setText(scale_text+scale);
-		((SeekBar)d.findViewById(R.id.virtual_pad_scale)).setProgress((int)(scale*100));
-		((SeekBar)d.findViewById(R.id.virtual_pad_scale)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+		((TextView)d.findViewById(R.id.virtual_pad_joystick_scale_hint)).setText(scale_text+joystick_scale);
+		((TextView)d.findViewById(R.id.virtual_pad_dpad_scale_hint)).setText(scale_text+dpad_scale);
+		((TextView)d.findViewById(R.id.virtual_pad_button_scale_hint)).setText(scale_text+abxy_scale);
+		((TextView)d.findViewById(R.id.virtual_pad_ss_scale_hint)).setText(scale_text+ss_scale);
+		((TextView)d.findViewById(R.id.virtual_pad_lr_scale_hint)).setText(scale_text+lr_scale);
+		((TextView)d.findViewById(R.id.virtual_pad_ps_scale_hint)).setText(scale_text+ps_scale);
 
+		((SeekBar)d.findViewById(R.id.virtual_pad_joystick_scale)).setProgress((int)(joystick_scale*100));
+		((SeekBar)d.findViewById(R.id.virtual_pad_joystick_scale)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 			float scale;
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				scale=progress/100.f;
-				((TextView)d.findViewById(R.id.virtual_pad_scale_hint)).setText(scale_text+scale);
+				((TextView)d.findViewById(R.id.virtual_pad_joystick_scale_hint)).setText(scale_text+scale);
 			}
-
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {iv.setScale(InputOverlay.ScaleType.JOYSTICK,scale);}
+		});
 
+		((SeekBar)d.findViewById(R.id.virtual_pad_dpad_scale)).setProgress((int)(dpad_scale*100));
+		((SeekBar)d.findViewById(R.id.virtual_pad_dpad_scale)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+			float scale;
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				scale=progress/100.f;
+				((TextView)d.findViewById(R.id.virtual_pad_dpad_scale_hint)).setText(scale_text+scale);
 			}
-
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				iv.setScale(scale);
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {iv.setScale(InputOverlay.ScaleType.DPAD,scale);}
+		});
+
+		((SeekBar)d.findViewById(R.id.virtual_pad_button_scale)).setProgress((int)(abxy_scale*100));
+		((SeekBar)d.findViewById(R.id.virtual_pad_button_scale)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+			float scale;
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				scale=progress/100.f;
+				((TextView)d.findViewById(R.id.virtual_pad_button_scale_hint)).setText(scale_text+scale);
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {iv.setScale(InputOverlay.ScaleType.ABXY,scale);}
+		});
+
+		((SeekBar)d.findViewById(R.id.virtual_pad_ss_scale)).setProgress((int)(ss_scale*100));
+		((SeekBar)d.findViewById(R.id.virtual_pad_ss_scale)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+			float scale;
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				scale=progress/100.f;
+				((TextView)d.findViewById(R.id.virtual_pad_ss_scale_hint)).setText(scale_text+scale);
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {iv.setScale(InputOverlay.ScaleType.START_SELECT,scale);}
+		});
+
+		((SeekBar)d.findViewById(R.id.virtual_pad_lr_scale)).setProgress((int)(lr_scale*100));
+		((SeekBar)d.findViewById(R.id.virtual_pad_lr_scale)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+			float scale;
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				scale=progress/100.f;
+				((TextView)d.findViewById(R.id.virtual_pad_lr_scale_hint)).setText(scale_text+scale);
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {iv.setScale(InputOverlay.ScaleType.LR,scale);}
+		});
+
+		((SeekBar)d.findViewById(R.id.virtual_pad_ps_scale)).setProgress((int)(ps_scale*100));
+		((SeekBar)d.findViewById(R.id.virtual_pad_ps_scale)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+			float scale;
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				scale=progress/100.f;
+				((TextView)d.findViewById(R.id.virtual_pad_ps_scale_hint)).setText(scale_text+scale);
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {iv.setScale(InputOverlay.ScaleType.PS,scale);}
+		});
+
+		final int[] dynamic_joysticks={
+			R.id.virtual_pad_dynamic_joystick_disable,
+			R.id.virtual_pad_dynamic_joystick_use_left,
+			R.id.virtual_pad_dynamic_joystick_use_right
+		};
+		//get_dynamic_joystick return -1 0 1
+		((RadioGroup)d.findViewById(R.id.virtual_pad_dynamic_joystick))
+				.check(dynamic_joysticks[iv.get_dynamic_joystick()+1]);
+		((RadioGroup)d.findViewById(R.id.virtual_pad_dynamic_joystick)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				int dynamic_joystick;
+				for(int i=0;i<dynamic_joysticks.length;i++){
+					if(dynamic_joysticks[i]==checkedId){
+						iv.set_dynamic_joystick(i-1);
+						return;
+					}
+				}
 			}
 		});
 

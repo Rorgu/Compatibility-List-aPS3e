@@ -75,7 +75,7 @@ namespace vk
 		dbgCreateInfo.pfnCallback = callback;
 		dbgCreateInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
 
-		CHECK_RESULT(_vkCreateDebugReportCallbackEXT(m_instance, &dbgCreateInfo, NULL, &m_debugger));
+		CHECK_RESULT(_vkCreateDebugReportCallbackEXT(m_instance, &dbgCreateInfo, nullptr, &m_debugger));
 	}
 
 #ifdef __clang__

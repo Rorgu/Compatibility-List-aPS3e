@@ -50,8 +50,13 @@ namespace gl
 
 	bool fbo::check() const
 	{
-		GLenum status = DSA_CALL2_RET(CheckNamedFramebufferStatus, m_id, GL_FRAMEBUFFER);
 
+#ifndef USE_GLES
+		GLenum status = DSA_CALL2_RET(CheckNamedFramebufferStatus, m_id, GL_FRAMEBUFFER);
+#else
+        glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+#endif
 		if (status != GL_FRAMEBUFFER_COMPLETE)
 		{
 			rsx_log.error("FBO check failed: 0x%04x", status);
@@ -72,13 +77,24 @@ namespace gl
 	void fbo::draw_buffer(const attachment& buffer) const
 	{
 		GLenum buf = buffer.id();
+#ifndef USE_GLES
 		DSA_CALL3(NamedFramebufferDrawBuffers, FramebufferDrawBuffers, m_id, 1, &buf);
+#else
+        glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        glDrawBuffers(1, &buf);
+#endif
 	}
 
 	void fbo::draw_buffer(swapchain_buffer buffer) const
 	{
 		GLenum buf = static_cast<GLenum>(buffer);
+
+#ifndef USE_GLES
 		DSA_CALL3(NamedFramebufferDrawBuffers, FramebufferDrawBuffers, m_id, 1, &buf);
+#else
+        glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        glDrawBuffers(1, &buf);
+#endif
 	}
 
 	void fbo::draw_buffers(const std::initializer_list<attachment>& indexes) const
@@ -89,18 +105,33 @@ namespace gl
 		for (auto& index : indexes)
 			ids.push_back(index.id());
 
+#ifndef USE_GLES
 		DSA_CALL3(NamedFramebufferDrawBuffers, FramebufferDrawBuffers, m_id, static_cast<GLsizei>(ids.size()), ids.data());
+#else
+        glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        glDrawBuffers(static_cast<GLsizei>(ids.size()), ids.data());
+#endif
 	}
 
 	void fbo::read_buffer(const attachment& buffer) const
 	{
+#ifndef USE_GLES
 		DSA_CALL3(NamedFramebufferReadBuffer, FramebufferReadBuffer, m_id, buffer.id());
+#else
+        glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        glReadBuffer(buffer.id());
+#endif
 	}
 
 	void fbo::read_buffer(swapchain_buffer buffer) const
 	{
 		GLenum buf = static_cast<GLenum>(buffer);
+#ifndef USE_GLES
 		DSA_CALL3(NamedFramebufferReadBuffer, FramebufferReadBuffer, m_id, buf);
+#else
+        glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        glReadBuffer(buf);
+#endif
 	}
 
 	void fbo::draw_arrays(GLenum mode, GLsizei count, GLint first) const
@@ -181,7 +212,6 @@ namespace gl
 		glClear(static_cast<GLbitfield>(buffers_));
 	}
 
-#ifndef __ANDROID__
 	void fbo::copy_from(const void* pixels, const sizei& size, gl::texture::format format_, gl::texture::type type_, class pixel_unpack_settings pixel_settings) const
 	{
 		save_binding_state save(*this);
@@ -196,131 +226,7 @@ namespace gl
 		pixel_settings.apply();
 		glDrawPixels(size.width, size.height, static_cast<GLenum>(format_), static_cast<GLenum>(type_), nullptr);
 	}
-#else
-void fbo::_draw_textured_quad(GLuint texture, const sizei& size) const {
-    // 0. 确保有可用的着色器程序
-    static GLuint program = 0;
-    static GLint aPos = -1, aTexCoord = -1, uTex = -1;
-    if (program == 0) {
-        // 顶点着色器
-        const char* vsrc = R"(
-            attribute vec4 aPosition;
-            attribute vec2 aTexCoord;
-            varying vec2 vTexCoord;
-            void main() {
-                gl_Position = aPosition;
-                vTexCoord = aTexCoord;
-            }
-        )";
-        // 片段着色器
-        const char* fsrc = R"(
-            precision mediump float;
-            varying vec2 vTexCoord;
-            uniform sampler2D uTexture;
-            void main() {
-                gl_FragColor = texture2D(uTexture, vTexCoord);
-            }
-        )";
-        program = _compile_shader_program(vsrc, fsrc); // 需实现编译链接着色器的函数
-        aPos = glGetAttribLocation(program, "aPosition");
-        aTexCoord = glGetAttribLocation(program, "aTexCoord");
-        uTex = glGetUniformLocation(program, "uTexture");
-    }
 
-    // 1. 设置视口和混合状态
-    glViewport(0, 0, size.width, size.height);
-    glDisable(GL_BLEND); // 根据需要调整
-
-    // 2. 绑定纹理和着色器
-    glUseProgram(program);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glUniform1i(uTex, 0);
-
-    // 3. 定义顶点数据（全屏四边形）
-    const float vertices[] = {
-        -1.0f, -1.0f, 0.0f, 0.0f, // 左下
-        1.0f, -1.0f, 1.0f, 0.0f,  // 右下
-        -1.0f, 1.0f, 0.0f, 1.0f,  // 左上
-        1.0f, 1.0f, 1.0f, 1.0f    // 右上
-    };
-
-    // 4. 渲染
-    GLuint vao, vbo;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STREAM_DRAW);
-    glEnableVertexAttribArray(aPos);
-    glVertexAttribPointer(aPos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-    glEnableVertexAttribArray(aTexCoord);
-    glVertexAttribPointer(aTexCoord, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-    // 5. 清理临时缓冲对象
-    glDeleteBuffers(1, &vbo);
-    glDeleteVertexArrays(1, &vao);
-}
-
-void fbo::copy_from(
-    const void* pixels,
-    const sizei& size,
-    gl::texture::format format_,
-    gl::texture::type type_,
-    class pixel_unpack_settings pixel_settings
-) const {
-    save_binding_state save(*this);
-    pixel_settings.apply();
-
-    // 1. 创建临时纹理并上传像素数据
-    GLuint tempTex;
-    glGenTextures(1, &tempTex);
-    glBindTexture(GL_TEXTURE_2D, tempTex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexImage2D(
-        GL_TEXTURE_2D, 0, static_cast<GLenum>(format_),
-        size.width, size.height, 0,
-        static_cast<GLenum>(format_), static_cast<GLenum>(type_), pixels
-    );
-
-    // 2. 渲染全屏四边形
-    _draw_textured_quad(tempTex, size);
-
-    // 3. 清理临时纹理
-    glDeleteTextures(1, &tempTex);
-}
-void fbo::copy_from(
-    const buffer& buf,
-    const sizei& size,
-    gl::texture::format format_,
-    gl::texture::type type_,
-    class pixel_unpack_settings pixel_settings
-) const {
-    save_binding_state save(*this);
-    buffer::save_binding_state save_buffer(buffer::target::pixel_unpack, buf);
-    pixel_settings.apply();
-
-    // 1. 创建临时纹理并从PBO上传数据
-    GLuint tempTex;
-    glGenTextures(1, &tempTex);
-    glBindTexture(GL_TEXTURE_2D, tempTex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexImage2D(
-        GL_TEXTURE_2D, 0, static_cast<GLenum>(format_),
-        size.width, size.height, 0,
-        static_cast<GLenum>(format_), static_cast<GLenum>(type_), nullptr // 数据来自PBO
-    );
-
-    // 2. 渲染全屏四边形
-    _draw_textured_quad(tempTex, size);
-
-    // 3. 清理临时纹理
-    glDeleteTextures(1, &tempTex);
-}
-#endif
 	void fbo::copy_to(void* pixels, coordi coord, gl::texture::format format_, gl::texture::type type_, class pixel_pack_settings pixel_settings) const
 	{
 		save_binding_state save(*this);

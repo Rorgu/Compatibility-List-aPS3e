@@ -319,7 +319,7 @@ namespace vk
 		rp_info.pSubpasses = &subpass;
 
 		VkRenderPass result;
-		CHECK_RESULT(_vkCreateRenderPass(dev, &rp_info, NULL, &result));
+		CHECK_RESULT(_vkCreateRenderPass(dev, &rp_info, nullptr, &result));
 
 		g_renderpass_cache[renderpass_key] = result;
 		return result;

@@ -8,6 +8,17 @@
 
 	<string name="emulator_settings_video_vulkan_debug">Debug</string>
 
+	<string name="vibrator_duration">Virbrator Duration</string>
+	<string name="enable_vibrator">Enable Vibrator</string>
+	<string name="dynamic_joystick">Dynamic Joystick</string>
+	<string name="disable">Disable</string>
+
+	<string name="joystick">Joystick</string>
+	<string name="dpad">Dpad</string>
+	<string name="button">Button</string>
+	<string name="lr">LR</string>
+	<string name="start_select">Start/Select</string>
+
 	<string name="enable_log">Enable Log</string>
 	<string name="use_global_config">Use Global Config</string>
 	<string name="edit_custom_config">Edit Custom Config</string>
@@ -55,37 +66,27 @@
 	<string name="key_mappers">Key Mappers</string>
 	<string name="virtual_pad_edit">VirtualPadEdit</string>
 	
-	<string name="keymapper_l">left</string>
-	<string name="keymapper_u">up</string>
-	<string name="keymapper_r">right</string>
-	<string name="keymapper_d">down</string>
+	<string name="left">left</string>
+	<string name="up">up</string>
+	<string name="right">right</string>
+	<string name="down">down</string>
 	
-	<string name="keymapper_square">square</string>
-	<string name="keymapper_cross">cross</string>
-	<string name="keymapper_circle">circle</string>
-	<string name="keymapper_triangle">triangle</string>
-	
-	<string name="keymapper_lsl">left (Left joystick)</string>
-	<string name="keymapper_lsu">up (Left joystick)</string>
-	<string name="keymapper_lsr">right (Left joystick)</string>
-	<string name="keymapper_lsd">down (Left joystick)</string>
-	
-	<string name="keymapper_rsl">left (Right joystick)</string>
-	<string name="keymapper_rsu">up (Right joystick)</string>
-	<string name="keymapper_rsr">right (Right joystick)</string>
-	<string name="keymapper_rsd">down (Right joystick)</string>
+	<string name="square">square</string>
+	<string name="cross">cross</string>
+	<string name="circle">circle</string>
+	<string name="triangle">triangle</string>
 
-	<string name="keymapper_l1">L1</string>
-	<string name="keymapper_l2">L2</string>
-	<string name="keymapper_l3">L3</string>
+	<string name="l1">L1</string>
+	<string name="l2">L2</string>
+	<string name="l3">L3</string>
 
-	<string name="keymapper_r1">R1</string>
-	<string name="keymapper_r2">R2</string>
-	<string name="keymapper_r3">R3</string>
+	<string name="r1">R1</string>
+	<string name="r2">R2</string>
+	<string name="r3">R3</string>
 	
-	<string name="keymapper_start">start</string>
-	<string name="keymapper_select">select</string>
-	<string name="keymapper_ps">PS</string>
+	<string name="start">start</string>
+	<string name="select">select</string>
+	<string name="ps">PS</string>
 
 
 	<string name="emulator_settings_video_vulkan_custom_driver_library_path_dialog_title">Select a Custom Driver</string>

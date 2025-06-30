@@ -1,7 +1,7 @@
 // Wrangler for Vulkan functions.
 // TODO: Eventually, we shall declare vulkan with NO_PROTOTYPES and wrap everything here for android multi-driver support.
 // For now, we just use it for extensions since we're on VK_1_0
-
+#if 1
 #if defined(DECL_VK_FUNCTION)
 #define VK_FUNC(func) extern PFN_##func _##func
 #elif defined(DEF_VK_FUNCTION)
@@ -11,7 +11,30 @@
 #else
 #error ""
 #endif
+#else
 
+#if defined(DECL_VK_FUNCTION)
+#define VK_FUNC(func) extern int n_##func;\
+template<typename... Args> \
+auto _##func(Args&&... args)->decltype(func(args...)){            \
+++n_##func;return func(std::forward<Args>(args)...);\
+}
+#elif defined(DEF_VK_FUNCTION)
+#define VK_FUNC(func) int n_##func=0
+
+#elif defined(LOAD_VK_FUNCTION)
+#define VK_FUNC(func)
+
+#elif defined(CLEAR_N_VK_FUNCTION)
+#define VK_FUNC(func) n_##func=0
+
+#elif defined(PRINT_N_VK_FUNCTION)
+#define VK_FUNC(func) if(n_##func) rsx_log.warning("#### %s: %d",#func,n_##func)
+#else
+#error ""
+
+#endif
+#endif
 VK_FUNC(vkCreateInstance);
 VK_FUNC(vkDestroyInstance);
 VK_FUNC(vkEnumeratePhysicalDevices);
@@ -165,7 +188,7 @@ VK_FUNC(vkAcquireNextImageKHR);
 
 VK_FUNC(vkQueuePresentKHR);
 
-#if defined(DECL_VK_FUNCTION)||defined(DEF_VK_FUNCTION)
+#if defined(DECL_VK_FUNCTION)||defined(DEF_VK_FUNCTION)||defined(CLEAR_N_VK_FUNCTION)||defined(PRINT_N_VK_FUNCTION)
 #define INSTANCE_VK_FUNCTION
 #define DEVICE_VK_FUNCTION
 #include "VKPFNTableEXT.h"

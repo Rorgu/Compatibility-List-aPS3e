@@ -6,6 +6,17 @@
 
     <string name="emulator_settings_video_vulkan_debug">调试</string>
 
+    <string name="vibrator_duration">震动时长</string>
+    <string name="enable_vibrator">启用震动</string>
+    <string name="dynamic_joystick">动态摇杆</string>
+    <string name="disable">禁用</string>
+
+    <string name="joystick">摇杆</string>
+    <string name="dpad">方向键</string>
+    <string name="button">按钮</string>
+    <string name="lr">LR</string>
+    <string name="start_select">开始/选择</string>
+
     <string name="enable_log">启用日志</string>
     <string name="use_global_config">使用全局配置</string>
     <string name="edit_custom_config">编辑自定义配置</string>
@@ -54,38 +65,27 @@
 	<string name="key_mappers">按键映射</string>
 	<string name="virtual_pad_edit">虚拟键盘编辑</string>
 
-	<string name="keymapper_l">左</string>
-	<string name="keymapper_u">上</string>
-	<string name="keymapper_r">右</string>
-	<string name="keymapper_d">下</string>
+    <string name="left">左</string>
+    <string name="up">上</string>
+    <string name="right">右</string>
+    <string name="down">下</string>
 
-	<string name="keymapper_square">方框</string>
-	<string name="keymapper_cross">叉</string>
-	<string name="keymapper_circle">圆</string>
-	<string name="keymapper_triangle">三角</string>
+    <string name="square">方框</string>
+    <string name="cross">叉</string>
+    <string name="circle">圆</string>
+    <string name="triangle">三角</string>
 
-	<string name="keymapper_lsl">左(左摇杆)</string>
-	<string name="keymapper_lsu">上(左摇杆)</string>
-	<string name="keymapper_lsr">右(左摇杆)</string>
-	<string name="keymapper_lsd">下(左摇杆)</string>
+    <string name="l1">L1</string>
+    <string name="l2">L2</string>
+    <string name="l3">L3</string>
 
-	<string name="keymapper_rsl">左(右摇杆)</string>
-	<string name="keymapper_rsu">上(右摇杆)</string>
-	<string name="keymapper_rsr">右(右摇杆)</string>
-	<string name="keymapper_rsd">下(右摇杆)</string>
+    <string name="r1">R1</string>
+    <string name="r2">R2</string>
+    <string name="r3">R3</string>
 
-	<string name="keymapper_l1">L1</string>
-	<string name="keymapper_l2">L2</string>
-	<string name="keymapper_l3">L3</string>
-
-	<string name="keymapper_r1">R1</string>
-	<string name="keymapper_r2">R2</string>
-	<string name="keymapper_r3">R3</string>
-
-	<string name="keymapper_start">开始</string>
-	<string name="keymapper_select">选择</string>
-	<string name="keymapper_ps">PS</string>
-
+    <string name="start">开始</string>
+    <string name="select">选择</string>
+    <string name="ps">PS</string>
 
     <string name="emulator_settings_video_vulkan_custom_driver_library_path_dialog_title">选择一个自定义驱动</string>
     <string name="emulator_settings_video_vulkan_custom_driver_library_path_dialog_add_hint">添加自定义驱动(*.zip, *.so)</string>

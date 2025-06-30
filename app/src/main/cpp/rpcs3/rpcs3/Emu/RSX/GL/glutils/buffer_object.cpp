@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "buffer_object.h"
+#include "common.h"
 
 namespace gl
 {
@@ -7,6 +8,7 @@ namespace gl
 	{
 		m_memory_type = type;
 
+#ifndef USE_GLES
 		if (const auto& caps = get_driver_caps();
 			type != memory_type::userptr && caps.ARB_buffer_storage_supported)
 		{
@@ -47,6 +49,7 @@ namespace gl
 			m_size = size;
 		}
 		else
+#endif
 		{
 			data(size, data_, GL_STREAM_COPY);
 		}
@@ -114,6 +117,10 @@ namespace gl
 
 		m_size = size;
 
+#ifdef USE_GLES
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        glBufferData(GL_ARRAY_BUFFER, size, data_, usage);
+#else
 		if (m_memory_type == memory_type::userptr)
 		{
 			glBindBuffer(GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD, m_id);
@@ -122,12 +129,19 @@ namespace gl
 		}
 
 		DSA_CALL2(NamedBufferData, m_id, size, data_, usage);
+#endif
 	}
 
 	void buffer::sub_data(GLsizeiptr offset, GLsizeiptr length, const GLvoid* data)
 	{
 		ensure(m_memory_type == memory_type::local);
+
+#ifdef USE_GLES
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        glBufferSubData(GL_ARRAY_BUFFER, offset,length, data);
+#else
 		DSA_CALL2(NamedBufferSubData, m_id, offset, length, data);
+#endif
 	}
 
 	GLubyte* buffer::map(GLsizeiptr offset, GLsizeiptr length, access access_)
@@ -137,14 +151,24 @@ namespace gl
 		GLenum access_bits = static_cast<GLenum>(access_);
 		if (access_bits == GL_MAP_WRITE_BIT) access_bits |= GL_MAP_UNSYNCHRONIZED_BIT;
 
+#ifdef USE_GLES
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        auto raw_data=glMapBufferRange(GL_ARRAY_BUFFER, offset,length, access_bits);
+#else
 		auto raw_data = DSA_CALL2_RET(MapNamedBufferRange, id(), offset, length, access_bits);
+#endif
 		return reinterpret_cast<GLubyte*>(raw_data);
 	}
 
 	void buffer::unmap()
 	{
 		ensure(m_memory_type == memory_type::host_visible);
+#ifdef USE_GLES
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+#else
 		DSA_CALL2(UnmapNamedBuffer, id());
+#endif
 	}
 
 	void buffer::bind_range(u32 index, u32 offset, u32 size) const
@@ -161,7 +185,13 @@ namespace gl
 
 	void buffer::copy_to(buffer* other, u64 src_offset, u64 dst_offset, u64 size)
 	{
-		if (get_driver_caps().ARB_dsa_supported)
+
+#ifdef USE_GLES
+        glBindBuffer(GL_COPY_READ_BUFFER, this->id());
+        glBindBuffer(GL_COPY_WRITE_BUFFER, other->id());
+        glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, src_offset, dst_offset, size);
+#else
+		if (get_driver_caps().ARB_direct_state_access_supported)
 		{
 			glCopyNamedBufferSubData(this->id(), other->id(), src_offset, dst_offset, size);
 		}
@@ -169,6 +199,7 @@ namespace gl
 		{
 			glNamedCopyBufferSubDataEXT(this->id(), other->id(), src_offset, dst_offset, size);
 		}
+#endif
 	}
 
 	// Buffer view

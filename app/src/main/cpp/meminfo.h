@@ -19,12 +19,14 @@ struct mem_map_entry_t {
     std::string pathname;
 };
 
-void meminfo_init();
-std::vector<mem_map_entry_t> meminfo_update();
+std::vector<mem_map_entry_t> meminfo_update(const std::vector<mem_map_entry_t>& origin={});
 uint64_t meminfo_calc_total_mem(const std::vector<mem_map_entry_t>& mem_map);
 std::string meminfo_print_calc_total_mem(const std::vector<mem_map_entry_t>& mem_map);
 std::string meminfo_to_string(const std::vector<mem_map_entry_t>& mem_map,int step_size=1);
 
 float meminfo_sys_mem_usage(float scale=1.0);
+
+uint64_t meminfo_gpu_mem_usage_kb();
+std::string meminfo_gpu_mem_usage();
 
 #endif //APS3E_MEMINFO_H

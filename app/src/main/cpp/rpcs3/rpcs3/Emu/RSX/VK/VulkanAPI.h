@@ -34,6 +34,15 @@ extern bool cfg_vertex_buffer_upload_mode_use_buffer_view();
 #include "VKPFNTable.h"
 #undef DECL_VK_FUNCTION
 
+#if 0
+#define VK_FUNC(func) extern PFN_##func _##func
+#define INSTANCE_VK_FUNCTION
+#define DEVICE_VK_FUNCTION
+#include "VKPFNTableEXT.h"
+#undef INSTANCE_VK_FUNCTION
+#undef DEVICE_VK_FUNCTION
+#undef VK_FUNC
+#endif
 namespace vk
 {
     void init_base_pfn();

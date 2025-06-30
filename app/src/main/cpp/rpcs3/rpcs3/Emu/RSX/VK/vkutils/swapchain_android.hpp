@@ -18,7 +18,7 @@ namespace vk
         createInfo.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
         createInfo.window =reinterpret_cast<ANativeWindow *>(window_handle);
 
-        CHECK_RESULT(_vkCreateAndroidSurfaceKHR(vk_instance, &createInfo, NULL, &result));
+        CHECK_RESULT(_vkCreateAndroidSurfaceKHR(vk_instance, &createInfo, nullptr, &result));
         return result;
     }
 #endif

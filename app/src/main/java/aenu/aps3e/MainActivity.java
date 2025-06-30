@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 		getSupportActionBar().setTitle(getString(R.string.select_game));//"选择游戏");
-		android.util.Log.e("aps3e_java","main");
+		android.util.Log.i("aps3e_java","main");
 
         setContentView(R.layout.activity_main);
 

@@ -33,24 +33,46 @@ import android.view.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import aenu.view.SVListView;
+
 public class KeyMapActivity extends AppCompatActivity {
     
 	SharedPreferences sp;
-	ListView lv;
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 		sp=getSharedPreferences();
-        lv=new ListView(this);
-		lv.setDividerHeight(32);
-		setContentView(lv);
 		update_config();
-		lv.setOnItemClickListener(click_l);
+		setContentView(R.layout.activity_keymap);
+		((SVListView)findViewById(R.id.keymap_list)).setOnItemClickListener(click_l);
+		((Button)findViewById(R.id.keymap_reset)).setOnClickListener(reset_l);
+		((CheckBox)findViewById(R.id.enable_vibrator)).setChecked(sp.getBoolean("enable_vibrator",false));
+		((CheckBox)findViewById(R.id.enable_vibrator)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				sp.edit().putBoolean("enable_vibrator",isChecked).commit();
+			}
+		});
+		/*
+		final String vibrator_duration_hiht=getString(R.string.vibrator_duration)+":  ";
+		((TextView)findViewById(R.id.vibrator_duration_label)).setText(vibrator_duration_hiht+sp.getInt("vibrator_duration",25));
+		((SeekBar)findViewById(R.id.vibrator_duration)).setProgress(sp.getInt("vibrator_duration",25));
+		((SeekBar)findViewById(R.id.vibrator_duration)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				((TextView)findViewById(R.id.vibrator_duration_label)).setText(vibrator_duration_hiht+progress);
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+		});*/
+
 		refresh_view();
     }
 	
 	void refresh_view(){
-		lv.setAdapter(new KeyListAdapter(this,KeyMapConfig.KEY_NAMEIDS,get_all_key_mapper_values()));
+		((SVListView)findViewById(R.id.keymap_list)).setAdapter(new KeyListAdapter(this,KeyMapConfig.KEY_NAMEIDS,get_all_key_mapper_values()));
 	}
 	
 	void update_config(){
@@ -116,6 +138,19 @@ public class KeyMapActivity extends AppCompatActivity {
 		}
 	};
 
+	private final View.OnClickListener reset_l=new View.OnClickListener(){
+		@Override
+		public void onClick(View v)
+		{
+			for(int i=0;i<KeyMapConfig.KEY_NAMEIDS.length;i++){
+				String key_n=Integer.toString(KeyMapConfig.KEY_NAMEIDS[i]);
+				int default_v=KeyMapConfig.DEFAULT_KEYMAPPERS[i];
+				sp.edit().putInt(key_n,default_v).commit();
+			}
+			refresh_view();
+		}
+	};
+
     private SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(this);
     }
@@ -160,7 +195,7 @@ public class KeyMapActivity extends AppCompatActivity {
 
             
             if(curView==null){
-                curView=new TextView(context_);
+                curView=new TextView(context_,null,androidx.appcompat.R.attr.textAppearanceListItem);
             }
 			
 			TextView text=(TextView)curView;

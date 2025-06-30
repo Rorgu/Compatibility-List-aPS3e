@@ -157,6 +157,9 @@ namespace vk
 				}
 				else if (elem_size == 4)
 				{
+                    if(is_ror8)
+                        shuffle_kernel = vk::get_compute_task<vk::cs_shuffle_ror8>();
+                        else
 					shuffle_kernel = vk::get_compute_task<vk::cs_shuffle_32>();
 				}
 				else

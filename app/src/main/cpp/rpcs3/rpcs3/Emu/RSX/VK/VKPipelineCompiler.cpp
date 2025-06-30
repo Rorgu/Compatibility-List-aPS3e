@@ -53,7 +53,7 @@ namespace vk
 	std::unique_ptr<glsl::program> pipe_compiler::int_compile_compute_pipe(const VkComputePipelineCreateInfo& create_info, VkPipelineLayout pipe_layout)
 	{
 		VkPipeline pipeline;
-        //FIXME （部分？）Adreno 7xx默认驱动会返回-13
+        //FIXME （部分？）Adreno 7xx默认驱动可能会返回-13
         CHECK_RESULT(_vkCreateComputePipelines(*g_render_device, nullptr, 1, &create_info, nullptr, &pipeline));
 		return std::make_unique<vk::glsl::program>(*m_device, pipeline, pipe_layout);
 	}

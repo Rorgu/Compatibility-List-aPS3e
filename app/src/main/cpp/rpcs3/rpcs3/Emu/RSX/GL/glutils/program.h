@@ -181,12 +181,13 @@ namespace gl
 				return *this;
 			}
 
+#ifndef USE_GLES
 			program& bind_fragment_data_location(const std::string& name, int color_number)
 			{
 				glBindFragDataLocation(m_id, color_number, name.c_str());
 				return *this;
 			}
-
+#endif
 			GLuint id() const { return m_id; }
 
 			bool created() const { return m_id != GL_NONE; }

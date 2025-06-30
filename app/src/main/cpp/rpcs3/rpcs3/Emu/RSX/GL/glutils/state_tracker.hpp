@@ -137,7 +137,7 @@ namespace gl
 			const u32 value = std::bit_cast<u32>(depth);
 			if (!test_and_set_property(GL_DEPTH_CLEAR_VALUE, value))
 			{
-				glClearDepth(depth);
+				glClearDepthf(depth);
 			}
 		}
 
@@ -240,6 +240,7 @@ namespace gl
 			const u64 value = (static_cast<u64>(std::bit_cast<u32>(max)) << 32) | std::bit_cast<u32>(min);
 			if (!test_and_set_property(DEPTH_BOUNDS, value))
 			{
+#ifndef USE_GLES
 				if (get_driver_caps().NV_depth_buffer_float_supported)
 				{
 					glDepthBoundsdNV(min, max);
@@ -248,6 +249,7 @@ namespace gl
 				{
 					glDepthBoundsEXT(min, max);
 				}
+#endif
 			}
 		}
 
@@ -256,6 +258,7 @@ namespace gl
 			const u64 value = (static_cast<u64>(std::bit_cast<u32>(max)) << 32) | std::bit_cast<u32>(min);
 			if (!test_and_set_property(DEPTH_RANGE, value))
 			{
+#ifndef USE_GLES
 				if (get_driver_caps().NV_depth_buffer_float_supported)
 				{
 					glDepthRangedNV(min, max);
@@ -264,15 +267,18 @@ namespace gl
 				{
 					glDepthRange(min, max);
 				}
+#endif
 			}
 		}
 
 		void logic_op(GLenum op)
 		{
+#ifndef USE_GLES
 			if (!test_and_set_property(GL_COLOR_LOGIC_OP, op))
 			{
 				glLogicOp(op);
 			}
+#endif
 		}
 
 		void line_width(GLfloat width)
@@ -309,12 +315,39 @@ namespace gl
 			}
 		}
 
+		void sample_mask(GLbitfield mask)
+		{
+			if (!test_and_set_property(GL_SAMPLE_MASK_VALUE, mask))
+			{
+				glSampleMaski(0, mask);
+			}
+		}
+
+		void sample_coverage(GLclampf coverage)
+		{
+			const u32 value = std::bit_cast<u32>(coverage);
+			if (!test_and_set_property(GL_SAMPLE_COVERAGE_VALUE, value))
+			{
+				glSampleCoverage(coverage, GL_FALSE);
+			}
+		}
+
+		void min_sample_shading_rate(GLclampf rate)
+		{
+			const u32 value = std::bit_cast<u32>(rate);
+			if (!test_and_set_property(GL_MIN_SAMPLE_SHADING_VALUE, value))
+			{
+				glMinSampleShading(rate);
+			}
+		}
+
 		void clip_planes(GLuint mask)
 		{
 			if (!test_and_set_property(CLIP_PLANES, mask))
 			{
 				for (u32 i = 0; i < 6; ++i)
 				{
+#ifndef USE_GLES
 					if (mask & (1 << i))
 					{
 						glEnable(GL_CLIP_DISTANCE0 + i);
@@ -323,6 +356,7 @@ namespace gl
 					{
 						glDisable(GL_CLIP_DISTANCE0 + i);
 					}
+#endif
 				}
 			}
 		}

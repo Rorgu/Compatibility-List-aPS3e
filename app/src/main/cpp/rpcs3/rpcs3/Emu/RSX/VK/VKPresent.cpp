@@ -29,9 +29,9 @@ namespace
 			[[fallthrough]];
 		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_X8R8G8B8:
             return use_bgra_fmt?VK_FORMAT_B8G8R8A8_UNORM:VK_FORMAT_R8G8B8A8_UNORM;
-		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_X8B8G8R8:
-            return use_bgra_fmt?VK_FORMAT_R8G8B8A8_UNORM:VK_FORMAT_B8G8R8A8_UNORM;
-		case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_R16G16B16X16_FLOAT:
+            case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_X8B8G8R8:
+                return use_bgra_fmt?VK_FORMAT_R8G8B8A8_UNORM:VK_FORMAT_B8G8R8A8_UNORM;
+            case CELL_VIDEO_OUT_BUFFER_COLOR_FORMAT_R16G16B16X16_FLOAT:
 			return VK_FORMAT_R16G16B16A16_SFLOAT;
 		}
 	}
@@ -830,20 +830,33 @@ void VKGSRender::flip(const rsx::display_flip_info_t& info)
 			}
 		}
 #if 0
+        static u64 count=0;
+        static int64_t last_gpu_mem=0;
 
-        static int64_t last_use_mem=0;
+        if((++count%2)==0)
+        {
+            {
+                if(static_cast<int64_t>(meminfo_gpu_mem_usage_kb())-last_gpu_mem>16*1024) {
+                    rsx_log.warning("aaaa %f mb",
+                                    (static_cast<int64_t>(meminfo_gpu_mem_usage_kb()) -
+                                     last_gpu_mem) / 1024.0f);
+                }
+                else
+                    rsx_log.warning("bbbb %f mb",(static_cast<int64_t>(meminfo_gpu_mem_usage_kb())-last_gpu_mem)/1024.0f);
+#define PRINT_N_VK_FUNCTION
+                {
+#include "VKPFNTable.h"
+                };
+#undef PRINT_N_VK_FUNCTION
 
-        if(last_use_mem==0){
-            meminfo_init();
+#define CLEAR_N_VK_FUNCTION
+                {
+#include "VKPFNTable.h"
+                };
+#undef CLEAR_N_VK_FUNCTION
+            }
+            last_gpu_mem = static_cast<int64_t>(meminfo_gpu_mem_usage_kb());
         }
-
-        const std::vector<mem_map_entry_t> mem_info=meminfo_update();
-
-        int64_t cur_use_mem= static_cast<int64_t>(meminfo_calc_total_mem(mem_info));
-        if(cur_use_mem-last_use_mem>1024*1024){
-            rsx_log.warning("aaaa %f mb",static_cast<float>(cur_use_mem-last_use_mem)/1024.0f/1024.0f);
-        }
-        last_use_mem=cur_use_mem;
 #endif
 		if (g_cfg.video.debug_overlay)
 		{
@@ -900,18 +913,23 @@ void VKGSRender::flip(const rsx::display_flip_info_t& info)
 		}
         else if(g_cfg.misc.mem_debug_overlay){
 #if 0
-            const std::string usage= meminfo_print_calc_total_mem(mem_info);
-            const std::string detail= meminfo_to_string(mem_info,4);
+            const std::string usage= std::to_string(meminfo_sys_mem_usage(100.f));
+            const std::string gpu_usage=std::to_string(last_gpu_mem/1024.f);//meminfo_gpu_mem_usage();
 
             rsx::overlays::set_debug_overlay_text(fmt::format(
                     "usage:      %s\n"
-                    "detail:\n"
-                    "%s \n",
-                     usage,detail)
+                    "gpu: %s",
+                     usage,gpu_usage)
             );
 #else
             const u32 mem_usage= static_cast<u32>(meminfo_sys_mem_usage(100.f));
-            rsx::overlays::set_debug_overlay_text(fmt::format("%02u%%",mem_usage));
+            const uint64_t gpu_usage= meminfo_gpu_mem_usage_kb();
+            if(gpu_usage!=0)
+                rsx::overlays::set_debug_overlay_text( fmt::format("total usage: %02u%%\n gpu usage: %2f GB"
+                                                                   ,mem_usage,gpu_usage/1024.f/1024.f));
+            else
+                rsx::overlays::set_debug_overlay_text( fmt::format("total usage: %02u%%"
+                                                                   ,mem_usage));
 #endif
         }
 

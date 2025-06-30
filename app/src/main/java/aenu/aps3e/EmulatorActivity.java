@@ -24,6 +24,8 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
     private SparseIntArray keysMap = new SparseIntArray();
     private GameFrameView gv;
 
+	private Vibrator vibrator=null;
+	private VibrationEffect vibrationEffect=null;
 	boolean started=false;
 
 	void setup_env(String serial){
@@ -33,8 +35,8 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 
 		boolean enable_log=getSharedPreferences("debug",MODE_PRIVATE).getBoolean("enable_log",false);
 		aenu.lang.System.setenv("APS3E_ENABLE_LOG",Boolean.toString(enable_log));
-
 	}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +53,8 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 		gv.setOnGenericMotionListener(this);
 
 		gv.getHolder().addCallback(this);
-		
-        load_key_map();
+
+        load_key_map_and_vibrator();
 		Emulator.MetaInfo meta_info = (Emulator.MetaInfo) getIntent().getSerializableExtra("meta_info");
 		setup_env(meta_info.serial);
 		/*if(meta_info==null){
@@ -133,6 +135,7 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
         int gameKey = keysMap.get(keyCode, 0);
 		if (gameKey == 0) return super.onKeyDown(keyCode, event);
 		if (event.getRepeatCount() == 0){
+			vibrator();
 			Emulator.get.key_event(gameKey, true);
             return true;
 		}
@@ -164,10 +167,13 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
             if (Float.compare(xaxis, -1.0f) == 0) {
                 Emulator.get.key_event(ControlId.l, true);
 				Emulator.get.key_event(ControlId.r, false);
+				vibrator();
 				pressed=true;
             } else if (Float.compare(xaxis, 1.0f) == 0) {
                 Emulator.get.key_event(ControlId.r, true);
 				Emulator.get.key_event(ControlId.l, false);
+
+				vibrator();
 				pressed=true;
             }
             // Check if the AXIS_HAT_Y value is -1 or 1, and set the D-pad
@@ -175,10 +181,14 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
             if (Float.compare(yaxis, -1.0f) == 0) {
                 Emulator.get.key_event(ControlId.u, true);
 				Emulator.get.key_event(ControlId.d, false);
+
+				vibrator();
 				pressed=true;
             } else if (Float.compare(yaxis, 1.0f) == 0) {
                 Emulator.get.key_event(ControlId.d, true);
 				Emulator.get.key_event(ControlId.u, false);
+
+				vibrator();
 				pressed=true;
             }
         }
@@ -189,21 +199,29 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
             if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT) {
                 Emulator.get.key_event(ControlId.l, true);
 				Emulator.get.key_event(ControlId.r, false);
+
+				vibrator();
 				pressed=true;
 				
             } else if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT) {
                 Emulator.get.key_event(ControlId.r, true);
 				Emulator.get.key_event(ControlId.l, false);
+
+				vibrator();
 				pressed=true;
 				
             } else if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP) {
                 Emulator.get.key_event(ControlId.u, true);
 				Emulator.get.key_event(ControlId.d, false);
+
+				vibrator();
 				pressed=true;
 
             } else if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN) {
                 Emulator.get.key_event(ControlId.d, true);
 				Emulator.get.key_event(ControlId.u, false);
+
+				vibrator();
 				pressed=true;
 				
             }
@@ -307,9 +325,13 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
 		return super.onGenericMotionEvent(event);
 	}
 	
+	void vibrator(){
+		if(vibrator!=null) {
+			vibrator.vibrate(vibrationEffect);
+		}
+	}
 	
-	
-	void load_key_map() {
+	void load_key_map_and_vibrator() {
         final SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         keysMap.clear();
         for (int i = 0; i < KeyMapConfig.KEY_NAMEIDS.length; i++) {
@@ -317,6 +339,10 @@ public class EmulatorActivity extends Activity implements View.OnGenericMotionLi
             int keyCode = sPrefs.getInt(keyName, KeyMapConfig.DEFAULT_KEYMAPPERS[i]);
             keysMap.put(keyCode, KeyMapConfig.KEY_VALUES[i]);
         }
+		if(sPrefs.getBoolean("enable_vibrator",false)){
+			vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			vibrationEffect = VibrationEffect.createOneShot(25, VibrationEffect.DEFAULT_AMPLITUDE);
+		}
     }
 
 	@Override

@@ -14,7 +14,6 @@
 #include "vksym.h"
 #undef VKFN
 #endif
-
 namespace {
     void* lib_handle = nullptr;
 }

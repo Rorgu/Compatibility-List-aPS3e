@@ -185,7 +185,7 @@ namespace vk
 		CHECK_RESULT(_vkCreateBuffer(m_device, &info, nullptr, &value));
 
 		auto& memory_map = dev.get_memory_mapping();
-		ensure(_vkGetMemoryHostPointerPropertiesEXT);
+		//ensure(_vkGetMemoryHostPointerPropertiesEXT);
 
 		VkMemoryHostPointerPropertiesEXT memory_properties{};
 		memory_properties.sType = VK_STRUCTURE_TYPE_MEMORY_HOST_POINTER_PROPERTIES_EXT;

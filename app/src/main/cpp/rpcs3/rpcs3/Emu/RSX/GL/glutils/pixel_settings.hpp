@@ -18,13 +18,16 @@ namespace gl
 	public:
 		void apply() const
 		{
+
+#ifndef USE_GLES
 			glPixelStorei(GL_PACK_SWAP_BYTES, m_swap_bytes ? GL_TRUE : GL_FALSE);
 			glPixelStorei(GL_PACK_LSB_FIRST, m_lsb_first ? GL_TRUE : GL_FALSE);
-			glPixelStorei(GL_PACK_ROW_LENGTH, m_row_length);
 			glPixelStorei(GL_PACK_IMAGE_HEIGHT, m_image_height);
+			glPixelStorei(GL_PACK_SKIP_IMAGES, m_skip_images);
+#endif
+			glPixelStorei(GL_PACK_ROW_LENGTH, m_row_length);
 			glPixelStorei(GL_PACK_SKIP_ROWS, m_skip_rows);
 			glPixelStorei(GL_PACK_SKIP_PIXELS, m_skip_pixels);
-			glPixelStorei(GL_PACK_SKIP_IMAGES, m_skip_images);
 			glPixelStorei(GL_PACK_ALIGNMENT, m_alignment);
 		}
 
@@ -93,8 +96,10 @@ namespace gl
 	public:
 		void apply() const
 		{
+#ifndef USE_GLES
 			glPixelStorei(GL_UNPACK_SWAP_BYTES, m_swap_bytes ? GL_TRUE : GL_FALSE);
 			glPixelStorei(GL_UNPACK_LSB_FIRST, m_lsb_first ? GL_TRUE : GL_FALSE);
+#endif
 			glPixelStorei(GL_UNPACK_ROW_LENGTH, m_row_length);
 			glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, m_image_height);
 			glPixelStorei(GL_UNPACK_SKIP_ROWS, m_skip_rows);

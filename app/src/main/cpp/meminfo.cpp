@@ -14,30 +14,8 @@ bool operator!=(const mem_map_entry_t& lhs, const mem_map_entry_t& rhs) {
     return !(lhs == rhs);
 }
 
-static std::vector<mem_map_entry_t> start_entries;
-void meminfo_init() {
-    std::ifstream maps_file("/proc/self/maps");
-    std::string line;
-
-    while (std::getline(maps_file, line)) {
-        std::istringstream iss(line);
-        mem_map_entry_t entry;
-        char dash;
-        char colon;
-        iss >> std::hex >> entry.start_addr >> dash >> entry.end_addr;
-        iss >> entry.permissions;
-        iss >> std::hex >> entry.offset;
-        iss >> std::dec >> entry.dev_major >> colon >> entry.dev_minor;
-        iss >> entry.inode;
-        std::getline(iss, entry.pathname);
-        if (!entry.pathname.empty() && entry.pathname[0] == ' ') {
-            entry.pathname.erase(0, 1);
-        }
-        start_entries.push_back(entry);
-    }
-}
-
-std::vector<mem_map_entry_t> meminfo_update() {
+std::vector<mem_map_entry_t> meminfo_update(const std::vector<mem_map_entry_t>& origin) {
+    const std::vector<mem_map_entry_t>& start_entries=origin;
     std::vector<mem_map_entry_t> entries;
     std::ifstream maps_file("/proc/self/maps");
     std::string line;
@@ -118,4 +96,43 @@ float meminfo_sys_mem_usage(float scale){
         }
     }
     return (total_mem - available_mem) *scale/ total_mem;
+}
+
+uint64_t meminfo_sys_mem_usage_kb(){
+    std::ifstream maps_file("/proc/meminfo");
+    std::string line;
+    uint64_t total_mem = 0;
+    uint64_t available_mem = 0;
+    while (std::getline(maps_file, line)) {
+        if (line.find("MemTotal:") != std::string::npos) {
+            sscanf(line.c_str(), "MemTotal: %lu kB", &total_mem);
+        }
+        else if (line.find("MemAvailable:") != std::string::npos) {
+            sscanf(line.c_str(), "MemAvailable: %lu kB", &available_mem);
+        }
+    }
+    return total_mem - available_mem;
+}
+
+uint64_t meminfo_gpu_mem_usage_kb(){
+    std::ifstream maps_file("/proc/meminfo");
+    std::string line;
+    uint64_t gpu_totalused = 0;
+    while (std::getline(maps_file, line)) {
+        if (line.find("GPUTotalUsed:") != std::string::npos) {
+            sscanf(line.c_str(), "GPUTotalUsed: %lu kB", &gpu_totalused);
+            break;
+        }
+    }
+    return gpu_totalused;
+}
+
+std::string meminfo_gpu_mem_usage(){
+    uint64_t gpu_totalused = meminfo_gpu_mem_usage_kb();
+
+    if(gpu_totalused){
+        float gpu_usage = gpu_totalused / 1024.0f/ 1024.0f;
+        return std::to_string(gpu_usage) + " GB";
+    }
+    return "N/A";
 }

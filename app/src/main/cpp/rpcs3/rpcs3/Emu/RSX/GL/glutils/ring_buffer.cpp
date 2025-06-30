@@ -14,12 +14,18 @@ namespace gl
 		buffer::create();
 		save_binding_state save(current_target(), *this);
 
+#ifndef USE_GLES
 		GLbitfield buffer_storage_flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
 		if (gl::get_driver_caps().vendor_MESA) buffer_storage_flags |= GL_CLIENT_STORAGE_BIT;
 
 		DSA_CALL2(NamedBufferStorage, m_id, size, data, buffer_storage_flags);
 		m_memory_mapping = DSA_CALL2_RET(MapNamedBufferRange, m_id, 0, size, GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT);
-
+#else
+        GLbitfield buffer_storage_flags = GL_MAP_WRITE_BIT;
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        glBufferData(GL_ARRAY_BUFFER, size, data, buffer_storage_flags);
+        m_memory_mapping = glMapBufferRange(GL_ARRAY_BUFFER, 0, size, buffer_storage_flags);
+#endif
 		ensure(m_memory_mapping != nullptr);
 		m_data_loc = 0;
 		m_size = ::narrow<u32>(size);
@@ -115,7 +121,12 @@ namespace gl
 			m_data_loc = 0;
 		}
 
+#ifndef USE_GLES
 		m_memory_mapping = DSA_CALL2_RET(MapNamedBufferRange, m_id, m_data_loc, block_size, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#else
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        m_memory_mapping = glMapBufferRange(GL_ARRAY_BUFFER, m_data_loc, block_size, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
 		m_mapped_bytes = block_size;
 		m_mapping_offset = m_data_loc;
 		m_alignment_offset = 0;
@@ -187,7 +198,13 @@ namespace gl
 		flush();
 
 		dirty = true;
+
+#ifndef USE_GLES
 		return DSA_CALL2_RET(MapNamedBufferRange, m_id, offset, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#else
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        return glMapBufferRange(GL_ARRAY_BUFFER, offset, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
 	}
 
 	void transient_ring_buffer::bind()
@@ -206,8 +223,13 @@ namespace gl
 
 		buffer::create();
 		save_binding_state save(current_target(), *this);
-		DSA_CALL2(NamedBufferStorage, m_id, size, data, GL_MAP_WRITE_BIT);
 
+#ifndef USE_GLES
+		DSA_CALL2(NamedBufferStorage, m_id, size, data, GL_MAP_WRITE_BIT);
+#else
+        glBindBuffer(GL_ARRAY_BUFFER, m_id);
+        glBufferData(GL_ARRAY_BUFFER, size, data, GL_MAP_WRITE_BIT);
+#endif
 		m_data_loc = 0;
 		m_size = ::narrow<u32>(size);
 		m_memory_type = memory_type::host_visible;

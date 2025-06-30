@@ -96,7 +96,7 @@ namespace vk
 			}
 
 			//auto _vkGetPhysicalDeviceFeatures2KHR = reinterpret_cast<PFN_vkGetPhysicalDeviceFeatures2KHR>(_vkGetInstanceProcAddr(parent, "_vkGetPhysicalDeviceFeatures2KHR"));
-			ensure(_vkGetPhysicalDeviceFeatures2KHR); // "_vkGetInstanceProcAddress failed to find entry point!"
+			//ensure(_vkGetPhysicalDeviceFeatures2KHR); // "_vkGetInstanceProcAddress failed to find entry point!"
 			_vkGetPhysicalDeviceFeatures2KHR(dev, &features2);
 
 			shader_types_support.allow_float64 = !!features2.features.shaderFloat64;
@@ -217,7 +217,7 @@ namespace vk
 			}
 
 			//auto _vkGetPhysicalDeviceProperties2KHR = reinterpret_cast<PFN_vkGetPhysicalDeviceProperties2KHR>(_vkGetInstanceProcAddr(parent, "_vkGetPhysicalDeviceProperties2KHR"));
-			ensure(_vkGetPhysicalDeviceProperties2KHR);
+			//ensure(_vkGetPhysicalDeviceProperties2KHR);
 
 			_vkGetPhysicalDeviceProperties2KHR(dev, &properties2);
 			props = properties2.properties;

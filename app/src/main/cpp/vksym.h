@@ -1,3 +1,4 @@
+#if 1
 VKFN(vkAcquireNextImageKHR);
 VKFN(vkAllocateCommandBuffers);
 VKFN(vkAllocateDescriptorSets);
@@ -156,3 +157,4 @@ VKFN(vkSetEvent);
 VKFN(vkUnmapMemory);
 VKFN(vkUpdateDescriptorSets);
 VKFN(vkWaitForFences);
+#endif

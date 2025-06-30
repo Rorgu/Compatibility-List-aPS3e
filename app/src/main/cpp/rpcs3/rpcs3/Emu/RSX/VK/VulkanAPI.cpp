@@ -10,6 +10,15 @@
 #define DEF_VK_FUNCTION
 #include "VKPFNTable.h"
 #undef DEF_VK_FUNCTION
+#if 0
+#define VK_FUNC(func) PFN_##func _##func
+#define INSTANCE_VK_FUNCTION
+#define DEVICE_VK_FUNCTION
+#include "VKPFNTableEXT.h"
+#undef INSTANCE_VK_FUNCTION
+#undef DEVICE_VK_FUNCTION
+#undef VK_FUNC
+#endif
 
 namespace vk
 {
@@ -56,19 +65,23 @@ namespace vk
 
 
     void init_instance_pfn(VkInstance instance){
+#if 1
         #define INSTANCE_VK_FUNCTION
         #define VK_FUNC(func) _##func = reinterpret_cast<PFN_##func>(_vkGetInstanceProcAddr(instance, #func))
 		#include "VKPFNTableEXT.h"
 
 #undef INSTANCE_VK_FUNCTION
 #undef VK_FUNC
+#endif
     }
 	void init_device_pfn(VkDevice device){
+#if 1
         #define DEVICE_VK_FUNCTION
         #define VK_FUNC(func) _##func = reinterpret_cast<PFN_##func>(_vkGetDeviceProcAddr(device, #func))
 		#include "VKPFNTableEXT.h"
 
 #undef DEVICE_VK_FUNCTION
 #undef VK_FUNC
+#endif
     }
 }

@@ -278,6 +278,15 @@ public final class InputOverlayDrawableJoystick
     mOuterBitmap.setBounds(bounds);
   }
 
+  public void updateBounds(int left, int top, int right, int bottom)
+  {
+    mOuterBitmap.setBounds(left, top, right, bottom);
+    mVirtBounds = getBounds();
+    mOrigBounds = mOuterBitmap.copyBounds();
+    mBoundsBoxBitmap.setBounds(getVirtBounds());
+    SetInnerBounds();
+  }
+
   public void setOpacity(int value)
   {
     mOpacity = value;

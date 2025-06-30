@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: WTFPL
 package aenu.aps3e;
 
 import android.app.Activity;
@@ -146,6 +147,10 @@ public class AboutActivity extends AppCompatActivity {
                 + " *修复了方向键和摇杆\n"
                 + " *可为游戏创建单独的配置\n"
                 + " *增加些调试功能\n"
+                + "1.25(2025-06-30)\n"
+                + " *虚拟键盘更新，增加动态摇杆，可设置组缩放\n"
+                + " *增加了按键震动\n"
+                + " *更改ffmpeg版本为5.1.6\n"
                 + " \n";
 
         return log;

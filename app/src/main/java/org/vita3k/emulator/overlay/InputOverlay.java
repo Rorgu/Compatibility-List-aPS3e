@@ -59,8 +59,33 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
   private InputOverlayDrawableButton mButtonBeingConfigured;
   private InputOverlayDrawableDpad mDpadBeingConfigured;
   private InputOverlayDrawableJoystick mJoystickBeingConfigured;
-  private static float mGlobalScale = 1.0f;
+  //private static float mGlobalScale = 1.0f;
+  private static float m_dpad_scale = 1.0f;
+  private static float m_joystick_scale = 1.0f;
+  private static float m_abxy_scale = 1.0f;
+  private static float m_lr_scale = 1.0f;
+  private static float m_ss_scale = 1.0f;
+  private static float m_ps_scale = 1.0f;
   private static int mGlobalOpacity = 100;
+  private static int m_dynamic_joystick = -1;
+  private static boolean m_dynamic_joystick_pressed = false;
+
+  private static boolean m_left_joystick_enabled = true;
+  private static boolean m_right_joystick_enabled = true;
+  private static boolean m_dpad_enabled = true;
+  private static boolean m_square_enabled = true;
+  private static boolean m_triangle_enabled = true;
+  private static boolean m_circle_enabled = true;
+  private static boolean m_cross_enabled = true;
+  private static boolean m_start_enabled = true;
+  private static boolean m_select_enabled = true;
+  private static boolean m_l1_enabled = true;
+  private static boolean m_l2_enabled = true;
+  private static boolean m_l3_enabled = true;
+  private static boolean m_r1_enabled = true;
+  private static boolean m_r2_enabled = true;
+  private static boolean m_r3_enabled = true;
+  private static boolean m_ps_enabled = true;
 
   private Timer mTimer;
 
@@ -205,7 +230,70 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 
     for (InputOverlayDrawableJoystick joystick : overlayJoysticks)
     {
+      if(joystick.getXControl() !=m_dynamic_joystick||m_dynamic_joystick_pressed)
       joystick.draw(canvas);
+    }
+  }
+
+  void handle_left_joystick_event(float x, float y){
+
+    if(x!=0){
+      if(x<0){
+        Emulator.get.key_event(ControlId.lsr,false);
+        Emulator.get.key_event(ControlId.lsl,true,(int)Math.abs(x*255.0));
+      }
+      else{
+        Emulator.get.key_event(ControlId.lsl,false);
+        Emulator.get.key_event(ControlId.lsr,true,(int)Math.abs(x*255.0));
+      }
+    }
+    else{
+      Emulator.get.key_event(ControlId.lsr,false);
+      Emulator.get.key_event(ControlId.lsl,false);
+    }
+
+    if(y!=0){
+      if(y<0){
+        Emulator.get.key_event(ControlId.lsd,false);
+        Emulator.get.key_event(ControlId.lsu,true,(int)Math.abs(y*255.0));
+      }else{
+        Emulator.get.key_event(ControlId.lsu,false);
+        Emulator.get.key_event(ControlId.lsd,true,(int)Math.abs(y*255.0));
+      }
+    }
+    else{
+      Emulator.get.key_event(ControlId.lsd,false);
+      Emulator.get.key_event(ControlId.lsu,false);
+    }
+  }
+
+  void handle_right_joystick_event(float x, float y){
+    if(x!=0){
+      if(x<0){
+        Emulator.get.key_event(ControlId.rsr,false);
+        Emulator.get.key_event(ControlId.rsl,true,(int)Math.abs(x*255.0));
+      }else{
+        Emulator.get.key_event(ControlId.rsl,false);
+        Emulator.get.key_event(ControlId.rsr,true,(int)Math.abs(x*255.0));
+      }
+    }
+    else{
+      Emulator.get.key_event(ControlId.rsr,false);
+      Emulator.get.key_event(ControlId.rsl,false);
+    }
+
+    if(y!=0){
+      if(y<0){
+        Emulator.get.key_event(ControlId.rsd,false);
+        Emulator.get.key_event(ControlId.rsu,true,(int)Math.abs(y*255.0));
+      }else{
+        Emulator.get.key_event(ControlId.rsu,false);
+        Emulator.get.key_event(ControlId.rsd,true,(int)Math.abs(y*255.0));
+      }
+    }
+    else{
+      Emulator.get.key_event(ControlId.rsd,false);
+      Emulator.get.key_event(ControlId.rsu,false);
     }
   }
 
@@ -228,6 +316,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     int pointerIndex = firstPointer ? 0 : event.getActionIndex();
     // track if the overlay is concerned this this action
     boolean concerned = false;
+    boolean skip_dynamic_joystick_pressed = false;
 
     for (InputOverlayDrawableButton button : overlayButtons)
     {
@@ -246,6 +335,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             button.setPressedState(true);
             button.setTrackId(event.getPointerId(pointerIndex));
             concerned = true;
+            skip_dynamic_joystick_pressed = true;
             /*if(button.getRole() == OVERLAY_MASK_TOUCH_SCREEN_SWITCH)
               setTouchState(button.getPressed());
             else*/
@@ -280,6 +370,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
                   .contains((int) event.getX(pointerIndex), (int) event.getY(pointerIndex)))
           {
             dpad.setTrackId(event.getPointerId(pointerIndex));
+            skip_dynamic_joystick_pressed = true;
             concerned = true;
           }
         case MotionEvent.ACTION_MOVE:
@@ -311,6 +402,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             {
               if (dpadPressed[i])
               {
+                skip_dynamic_joystick_pressed = true;
 				  Emulator.get.key_event(dpad.getControl(i), true);
               }
               else{
@@ -339,83 +431,79 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 
     for (InputOverlayDrawableJoystick joystick : overlayJoysticks)
     {
-      if (joystick.TrackEvent(event))
+
+      int control=joystick.getXControl();
+      if (joystick.TrackEvent(event)&&control!=m_dynamic_joystick)
       {
         concerned = true;
+        skip_dynamic_joystick_pressed = true;
         
         /*int joyX = Math.round(joystick.getX() * (1 << 15));
         joyX = Math.max(Short.MIN_VALUE, Math.min(Short.MAX_VALUE, joyX));
         int joyY = Math.round(joystick.getY() * (1 << 15));
         joyY = Math.max(Short.MIN_VALUE, Math.min(Short.MAX_VALUE, joyY));*/
-		  int control=joystick.getXControl();
 
         //左摇杆
 		if(control==0){
 			  float  x=joystick.getX();
               float  y=joystick.getY();
-
-			  if(x!=0){
-				  if(x<0){
-					  Emulator.get.key_event(ControlId.lsr,false);
-					  Emulator.get.key_event(ControlId.lsl,true,(int)Math.abs(x*255.0));
-				  }
-				else{
-					  Emulator.get.key_event(ControlId.lsl,false);
-				  Emulator.get.key_event(ControlId.lsr,true,(int)Math.abs(x*255.0));
-				 }
-			  }
-              else{
-                Emulator.get.key_event(ControlId.lsr,false);
-                Emulator.get.key_event(ControlId.lsl,false);
-              }
-			  
-			  if(y!=0){
-				  if(y<0){
-					  Emulator.get.key_event(ControlId.lsd,false);
-					  Emulator.get.key_event(ControlId.lsu,true,(int)Math.abs(y*255.0));
-				  }else{
-					  Emulator.get.key_event(ControlId.lsu,false);
-					  Emulator.get.key_event(ControlId.lsd,true,(int)Math.abs(y*255.0));
-				}
-			  }
-              else{
-                Emulator.get.key_event(ControlId.lsd,false);
-                Emulator.get.key_event(ControlId.lsu,false);
-              }
+              handle_left_joystick_event(x,y);
 		  }
         //右摇杆
 		else if(control==1){
           float  x=joystick.getX();
           float  y=joystick.getY();
-			  if(x!=0){
-				  if(joystick.getX()<0){
-					  Emulator.get.key_event(ControlId.rsr,false);
-					  Emulator.get.key_event(ControlId.rsl,true,(int)Math.abs(x*255.0));
-				  }else{
-					  Emulator.get.key_event(ControlId.rsl,false);
-					  Emulator.get.key_event(ControlId.rsr,true,(int)Math.abs(x*255.0));
-					  }
-			  }
-              else{
-                Emulator.get.key_event(ControlId.rsr,false);
-                Emulator.get.key_event(ControlId.rsl,false);
-              }
+			handle_right_joystick_event(x,y);
+		  }
+		  }
+    }
 
-			  if(y!=0){
-				  if(joystick.getY()<0){
-					  Emulator.get.key_event(ControlId.rsd,false);
-					  Emulator.get.key_event(ControlId.rsu,true,(int)Math.abs(y*255.0));
-				  }else{
-					  Emulator.get.key_event(ControlId.rsu,false);
-					  Emulator.get.key_event(ControlId.rsd,true,(int)Math.abs(y*255.0));
-				}
-			  }
-              else{
-                Emulator.get.key_event(ControlId.rsd,false);
-                Emulator.get.key_event(ControlId.rsu,false);
-              }
-		  }
-		  }
+    //动态摇杆
+    {
+
+      InputOverlayDrawableJoystick dynamic_joystick=null;
+      for (InputOverlayDrawableJoystick joystick : overlayJoysticks)
+        if(joystick.getXControl()==m_dynamic_joystick)
+          dynamic_joystick=joystick;
+
+
+        if(dynamic_joystick!=null){
+
+          if(!skip_dynamic_joystick_pressed&&(action==MotionEvent.ACTION_DOWN||action==MotionEvent.ACTION_POINTER_DOWN)){
+            int touchX = (int)event.getX(pointerIndex);
+            int touchY = (int)event.getY(pointerIndex);
+            int w=dynamic_joystick.getWidth();
+            int h=dynamic_joystick.getHeight();
+            int l=touchX-(w>>1);
+            int t=touchY-(h>>1);
+            int r=l+w;
+            int d=t+h;
+            dynamic_joystick.updateBounds(l,t,r,d);
+            dynamic_joystick.setPosition(l,t);
+          }
+
+          if (dynamic_joystick.TrackEvent(event)){
+            concerned=true;
+            m_dynamic_joystick_pressed=true;
+            if(m_dynamic_joystick==0)
+              handle_left_joystick_event(dynamic_joystick.getX(),dynamic_joystick.getY());
+            else if(m_dynamic_joystick==1)
+              handle_right_joystick_event(dynamic_joystick.getX(),dynamic_joystick.getY());
+          }
+          else{
+            if(m_dynamic_joystick_pressed){
+
+              if(m_dynamic_joystick==0)
+                handle_left_joystick_event(0,0);
+              else if(m_dynamic_joystick==1)
+                handle_right_joystick_event(0,0);
+              concerned=true;
+            }
+
+            m_dynamic_joystick_pressed=false;
+          }
+
+        }
     }
 
     if(concerned)
@@ -518,6 +606,9 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 
     for (InputOverlayDrawableJoystick joystick : overlayJoysticks)
     {
+      if(joystick.getXControl()==m_dynamic_joystick)
+        continue;
+
       switch (event.getAction())
       {
         case MotionEvent.ACTION_DOWN:
@@ -596,56 +687,95 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 
     final SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-    mGlobalScale=sPrefs.getFloat("mGlobalScale",1.0f);
+    //mGlobalScale=sPrefs.getFloat("mGlobalScale",1.0f);
 
+    m_dynamic_joystick=sPrefs.getInt("m_dynamic_joystick",-1);
+
+    m_joystick_scale=sPrefs.getFloat("m_joystick_scale",1.0f);
+    m_dpad_scale=sPrefs.getFloat("m_dpad_scale",1.0f);
+    m_abxy_scale=sPrefs.getFloat("m_abxy_scale",1.0f);
+    m_lr_scale=sPrefs.getFloat("m_lr_scale",1.0f);
+    m_ss_scale=sPrefs.getFloat("m_ss_scale",1.0f);
+    m_ps_scale=sPrefs.getFloat("m_ps_scale",1.0f);
+
+    m_left_joystick_enabled=sPrefs.getBoolean("m_left_joystick_enabled",true);
+    m_right_joystick_enabled=sPrefs.getBoolean("m_right_joystick_enabled",true);
+    m_dpad_enabled=sPrefs.getBoolean("m_dpad_enabled",true);
+    m_square_enabled=sPrefs.getBoolean("m_square_enabled",true);
+    m_cross_enabled=sPrefs.getBoolean("m_cross_enabled",true);
+    m_triangle_enabled=sPrefs.getBoolean("m_triangle_enabled",true);
+    m_circle_enabled=sPrefs.getBoolean("m_circle_enabled",true);
+    m_start_enabled=sPrefs.getBoolean("m_start_enabled",true);
+    m_select_enabled=sPrefs.getBoolean("m_select_enabled",true);
+    m_l1_enabled=sPrefs.getBoolean("m_l1_enabled",true);
+    m_r1_enabled=sPrefs.getBoolean("m_r1_enabled",true);
+    m_l2_enabled=sPrefs.getBoolean("m_l2_enabled",true);
+    m_r2_enabled=sPrefs.getBoolean("m_r2_enabled",true);
+    m_l3_enabled=sPrefs.getBoolean("m_l3_enabled",true);
+    m_r3_enabled=sPrefs.getBoolean("m_r3_enabled",true);
+    m_ps_enabled=sPrefs.getBoolean("m_ps_enabled",true);
+
+    if(m_cross_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_cross,
               R.drawable.button_cross_pressed, ButtonType.BUTTON_CROSS, ControlId.cross,
               orientation, OVERLAY_MASK_BASIC));
-    
+
+    if(m_circle_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_circle,
               R.drawable.button_circle_pressed, ButtonType.BUTTON_CIRCLE, ControlId.circle,
               orientation, OVERLAY_MASK_BASIC));
-    
+
+    if(m_square_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_square,
               R.drawable.button_square_pressed, ButtonType.BUTTON_SQUARE, ControlId.square,
               orientation, OVERLAY_MASK_BASIC));
-    
+
+    if(m_triangle_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_triangle,
               R.drawable.button_triangle_pressed, ButtonType.BUTTON_TRIANGLE, ControlId.triangle,
               orientation, OVERLAY_MASK_BASIC));
-    
+
+    if(m_start_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_start,
               R.drawable.button_start_pressed, ButtonType.BUTTON_START,
               ControlId.start, orientation, OVERLAY_MASK_BASIC));
-    
+
+    if(m_select_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_select,
               R.drawable.button_select_pressed, ButtonType.BUTTON_SELECT,
               ControlId.select, orientation, OVERLAY_MASK_BASIC));
-    
+
+    if(m_l1_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_l,
               R.drawable.button_l_pressed, ButtonType.TRIGGER_L,
               ControlId.l1, orientation, OVERLAY_MASK_BASIC));
-    
+
+    if(m_r1_enabled)
       overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_r,
               R.drawable.button_r_pressed, ButtonType.TRIGGER_R,
               ControlId.r1, orientation, OVERLAY_MASK_BASIC));
 
+    if(m_l2_enabled)
     overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_l2,
             R.drawable.button_l2_pressed, ButtonType.TRIGGER_L2,
 												 ControlId.l2, orientation, OVERLAY_MASK_BASIC));
 
+    if(m_r2_enabled)
     overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_r2,
             R.drawable.button_r2_pressed, ButtonType.TRIGGER_R2,
 												 ControlId.r2, orientation, OVERLAY_MASK_BASIC));
-												 
+
+    if(m_l3_enabled)
 	  overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_l3,
 												 R.drawable.button_l3_pressed, ButtonType.TRIGGER_L3,
 												 ControlId.l3, orientation, OVERLAY_MASK_BASIC));
 
+    if(m_r3_enabled)
 	  overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.button_r3,
 												 R.drawable.button_r3_pressed, ButtonType.TRIGGER_R3,
 												 ControlId.r3, orientation, OVERLAY_MASK_BASIC));
-	  
+
+    if(m_ps_enabled)
 	  overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.app_icon,
 												 R.drawable.app_icon, ButtonType.BUTTON_PS,
 												 ControlId.ps, orientation, OVERLAY_MASK_BASIC));
@@ -655,17 +785,20 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             R.drawable.button_touch_b, ButtonType.BUTTON_TOUCH_SWITCH,
             ControlId.touch, orientation, OVERLAY_MASK_TOUCH_SCREEN_SWITCH));
     */
+    if(m_dpad_enabled)
       overlayDpads.add(initializeOverlayDpad(getContext(), R.drawable.dpad_idle,
               R.drawable.dpad_up,
               R.drawable.dpad_up_left,
               ButtonType.DPAD_UP, ControlId.u, ControlId.d,
               ControlId.l, ControlId.r, orientation));
-    
+
+    if(m_left_joystick_enabled)
       overlayJoysticks.add(initializeOverlayJoystick(getContext(), R.drawable.joystick_range,
               R.drawable.joystick, R.drawable.joystick_pressed,
               ButtonType.STICK_LEFT, 0,0,/*ControlId.axis_left_x,
               ControlId.axis_left_y,*/ orientation));
-    
+
+    if(m_right_joystick_enabled)
       overlayJoysticks.add(initializeOverlayJoystick(getContext(), R.drawable.joystick_range,
               R.drawable.joystick, R.drawable.joystick_pressed,
               ButtonType.STICK_RIGHT, 1,1,/*ControlId.axis_right_x,
@@ -691,6 +824,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     vitaDefaultOverlay();
     refreshControls();
   }
+  /*
   public float getScale(){
     return mGlobalScale;
   }
@@ -703,6 +837,73 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
       sPrefsEditor.commit();
       refreshControls();
     }
+  }*/
+  public float getScale(int scale_type){
+    switch(scale_type){
+      case ScaleType.JOYSTICK:
+        return m_joystick_scale;
+        case ScaleType.DPAD:
+          return m_dpad_scale;
+          case ScaleType.ABXY:
+            return m_abxy_scale;
+      case ScaleType.START_SELECT:
+              return m_ss_scale;
+              case ScaleType.LR:
+                return m_lr_scale;
+              case ScaleType.PS:
+                return m_ps_scale;
+
+    }
+    throw new IllegalArgumentException("Invalid scale type");
+  }
+
+  public void setScale(int scale_type,float scale){
+    switch (scale_type){
+      case ScaleType.JOYSTICK:
+        m_joystick_scale = scale;
+        break;
+      case ScaleType.DPAD:
+        m_dpad_scale = scale;
+        break;
+      case ScaleType.ABXY:
+        m_abxy_scale = scale;
+        break;
+      case ScaleType.START_SELECT:
+        m_ss_scale = scale;
+        break;
+      case ScaleType.LR:
+        m_lr_scale = scale;
+        break;
+      case ScaleType.PS:
+          m_ps_scale = scale;
+    }
+    {
+      SharedPreferences.Editor sPrefsEditor = mPreferences.edit();
+      sPrefsEditor.putFloat("m_joystick_scale",m_joystick_scale);
+      sPrefsEditor.putFloat("m_dpad_scale",m_dpad_scale);
+      sPrefsEditor.putFloat("m_abxy_scale",m_abxy_scale);
+      sPrefsEditor.putFloat("m_ss_scale",m_ss_scale);
+      sPrefsEditor.putFloat("m_lr_scale",m_lr_scale);
+      sPrefsEditor.putFloat("m_ps_scale",m_ps_scale);
+      sPrefsEditor.commit();
+      refreshControls();
+    }
+  }
+
+  //-1 disabled
+  //0 left joystick
+  //1 right joystick
+  public void set_dynamic_joystick(int dynamic_joystick){
+    m_dynamic_joystick = dynamic_joystick;
+
+    SharedPreferences.Editor sPrefsEditor = mPreferences.edit();
+    sPrefsEditor.putInt("m_dynamic_joystick",m_dynamic_joystick);
+    sPrefsEditor.commit();
+    refreshControls();
+  }
+
+  public int get_dynamic_joystick(){
+    return m_dynamic_joystick;
   }
 
   public void setOpacity(int opacity){
@@ -778,21 +979,22 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     final SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
     // Decide scale based on button ID and user preference
-    float scale = 0.15f;
+    float scale = 0.15f*m_abxy_scale;
 
     if(legacyId == ButtonType.TRIGGER_L
             || legacyId == ButtonType.TRIGGER_R
             || legacyId == ButtonType.TRIGGER_L2
             || legacyId == ButtonType.TRIGGER_R2
 		    || legacyId == ButtonType.TRIGGER_L3
-		    || legacyId == ButtonType.TRIGGER_R3
-            || legacyId == ButtonType.BUTTON_START
+		    || legacyId == ButtonType.TRIGGER_R3)
+      scale = 0.20f*m_lr_scale;
+      else if(legacyId == ButtonType.BUTTON_START
             || legacyId == ButtonType.BUTTON_SELECT)
-      scale = 0.20f;
+      scale = 0.20f*m_ss_scale;
     else if(legacyId == ButtonType.BUTTON_PS)
-      scale = 0.06f;
+      scale = 0.06f*m_ps_scale;
 
-    scale *= mGlobalScale;
+    //scale *= mGlobalScale;
 
     // Initialize the InputOverlayDrawableButton.
     final Bitmap defaultStateBitmap =
@@ -856,7 +1058,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     // Decide scale based on button ID and user preference
     float scale = 0.35f;
 
-    scale *= mGlobalScale;
+    scale *= m_dpad_scale;
 
     // Initialize the InputOverlayDrawableDpad.
     final Bitmap defaultStateBitmap =
@@ -915,7 +1117,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 
     // Decide scale based on user preference
     float scale = 0.275f;
-    scale *= mGlobalScale;
+    scale *= m_joystick_scale;
 
     // Initialize the InputOverlayDrawableJoystick.
     final Bitmap bitmapOuter =
@@ -1081,6 +1283,15 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 		r1,r2,r3,
 		start,select,
 	};*/
+
+  public static final class ScaleType {
+    public static final int JOYSTICK = 0;
+    public static final int DPAD = 1;
+    public static final int ABXY = 2;
+    public static final int START_SELECT = 3;
+    public static final int LR = 4;
+    public static final int PS = 5;
+  }
 	public static final class ButtonType
 	{
 		public static final int BUTTON_CROSS = 0;

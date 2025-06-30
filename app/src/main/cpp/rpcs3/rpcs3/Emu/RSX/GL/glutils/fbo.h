@@ -125,15 +125,21 @@ namespace gl
 
 			void operator = (const texture& rhs)
 			{
-				ensure(rhs.get_target() == texture::target::texture2D);
+				ensure(rhs.get_target() == texture::target::texture2D ||
+					rhs.get_target() == texture::target::texture2DMS);
+
 				m_parent.m_resource_bindings[m_id] = rhs.id();
+#ifndef USE_GLES
 				DSA_CALL2(NamedFramebufferTexture, m_parent.id(), m_id, rhs.id(), 0);
+#endif
 			}
 
 			void operator = (const GLuint rhs)
 			{
 				m_parent.m_resource_bindings[m_id] = rhs;
-				DSA_CALL2(NamedFramebufferTexture, m_parent.id(), m_id, rhs, 0);
+#ifndef USE_GLES
+                DSA_CALL2(NamedFramebufferTexture, m_parent.id(), m_id, rhs, 0);
+#endif
 			}
 		};
 
@@ -219,12 +225,7 @@ namespace gl
 		void draw_elements(const buffer& buffer, GLenum mode, GLsizei count, const GLuint* indices) const;
 
 		void clear(buffers buffers_) const;
-		
-		
-#ifdef __ANDROID__
-void fbo::_draw_textured_quad(GLuint texture, const sizei& size) const;
-  
-#endif
+
 		void copy_from(const void* pixels, const sizei& size, gl::texture::format format_, gl::texture::type type_, class pixel_unpack_settings pixel_settings = pixel_unpack_settings()) const;
 		void copy_from(const buffer& buf, const sizei& size, gl::texture::format format_, gl::texture::type type_, class pixel_unpack_settings pixel_settings = pixel_unpack_settings()) const;
 

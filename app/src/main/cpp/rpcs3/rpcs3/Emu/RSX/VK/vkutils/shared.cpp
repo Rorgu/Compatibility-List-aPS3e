@@ -17,7 +17,7 @@ namespace vk
 			return "Extended fault info is not available. Extension 'VK_EXT_device_fault' is probably not supported by your driver.";
 		}
 
-		ensure(_vkGetDeviceFaultInfoEXT);
+		//ensure(_vkGetDeviceFaultInfoEXT);
 
 		VkDeviceFaultCountsEXT fault_counts
 		{

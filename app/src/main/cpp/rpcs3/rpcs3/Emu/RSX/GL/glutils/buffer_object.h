@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.h"
+#include "Emu/RSX/GL/OpenGL.h"
 
 namespace gl
 {
@@ -23,7 +23,9 @@ namespace gl
 			read = GL_MAP_READ_BIT,
 			write = GL_MAP_WRITE_BIT,
 			rw = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT,
+#ifndef USE_GLES
 			persistent_rw = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT
+#endif
 		};
 
 		enum class memory_type

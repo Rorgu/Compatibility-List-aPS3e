@@ -2753,18 +2753,22 @@ void VKGSRender::prepare_rtts(rsx::framebuffer_creation_context context)
 			{
 				gcm_format = (surface->get_surface_depth_format() != rsx::surface_depth_format::z16) ? CELL_GCM_TEXTURE_DEPTH16 : CELL_GCM_TEXTURE_DEPTH24_D8;
 				swap_bytes = true;
+
+                m_texture_cache.lock_memory_region(
+                        *m_current_command_buffer, surface, surface->get_memory_range(), false,
+                        surface->get_surface_width<rsx::surface_metrics::pixels>(), surface->get_surface_height<rsx::surface_metrics::pixels>(), surface->get_rsx_pitch(),
+                        gcm_format, swap_bytes);
 			}
 			else
 			{
 				auto info = get_compatible_gcm_format(surface->get_surface_color_format());
 				gcm_format = info.first;
-				swap_bytes = info.second;
-			}
 
-			m_texture_cache.lock_memory_region(
-				*m_current_command_buffer, surface, surface->get_memory_range(), false,
-				surface->get_surface_width<rsx::surface_metrics::pixels>(), surface->get_surface_height<rsx::surface_metrics::pixels>(), surface->get_rsx_pitch(),
-				gcm_format, swap_bytes);
+                m_texture_cache.lock_memory_region(
+                        *m_current_command_buffer, surface, surface->get_memory_range(), false,
+                        surface->get_surface_width<rsx::surface_metrics::pixels>(), surface->get_surface_height<rsx::surface_metrics::pixels>(), surface->get_rsx_pitch(),
+                        gcm_format, info.second);
+			}
 		}
 
 		m_rtts.orphaned_surfaces.clear();
