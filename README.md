@@ -54,91 +54,91 @@
 `Games that run but have serious glitches, performance issues, or can’t be finished`
 
 ## [Exclusive]
-- Infamous 1
+- ### Infamous 1
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Infamous 2
+- ### Infamous 2
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Gran Turismo 6
+- ### Gran Turismo 6
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
     
-- God of War III
+- ### God of War III
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- The Last of Us
+- ### The Last of Us
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default 
-- Transformers: Dark of the Moon
+- ### Transformers: Dark of the Moon
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Ratchet & Clank: Tools of Destruction
+- ### Ratchet & Clank: Tools of Destruction
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default  
-- Uncharted: Drake’s Fortune
+- ### Uncharted: Drake’s Fortune
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Uncharted 2: Among Thieves
+- ### Uncharted 2: Among Thieves
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Uncharted 3: Drake’s Deception
+- ### Uncharted 3: Drake’s Deception
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Dead to Rights: Retribution
+- ### Dead to Rights: Retribution
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default 
-- NeverDead
+- ### NeverDead
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Skate 3
+- ### Skate 3
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- HAZE
+- ### HAZE
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- SAW 2
+- ### SAW 2
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Asura's Wrath
+- ### Asura's Wrath
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Fight Night Champio 
+- ### Fight Night Champio 
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
 
 ## [Non-exclusive]
-- Borderlands  
+- ### Borderlands  
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Sonic Unleashed
+- ### Sonic Unleashed
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default 
-- Ridge Racer 7
+- ### Ridge Racer 7
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- WWE 2K17
+- ### WWE 2K17
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Dark Souls 2: Scholar of the First Sin
+- ### Dark Souls 2: Scholar of the First Sin
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Dark Souls
+- ### Dark Souls
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Call of Duty: Black Ops
+- ### Call of Duty: Black Ops
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Resident Evil 5
+- ### Resident Evil 5
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Mortal Kombat 9
+- ### Mortal Kombat 9
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Tomb Raider
+- ### Tomb Raider
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Far Cry 2
+- ### Far Cry 2
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
 
@@ -148,21 +148,21 @@
 `Games that show menus or intro scenes but don’t progress further`
 
 ## [Exclusive]
-- Metal Gear Solid 4
+- ### Metal Gear Solid 4
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Killzone 1
+- ### Killzone 1
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Killzone 2
+- ### Killzone 2
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Killzone 3
+- ### Killzone 3
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
 
 ## [Non-exclusive]
-- Assassin's Creed: Black Flag
+- ### Assassin's Creed: Black Flag
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
 
@@ -172,18 +172,18 @@
 `Games that display a black screen with a framerate counter`
 
 ## [Exclusive]
-- Siren: Blood Curse
+- ### Siren: Blood Curse
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- God of War: Ascension
+- ### God of War: Ascension
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
 
 ## [Non-exclusive]
-- Grand Theft Auto V (GTA 5)
+- ### Grand Theft Auto V (GTA 5)
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
-- Grand Theft Auto IV (GTA 4)
+- ### Grand Theft Auto IV (GTA 4)
   - <details> <summary>📜 Format/ID/Settings:</summary>
     ISO | USA-BLUS31584 | Settings: Default
 
