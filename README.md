@@ -13,7 +13,8 @@ Games that can be completed with playable performance and no game-breaking glitc
 
 ### [Exclusive]
 - Dante’s Inferno  
-- Demon's Souls  
+- Demon's Souls
+  - `ISO | USA-BCUS98296 | Settings: Default`  
 - Minecraft: PlayStation®3 Edition  
 - NieR Replicant  
 - Iron Man 1  
