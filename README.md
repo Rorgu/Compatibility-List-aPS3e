@@ -81,7 +81,7 @@
   Games that show menus or intro scenes but don’t progress further`
 |    Exclusive GAME           | Region | ID        | Settings | FPS | Link test   |
 |-----------------------------|--------|-----------|----------|-----|-------------|
-| Metal Gear Solid 4.         | USA    | BLUS30109 | [RPCS3-Wiki](https://wiki.rpcs3.net/index.php?title=Uncharted_3%3A_Drake%27s_Deception) | — | [Discord](https://discord.com/channels/1341258622348431400/1342235536550526986/1390279046415253554) 
+| Metal Gear Solid 4.         | USA    | BLUS30109 | [RPCS3-Wiki](https://wiki.rpcs3.net/index.php?title=Uncharted_3%3A_Drake%27s_Deception) | — | [Discord](https://discord.com/channels/1341258622348431400/1342235536550526986/1390109393646911498) 
 | Killzone 1                  |.       |.          |.         |.    |
 | Killzone 2                  |.       |.          |.         |.    |               
 | Killzone 3                  |.       |.          |.         |.    |
