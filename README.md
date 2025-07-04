@@ -1,4 +1,3 @@
-78
 # PS3 Game Compatibility List (aPS3e)
 
 |    Emulator       | 📆 Last Update | 📌 Format        | ✍️ Author |
