@@ -33,12 +33,20 @@
 
 ### [Non-exclusive]
 - Tekken 6
-  - `ISO | USA-BLUS31584 | Settings: Default`
-- Dark Sector  
-- Mortal Kombat vs DC  
-- Naruto Shippuden: Ultimate Ninja Storm 3  
+  - <details> <summary>📜 (Format/ID/Settings)</summary>
+    ISO | USA-BLUS31584 | Settings: Default
+- Dark Sector
+  - <details> <summary>📜 (Format/ID/Settings)</summary>
+    ISO | USA-BLUS31584 | Settings: Default 
+- Mortal Kombat vs DC
+  - <details> <summary>📜 (Format/ID/Settings)</summary>
+    ISO | USA-BLUS31584 | Settings: Default
+- Naruto Shippuden: Ultimate Ninja Storm 3
+  - <details> <summary>📜 (Format/ID/Settings)</summary>
+    ISO | USA-BLUS31584 | Settings: Default
 - Grand Theft Auto – San Andreas  
-  - `ISO | USA-BLUS31584 | Settings: Default`
+  - <details> <summary>📜 (Format/ID/Settings)</summary>
+    ISO | USA-BLUS31584 | Settings: Default
 
 ---
 
