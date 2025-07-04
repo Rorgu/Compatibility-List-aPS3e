@@ -9,7 +9,7 @@
 ---
 
 ## 🟢 Playable (10)
-Games that can be completed with playable performance and no game-breaking glitches.
+`Games that can be completed with playable performance and no game-breaking glitches`
 
 ### [Exclusive]
 - Dante’s Inferno
@@ -43,7 +43,7 @@ Games that can be completed with playable performance and no game-breaking glitc
 ---
 
 ## 🟡 Ingame (27)
-Games that run but have serious glitches, performance issues, or can’t be finished.
+`Games that run but have serious glitches, performance issues, or can’t be finished`
 
 ### [Exclusive]
 - Infamous 1  
@@ -86,7 +86,7 @@ Games that run but have serious glitches, performance issues, or can’t be fini
 ---
 
 ## 🟠 Intro (3)
-Games that show menus or intro scenes but don’t progress further.
+`Games that show menus or intro scenes but don’t progress further`
 
 ### [Exclusive]
 - Metal Gear Solid 4
@@ -101,7 +101,7 @@ Games that show menus or intro scenes but don’t progress further.
 ---
 
 ## 🔴 Loadable (4)
-Games that display a black screen with a framerate counter.
+`Games that display a black screen with a framerate counter`
 
 ### [Exclusive]
 - Siren: Blood Curse  
