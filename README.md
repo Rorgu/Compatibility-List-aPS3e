@@ -9,8 +9,8 @@
 # 🟢 Playable (10) 
 - <details> <summary>📜 Playable:</summary>
     Games that can be completed with playable performance and no game-breaking glitches`
-|Exclusive Game| Region | ID | Settings | FPS |
-|----------|----------|--------|----------|-----|
+|Exclusive Game| Region | ID | Settings | FPS | Link test |
+|----------|----------|--------|----------|-----|---------|
 | Dante’s Inferno | USA | BLUS30721 |           |
 | Demon's Souls   | USA | BLUS30721 |           |
 | Dante’s Inferno | USA | BLUS30721 |           |
@@ -19,8 +19,8 @@
 | Iron Man 1.     | USA.| BLUS30134 | Write Color Buffers - yes | |
 | Iron Man 2.     | USA | -         |.          | | |
 ---                                                              
-|Non-exclusive Game| Region | ID | Settings | FPS |
-|--------------------|--------|----|----------|-----|
+|Non-exclusive Game| Region | ID | Settings | FPS | Link test |
+|--------------------|--------|----|----------|-----|---------|
 | Tekken 6           | USA    |.   |.         |.    |
 | Dark Sector        | USA    |.   |.         |.    |
 | Mortal Kombat vs DC | USA   |.   |.         |.    |
@@ -37,8 +37,8 @@
 ## 🟡 Ingame (27)
 - <details> <summary>📜 Ingame:</summary>
    Games that run but have serious glitches, performance issues, or can’t be finished
-|Exclusive Game| Region | ID | Settings | FPS |
-|----------------|--------|----|----------|-----|
+|Exclusive Game| Region | ID | Settings | FPS   | Link test |
+|----------------|--------|----|----------|-----|-----------|
 | Infamous 1     |.       |.   |.         |.    |
 | Infamous 2     |.       |.   |.         |.    |
 | Gran Turismo 6 |.       |.   |.         |.    |
@@ -60,8 +60,8 @@
 |                |.       |.   |.         |.    |
 |                |.       |.   |.         |.    |
 ---
-|Non-exclusive Game| Region | ID | Settings | FPS |
-|--------------------|--------|----|----------|-----|
+|Non-exclusive Game| Region | ID | Settings | FPS | Link test |
+|--------------------|--------|----|----------|-----|---------|
 | Sonic Unleashed    |.       |.   |.         |.    |
 | Borderlands 1      |.       |.   |.         |.    |
 | WWE 2K17           |.       |.   |.         |.    |
@@ -80,23 +80,23 @@
 ## 🟠 Intro (3)
 - <details> <summary>📜 Intro:</summary>
   Games that show menus or intro scenes but don’t progress further`
-|Exclusive Game| Region | ID | Settings | FPS |
-|-------------------|--------|----|----------|-----|
+|Exclusive Game| Region | ID | Settings | FPS | Link test |
+|-------------------|--------|----|----------|-----|------|
 | Metal Gear Solid 4 |.       |.   |.         |.    |
 | Killzone 1        |.       |.   |.         |.    |
 | Killzone 2        |.       |.   |.         |.    |               
 | Killzone 3        |.       |.   |.         |.    |
 ---
-|Non-exclusive Game| Region | ID | Settings | FPS |
-|----------------------|--------|----|----------|-----|
+|Non-exclusive Game| Region | ID | Settings | FPS | Link test |
+|----------------------|--------|----|----------|-----|-------|
 | Assassin's Creed: Black Flag  |.       |.   |.         |.    |
 ---
 
 ## 🔴 Loadable (4)
 - <details> <summary>📜 Loadable:</summary>
   Games that display a black screen with a framerate counter`
-|Exclusive Game| Region | ID | Settings | FPS |
-|--------------|--------|----|----------|-----|
+|Exclusive Game| Region | ID | Settings | FPS | Link test |
+|--------------|--------|----|----------|-----|-----------|
 | God of War: Ascension |.       |.   |.         |.    |
 ---
 |Non-exclusive Game| Region | ID | Settings | FPS |
