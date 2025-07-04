@@ -2,7 +2,7 @@
 
 |    Emulator       | 📆 Last Update | 📌 Format        | ✍️ Author |
 |-------------------|----------------|------------------|-----------|
-| aPS3e (Android)   | 04.07.2025     | ISO/PKG          | @aps3e    |
+| aPS3e (Android)   | 04.07.2025     | ISO/PKG          | [TG-aPS3e](https://t.me/aps3e) |
 
 ---
 
