@@ -6,7 +6,7 @@
 
 ---
 
-## 🟢 Playable (10) 
+# 🟢 Playable (10) 
 - <details> <summary>📜 Playable:</summary>
     Games that can be completed with playable performance and no game-breaking glitches`
 |     Exclusive Game          | Region | ID        | Settings | FPS   | Link test |
@@ -33,7 +33,7 @@
 
 ---
 
-## 🟡 Ingame (27)
+# 🟡 Ingame (27)
 - <details> <summary>📜 Ingame:</summary>
    Games that run but have serious glitches, performance issues, or can’t be finished
 |Exclusive GAME.              | Region | ID | Settings | FPS   | Link test |
@@ -76,7 +76,7 @@
 |                             |.       |.   |.         |.    |
 |                             |.       |.   |.         |.    |
 ---
-## 🟠 Intro (3)
+# 🟠 Intro (3)
 - <details> <summary>📜 Intro:</summary>
   Games that show menus or intro scenes but don’t progress further`
 |    Exclusive GAME           | Region | ID | Settings | FPS | Link test |
@@ -91,7 +91,7 @@
 | Assassin's Creed: Black Flag|        |    |          |     |           |
 ---
 
-## 🔴 Loadable (4)
+# 🔴 Loadable (4)
 - <details> <summary>📜 Loadable:</summary>
   Games that display a black screen with a framerate counter`
 |    Exclusive GAME           | Region | ID | Settings | FPS | Link test |
@@ -104,7 +104,7 @@
 | Grand Theft Auto IV (GTA 4) |        |    |          |     |           |
 ---
 
-## ⚫ Nothing (0)
+# ⚫ Nothing (0)
 - <details> <summary>📜 Nothing:</summary>
    Games that do not initialize or crash instantly.
 ---
