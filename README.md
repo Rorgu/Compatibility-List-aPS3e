@@ -12,12 +12,14 @@
 Games that can be completed with playable performance and no game-breaking glitches.
 
 ### [Exclusive]
-- Dante’s Inferno  
+- Dante’s Inferno
+  - `ISO | USA-BLUS31584 | Settings: Default`
 - Demon's Souls
   - `ISO | USA-BCUS98296 | Settings: Default`  
 - Minecraft: PlayStation®3 Edition  
 - NieR Replicant  
-- Iron Man 1  
+- Iron Man 1
+  - `ISO | USA-BLUS31584 | Settings: Default`
 - Iron Man 2  
 
 ### [Non-exclusive]
@@ -37,13 +39,15 @@ Games that run but have serious glitches, performance issues, or can’t be fini
 - Infamous 2  
 - Gran Turismo 6  
   - `ISO | USA-BCUS98296 | Settings: Default`  
-- God of War III  
+- God of War III
+  - `ISO | USA-BLUS31584 | Settings: Default`
 - The Last of Us  
 - Transformers: Dark of the Moon  
 - Ratchet & Clank: Tools of Destruction  
 - Uncharted: Drake’s Fortune  
 - Uncharted 2: Among Thieves  
-- Uncharted 3: Drake’s Deception  
+- Uncharted 3: Drake’s Deception
+  - `ISO | USA-BLUS31584 | Settings: Default`
 - Dead to Rights: Retribution  
 - NeverDead  
 - Skate 3  
@@ -63,7 +67,8 @@ Games that run but have serious glitches, performance issues, or can’t be fini
 - Dark Souls  
 - Call of Duty: Black Ops  
 - Resident Evil 5  
-- Mortal Kombat 9  
+- Mortal Kombat 9
+  - `ISO | USA-BLUS31584 | Settings: Default`
 - Tomb Raider  
 - Far Cry 2  
 
@@ -73,7 +78,8 @@ Games that run but have serious glitches, performance issues, or can’t be fini
 Games that show menus or intro scenes but don’t progress further.
 
 ### [Exclusive]
-- Metal Gear Solid 4  
+- Metal Gear Solid 4
+  - `ISO | USA-BLUS31584 | Settings: Default`
 - Killzone 1  
 - Killzone 2  
 - Killzone 3  
@@ -88,11 +94,14 @@ Games that display a black screen with a framerate counter.
 
 ### [Exclusive]
 - Siren: Blood Curse  
-- God of War: Ascension  
+- God of War: Ascension
+  - `ISO | USA-BLUS31584 | Settings: Default`
 
 ### [Non-exclusive]
-- Grand Theft Auto V (GTA 5)  
-- Grand Theft Auto IV (GTA 4)  
+- Grand Theft Auto V (GTA 5)
+  - `ISO | USA-BLUS31584 | Settings: Default`
+- Grand Theft Auto IV (GTA 4)
+  - `ISO | USA-BLUS31584 | Settings: Default`
 
 ---
 
