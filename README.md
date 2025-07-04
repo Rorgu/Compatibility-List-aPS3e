@@ -7,45 +7,31 @@
 by: @aps3e — Report working games in @aps3eChat. | | ISO/PKG
 ---
 
-## 🟢 Playable (10)
-`Games that can be completed with playable performance and no game-breaking glitches`
-
-## [Exclusive]
-- ### Dante’s Inferno
-  - <details> <summary>📜 Format/ID/Settings:</summary>
-    `ISO | USA-BLUS31584 | Settings: Default`
-- ### Demon's Souls
-  - <details> <summary>📜 (Format/ID/Settings):</summary>
-    ISO | USA-BLUS31584 | Settings: Default
-- ### Minecraft: PlayStation®3 Edition
-  - <details> <summary>📜 (Format/ID/Settings):</summary>
-    ISO | USA-BLUS31584 | Settings: Default
-- ### NieR Replicant
-  - <details> <summary>📜 (Format/ID/Settings):</summary>
-    ISO | USA-BLUS31584 | Settings: Default
-- ### Iron Man 1
-  - <details> <summary>📜 (Format/ID/Settings):</summary>
-    ISO | USA-BLUS31584 | Settings: Default
-- ### Iron Man 2
-  - <details> <summary>📜 (Format/ID/Settings):</summary>
-    ISO | USA-BLUS31584 | Settings: Default 
-
-## [Non-exclusive]
-- ### Tekken 6
-  - <details> <summary>📜 (Format/ID/Settings)</summary>
-    ISO | USA-BLUS31584 | Settings: Default
-- ### Dark Sector
-  - <details> <summary>📜 (Format/ID/Settings)</summary>
-    ISO | USA-BLUS31584 | Settings: Default 
-- ### Mortal Kombat vs DC
-  - <details> <summary>📜 (Format/ID/Settings)</summary>
-    ISO | USA-BLUS31584 | Settings: Default
-- ### Naruto Shippuden: Ultimate Ninja Storm 3
-  - <details> <summary>📜 (Format/ID/Settings)</summary>
-    ISO | USA-BLUS31584 | Settings: Default
-- ### Grand Theft Auto – San Andreas  
-  - <details> <summary>📜 (Format/ID/Settings)</summary>
-    ISO | USA-BLUS31584 | Settings: Default
+# 🟢 Playable (10) 
+- <details> <summary>📜 Playable:</summary>
+    Games that can be completed with playable performance and no game-breaking glitches`
+| Exclusive Game | Region | ID | Settings | FPS |
+|----------|----------|--------|----------|-----|
+| Dante’s Inferno | USA | BLUS30721 |           |
+| Demon's Souls   | USA | BLUS30721 |           |
+| Dante’s Inferno | USA | BLUS30721 |           |
+| Minecraft       | USA | BLUS31426 |           |
+| NieR Replicant. | USA | BLJM60223 | Write Color Buffers - yes | |
+| Iron Man 1.     | USA.| BLUS30134 | Write Color Buffers - yes | |
+| Iron Man 2.     | USA | -         |.          | | |
+---                                                              
+| Non-exclusive Game | Region | ID | Settings | FPS |
+|--------------------|--------|----|----------|-----|
+| Tekken 6           | USA    |.   |.         |.    |
+| Dark Sector        | USA    |.   |.         |.    |
+| Mortal Kombat vs DC | USA   |.   |.         |.    |
+| Naruto Shippuden: Ultimate Ninja Storm 3 | USA    |.   |.         |.    |
+| Grand Theft Auto – San Andreas   | USA    |.   |.         |.    |
+|                    | USA    |.   |.         |.    |
+|                    | USA    |.   |.         |.    |
+|                    | USA    |.   |.         |.    |
+|                    | USA    |.   |.         |.    |
+|                    | USA    |.   |.         |.    |
 
 ---
 
