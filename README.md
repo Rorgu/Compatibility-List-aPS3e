@@ -23,6 +23,8 @@ Games that can be completed with playable performance and no game-breaking glitc
 - Iron Man 2  
 
 ### [Non-exclusive]
+- Tekken 6
+  - `ISO | USA-BLUS31584 | Settings: Default`
 - Dark Sector  
 - Mortal Kombat vs DC  
 - Naruto Shippuden: Ultimate Ninja Storm 3  
