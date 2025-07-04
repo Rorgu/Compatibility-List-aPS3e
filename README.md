@@ -1,5 +1,5 @@
 
-# 🎮 PS3 Game Compatibility List (aPS3e)
+# PS3 Game Compatibility List (aPS3e)
 
 😏 **Emulator**: aPS3e (Android)  
 📆 **Last Update**: 04.07.2025  
