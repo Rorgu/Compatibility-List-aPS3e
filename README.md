@@ -4,6 +4,7 @@
 | 😏 Emulator        | 📆 Last Update | 📌 Format         |
 |-------------------|----------------|-------------------|
 | aPS3e (Android)   | 04.07.2025     | Tested. Updated   |
+by: @aps3e — Report working games in @aps3eChat
 
 ---
 
