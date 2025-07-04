@@ -13,14 +13,23 @@ Games that can be completed with playable performance and no game-breaking glitc
 
 ### [Exclusive]
 - Dante’s Inferno
-  - `ISO | USA-BLUS31584 | Settings: Default`
+  - <details> <summary>📜 (Format/ID/Settings):</summary>
+    `ISO | USA-BLUS31584 | Settings: Default`
 - Demon's Souls
-  - `ISO | USA-BCUS98296 | Settings: Default`  
-- Minecraft: PlayStation®3 Edition  
-- NieR Replicant  
+  - <details> <summary>📜 (Format/ID/Settings):</summary>
+    ISO | USA-BLUS31584 | Settings: Default
+- Minecraft: PlayStation®3 Edition
+  - <details> <summary>📜 (Format/ID/Settings):</summary>
+    ISO | USA-BLUS31584 | Settings: Default
+- NieR Replicant
+  - <details> <summary>📜 (Format/ID/Settings):</summary>
+    ISO | USA-BLUS31584 | Settings: Default
 - Iron Man 1
-  - `ISO | USA-BLUS31584 | Settings: Default`
-- Iron Man 2  
+  - <details> <summary>📜 (Format/ID/Settings):</summary>
+    ISO | USA-BLUS31584 | Settings: Default
+- Iron Man 2
+  - <details> <summary>📜 (Format/ID/Settings):</summary>
+    ISO | USA-BLUS31584 | Settings: Default 
 
 ### [Non-exclusive]
 - Tekken 6
