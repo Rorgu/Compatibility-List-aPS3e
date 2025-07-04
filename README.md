@@ -1,10 +1,10 @@
 
 # PS3 Game Compatibility List (aPS3e)
 
-| 😏 Emulator        | 📆 Last Update | 📌 Format         |
+|  Emulator PS3       | 📆 Last Update | 📌 Format         |
 |-------------------|----------------|-------------------|
 | aPS3e (Android)   | 04.07.2025     | Tested. Updated   |
-by: @aps3e — Report working games in @aps3eChat
+by: @aps3e — Report working games in @aps3eChat. | | ISO/PKG
 ---
 
 ## 🟢 Playable (10)
