@@ -12,10 +12,10 @@
 |     Exclusive Game          | Region | ID        | Settings | FPS   | Link test |
 |-----------------------------|--------|-----------|----------|-------|-----------|
 | Dante’s Inferno             | USA    | BLUS30721 | Default  | 20-30 | [YouTube](https://youtu.be/VuOq6x7rTpA?si=FKHJ2PKbtVZjj9dg)| 
-| Demon's Souls               | USA.   | BLUS30721 | Write Color Buffers - yes    | 30-60 | [YouTube](https://youtu.be/Tyel9zFYpGw?si=wcvwLFDWlL223dWs) |
+| Demon's Souls               | USA.   | BLUS30721 | Write Color Buffers - on    | 60 | [YouTube](https://youtu.be/Tyel9zFYpGw?si=wcvwLFDWlL223dWs) |
 | Minecraft                   | USA.   | BLUS31426 | Default  | 60    | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1389226225146531901) |
-| NieR Replicant.             | USA    | BLJM60223 | Write Color Buffers - yes | 10-20 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1388488544992891001) |
-| Iron Man 1.                 | USA.   | BLUS30134 | Write Color Buffers - yes | 20-30 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1387876907231740116) |
+| NieR Replicant.             | USA    | BLJM60223 | Write Color Buffers - on | 20 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1388488544992891001) |
+| Iron Man 1.                 | USA.   | BLUS30134 | Write Color Buffers - on | 20 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1387876907231740116) |
 | Iron Man 2.                 | USA.   | -         |.          | | |
 ---                                                              
 |Non-exclusive GAME.          | Region | ID | Settings | FPS | Link test |
@@ -36,18 +36,18 @@
 # 🟡 Ingame (27)
 - <details> <summary>📜 Ingame:</summary>
    Games that run but have serious glitches, performance issues, or can’t be finished
-|Exclusive GAME.              | Region | ID | Settings | FPS   | Link test |
-|-----------------------------|--------|----|----------|-----|-----------|
-| Infamous 1                  |.       |.   |.         |.    |
-| Infamous 2                  |.       |.   |.         |.    |
-| Gran Turismo 6              |.       |.   |.         |.    |
-| God of War III              |.       |.   |.         |.    |
-| The Last of US.             |.       |.   |.         |.    |
-| Transformers: Dark of the Moon |.    |.    |.         |.    |
-| Ratchet & Clank: Tools of Destruction|.       |.   |.         |.    |
-| Uncharted: Drake’s Fortune  |.       |.   |.         |.    |    
-| Uncharted 2: Among Thieves  |.       |.   |.         |.    |
-| Uncharted 3:                |.       |.   |.         |.    |
+|Exclusive GAME.              | Region | ID        | Settings | FPS   | Link test |
+|-----------------------------|--------|-----------|----------|-----|-----------|
+| Infamous 1                  |.       |.          |.         |.    |
+| Infamous 2                  |.       |.          |.         |.    |
+| Gran Turismo 6              |.       |.          |.         |.    |
+| God of War III              |.       |.          |.         |.    |
+| The Last of US.             |.       |.          |.         |.    |
+| Transformers: Dark of the Moon |.    |.          |.         |.    |
+| Ratchet & Clank: Tools of Destruction|.          |.   |.         |.    |
+| Uncharted: Drake’s Fortune  |.       |.          |.         |.    |    
+| Uncharted 2: Among Thieves  |.       |.          |.            |.    |
+| Uncharted 3:                | USA    | BCUS98233 | [RPCS3-Wiki](https://wiki.rpcs3.net/index.php?title=Uncharted_3%3A_Drake%27s_Deception)   | —    | [Discord](https://discord.com/channels/1341258622348431400/1342235536550526986/1390279046415253554) 
 | Dead to Rights: Retribution |.       |.   |.         |.    |
 | NeverDead                   |.       |.   |.         |.    |
 | Skate 3                     |.       |.   |.         |.    |
@@ -79,12 +79,12 @@
 # 🟠 Intro (3)
 - <details> <summary>📜 Intro:</summary>
   Games that show menus or intro scenes but don’t progress further`
-|    Exclusive GAME           | Region | ID | Settings | FPS | Link test |
-|-----------------------------|--------|-----|---------|-----|-----------|
-| Metal Gear Solid 4.         |.       |.   |.         |.    |
-| Killzone 1                  |.       |.   |.         |.    |
-| Killzone 2                  |.       |.   |.         |.    |               
-| Killzone 3                  |.       |.   |.         |.    |
+|    Exclusive GAME           | Region | ID        | Settings | FPS | Link test   |
+|-----------------------------|--------|-----------|----------|-----|-------------|
+| Metal Gear Solid 4.         | USA    | BLUS30109 | [RPCS3-Wiki](https://wiki.rpcs3.net/index.php?title=Uncharted_3%3A_Drake%27s_Deception) | — | [Discord](https://discord.com/channels/1341258622348431400/1342235536550526986/1390279046415253554) 
+| Killzone 1                  |.       |.          |.         |.    |
+| Killzone 2                  |.       |.          |.         |.    |               
+| Killzone 3                  |.       |.          |.         |.    |
 ---
 |    Non-exclusive GAME.      | Region | ID | Settings | FPS | Link test |
 |-----------------------------|--------|----|----------|-----|-----------|
