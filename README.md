@@ -6,7 +6,7 @@
 
 ---
 
-# 🟢 Playable (10) 
+## 🟢 Playable (10) 
 - <details> <summary>📜 Playable:</summary>
     Games that can be completed with playable performance and no game-breaking glitches`
 |     Exclusive Game          | Region | ID        | Settings | FPS   | Link test |
