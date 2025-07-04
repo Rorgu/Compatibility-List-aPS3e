@@ -9,7 +9,7 @@
 # 🟢 Playable (10) 
 - <details> <summary>📜 Playable:</summary>
     Games that can be completed with playable performance and no game-breaking glitches`
-|   Exclusive Game   | Region | ID | Settings | FPS |
+|Exclusive Game| Region | ID | Settings | FPS |
 |----------|----------|--------|----------|-----|
 | Dante’s Inferno | USA | BLUS30721 |           |
 | Demon's Souls   | USA | BLUS30721 |           |
@@ -19,7 +19,7 @@
 | Iron Man 1.     | USA.| BLUS30134 | Write Color Buffers - yes | |
 | Iron Man 2.     | USA | -         |.          | | |
 ---                                                              
-|   Non-exclusive Game   | Region | ID | Settings | FPS |
+|Non-exclusive Game| Region | ID | Settings | FPS |
 |--------------------|--------|----|----------|-----|
 | Tekken 6           | USA    |.   |.         |.    |
 | Dark Sector        | USA    |.   |.         |.    |
@@ -37,7 +37,7 @@
 ## 🟡 Ingame (27)
 - <details> <summary>📜 Ingame:</summary>
    Games that run but have serious glitches, performance issues, or can’t be finished
-|  Exclusive Game  | Region | ID | Settings | FPS |
+|Exclusive Game| Region | ID | Settings | FPS |
 |----------------|--------|----|----------|-----|
 | Infamous 1     |.       |.   |.         |.    |
 | Infamous 2     |.       |.   |.         |.    |
@@ -60,7 +60,7 @@
 |                |.       |.   |.         |.    |
 |                |.       |.   |.         |.    |
 ---
-|   Non-exclusive Game   | Region | ID | Settings | FPS |
+|Non-exclusive Game| Region | ID | Settings | FPS |
 |--------------------|--------|----|----------|-----|
 | Sonic Unleashed    |.       |.   |.         |.    |
 | Borderlands 1      |.       |.   |.         |.    |
@@ -80,14 +80,14 @@
 ## 🟠 Intro (3)
 - <details> <summary>📜 Intro:</summary>
   Games that show menus or intro scenes but don’t progress further`
-|  Exclusive Game   | Region | ID | Settings | FPS |
+|Exclusive Game| Region | ID | Settings | FPS |
 |-------------------|--------|----|----------|-----|
 | Metal Gear Solid 4 |.       |.   |.         |.    |
 | Killzone 1        |.       |.   |.         |.    |
 | Killzone 2        |.       |.   |.         |.    |               
 | Killzone 3        |.       |.   |.         |.    |
 ---
-|  Non-exclusive Game  | Region | ID | Settings | FPS |
+|Non-exclusive Game| Region | ID | Settings | FPS |
 |----------------------|--------|----|----------|-----|
 | Assassin's Creed: Black Flag  |.       |.   |.         |.    |
 ---
