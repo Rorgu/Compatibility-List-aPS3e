@@ -11,7 +11,7 @@
 ## 🟢 Playable (10)
 `Games that can be completed with playable performance and no game-breaking glitches`
 
-### [Exclusive]
+## [Exclusive]
 - ### Dante’s Inferno
   - <details> <summary>📜 Format/ID/Settings:</summary>
     `ISO | USA-BLUS31584 | Settings: Default`
@@ -31,7 +31,7 @@
   - <details> <summary>📜 (Format/ID/Settings):</summary>
     ISO | USA-BLUS31584 | Settings: Default 
 
-### [Non-exclusive]
+## [Non-exclusive]
 - ### Tekken 6
   - <details> <summary>📜 (Format/ID/Settings)</summary>
     ISO | USA-BLUS31584 | Settings: Default
