@@ -11,9 +11,9 @@
     Games that can be completed with playable performance and no game-breaking glitches`
 |Exclusive Game| Region | ID | Settings | FPS | Link test |
 |--------------|--------|----|----------|-----|-----------|
-| Dante’s Inferno | USA | BLUS30721 |           | 20-30 | [YouTube](https://youtu.be/VuOq6x7rTpA?si=FKHJ2PKbtVZjj9dg)| 
-| Demon's Souls   | USA | BLUS30721 |           | 30-60 | [YouTube](https://youtu.be/Tyel9zFYpGw?si=wcvwLFDWlL223dWs) |
-| Minecraft       | USA | BLUS31426 |           | 60    | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1389226225146531901) |
+| Dante’s Inferno | USA | BLUS30721 | Default | 20-30 | [YouTube](https://youtu.be/VuOq6x7rTpA?si=FKHJ2PKbtVZjj9dg)| 
+| Demon's Souls   | USA | BLUS30721 | Write Color Buffers - yes          | 30-60 | [YouTube](https://youtu.be/Tyel9zFYpGw?si=wcvwLFDWlL223dWs) |
+| Minecraft       | USA | BLUS31426 | Default | 60    | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1389226225146531901) |
 | NieR Replicant. | USA | BLJM60223 | Write Color Buffers - yes | 10-20 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1388488544992891001) |
 | Iron Man 1.     | USA.| BLUS30134 | Write Color Buffers - yes | 20-30 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1387876907231740116) |
 | Iron Man 2.     | USA | -         |.          | | |
