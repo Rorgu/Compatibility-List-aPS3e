@@ -16,7 +16,7 @@
 | Minecraft                   | USA.   | BLUS31426 | Default  | 60    | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1389226225146531901) |
 | NieR Replicant.             | USA    | BLJM60223 | Write Color Buffers - on | 20 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1388488544992891001) |
 | Iron Man 1.                 | USA.   | BLUS30134 | Write Color Buffers - on | 20 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1387876907231740116) |
-| Iron Man 2.                 | USA.   | -         |.          | | |
+| Iron Man 2.                 | USA.   | BLUS30514 | Default  | 30 | [Telegram](https://t.me/aps3eChat/16440) |
 ---                                                              
 |Non-exclusive GAME.          | Region | ID | Settings | FPS | Link test |
 |-----------------------------|--------|----|----------|-----|---------|
