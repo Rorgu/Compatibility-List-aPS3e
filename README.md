@@ -37,10 +37,10 @@
 | Gran Turismo 6              | USA  |.          |.         |.      |
 | God of War III              | USA  | BCUS98111 | Default  | 1.23  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1385327283300077759) 
 | The Last of US.             | USA  |.          |.         |.      |
-| Transformers: Dark of the Moon | USA |.          |.       |.      |
-| Ratchet & Clank: Tools of Destruction| USA |.   |.        |.      |
-| Uncharted: Drake’s Fortune  | USA  |.          |.         |.      |   
-| Uncharted 2: Among Thieves  | USA  |.          |.         |.      |
+| Transformers: Dark of the Moon | USA |.        |.       |.      |
+| Ratchet & Clank: Tools of Destruction| USA | BCUS98127 | Default | 1.20 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1382475039571447950) 
+| Uncharted 1:                | USA  | BCUS98103 | Default  | 1.25  |   
+| Uncharted 2:                | USA  | BCUS98127 | Default  | 1.25  | [Discord](https://discord.com/channels/1341258622348431400/1342235536550526986/1391019600262729799) 
 | Uncharted 3:                | USA  | BCUS98233 | [RPCS3-Wiki](https://wiki.rpcs3.net/index.php?title=Uncharted_3%3A_Drake%27s_Deception)   | —    | [Discord](https://discord.com/channels/1341258622348431400/1342235536550526986/1390279046415253554) 
 | Dead to Rights: Retribution | USA  |.   |.         |.    |
 | NeverDead                   | USA  |.   |.         |.    |
@@ -79,9 +79,9 @@
 
 ---
 
-|    Non-exclusive GAME.      |Region| ID | Settings | FPS | Link test |
-|-----------------------------|------|----|----------|-----|-----------|
-| Assassin's Creed: Black Flag| USA  |    |          |     |           |
+|    Non-exclusive GAME.      |Region| ID.       | Settings | aPS3e | Link test |
+|-----------------------------|------|-----------|----------|-------|-----------|
+| Assassin's Creed: Black Flag| USA  | BLUS31483 | Default  | 1.22  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1383578521338773534) |
 
 ---
 
