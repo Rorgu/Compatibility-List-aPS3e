@@ -24,12 +24,6 @@
 | Dark Sector                 | USA    | BLUS30116 | Default  | 1.23  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1385336940626186241) 
 | Mortal Kombat vs DC         | USA    | NPUB30004 | Default  | 1.23  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1385093876716671099) 
 | Grand Theft Auto – San Andreas |USA| BLUS31584 | Default | 1.25 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1390403520376868944) 
-| | USA  |.   |.         |.      |
-|                             | USA    |.   |.         |.      |
-|                             | USA    |.   |.         |.    |
-|                             | USA    |.   |.         |.    |
-|                             | USA    |.   |.         |.    |
-|                             | USA    |.   |.         |.    |
 
 ---
 
@@ -55,9 +49,6 @@
 | HAZE                        |.       |.   |.         |.    |
 | Asura's Wrath               |.       |.   |.         |.    |
 | Fight Night Champio         |.       |.   |.         |.    |
-|                             |.       |.   |.         |.    |
-|                             |.       |.   |.         |.    |
-|                             |.       |.   |.         |.    |
 
 ---
 
@@ -73,10 +64,6 @@
 | Mortal Kombat 9             |.       |.   |.         |.    |
 | Tomb Raider                 |.       |.   |.         |.    |
 | Far Cry 2                   |.       |.   |.         |.    |
-|                             |.       |.   |.         |.    |
-|                             |.       |.   |.         |.    |
-|                             |.       |.   |.         |.    |
-|                             |.       |.   |.         |.    |
 
 ---
 
