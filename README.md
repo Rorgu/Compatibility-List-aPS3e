@@ -1,8 +1,8 @@
 # PS3 Game Compatibility List (aPS3e)
 
-|    Emulator       | 📆 Last Update | 📌 Format        | ✍️ Author |
-|-------------------|----------------|------------------|-----------|
-| aPS3e (Android)   | 04.07.2025     | ISO/PKG          | [TG-aPS3e](https://t.me/aps3e) |
+|    Emulator       | 📆 Last Update | 📌 Format        | ✍️ Author | aPS3e_Discord |
+|-------------------|----------------|------------------|-----------|---------------|
+| aPS3e (Android)   | 04.07.2025     | ISO/PKG          | [TG-aPS3e](https://t.me/aps3e) | [Discord](https://discord.gg/ky33BvhF) 
 
 ---
 
