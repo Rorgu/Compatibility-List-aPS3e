@@ -9,7 +9,7 @@
 # 🟢 Playable (10) 
 - <details> <summary>📜 Playable:</summary>
     Games that can be completed with playable performance and no game-breaking glitches`
-|     Exclusive Game          |Region| ID        | Settings | aPS3e | Link test |
+|     Exclusive               |Region| ID        | Settings | aPS3e | Link test |
 |-----------------------------|------|-----------|----------|-------|-----------|
 | Dante’s Inferno             | USA  | BLUS30721 | Default  | 1.25  | [YouTube](https://youtu.be/VuOq6x7rTpA?si=FKHJ2PKbtVZjj9dg)| 
 | Demon's Souls               | USA. | BLUS30721 | Write Color Buffers - on    | 0.7 | [YouTube](https://youtu.be/Tyel9zFYpGw?si=wcvwLFDWlL223dWs) |
@@ -18,7 +18,7 @@
 | Iron Man 1.                 | USA. | BLUS30134 | Write Color Buffers - on | 1.24 | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1387876907231740116) |
 | Iron Man 2.                 | USA. | BLUS30514 | Default  | 1.24 | [Telegram](https://t.me/aps3eChat/16440) |
 ---                                                              
-|Non-exclusive GAME.          |Region| ID        | Settings | aPS3e | Link test |
+|Non-exclusive                |Region| ID        | Settings | aPS3e | Link test |
 |-----------------------------|------|-----------|----------|-------|-----------|
 | Tekken 6                    | USA  | BLUS30359 | Default  | 1.24  | [YouTube](https://youtu.be/r07fcpV_Hxw?si=_SiANX4xswMlVSoE) 
 | Dark Sector                 | USA  | BLUS30116 | Default  | 1.23  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1385336940626186241) 
@@ -30,7 +30,7 @@
 # 🟡 Ingame (27)
 - <details> <summary>📜 Ingame:</summary>
    Games that run but have serious glitches, performance issues, or can’t be finished
-|Exclusive GAME.              |Region| ID        | Settings | aPS3e | Link test |
+|Exclusive                    |Region| ID        | Settings | aPS3e | Link test |
 |-----------------------------|------|-----------|----------|-------|-----------|
 | Infamous 1                  | USA  |.          |.         |.      |
 | Infamous 2                  | USA  |.          |.         |.      |
@@ -52,7 +52,7 @@
 
 ---
 
-|   Non-exclusive GAME        |Region| ID.       | Settings | aPS3e | Link test |
+|   Non-exclusive.            |Region| ID.       | Settings | aPS3e | Link test |
 |-----------------------------|------|-----------|----------|-------|-----------|
 | Sonic Unleashed             | USA  | BLUS30244 | Castom   | 1.24  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1387198984333955235) 
 | Borderlands 1               | USA  | NPUB30413 | Default  | 1.24  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1389295539639812327) 
@@ -70,7 +70,7 @@
 # 🟠 Intro (3)
 - <details> <summary>📜 Intro:</summary>
   Games that show menus or intro scenes but don’t progress further`
-|    Exclusive GAME           |Region| ID        | Settings | aPS3e | Link test   |
+|    Exclusive                |Region| ID        | Settings | aPS3e | Link test   |
 |-----------------------------|------|-----------|----------|-------|-------------|
 | Metal Gear Solid 4.         | USA  | BLUS30109 | [RPCS3-Wiki](https://wiki.rpcs3.net/index.php?title=Uncharted_3%3A_Drake%27s_Deception) | — | [Discord](https://discord.com/channels/1341258622348431400/1342235536550526986/1390109393646911498) 
 | Killzone 1                  | USA  |.          |.         |.     | 
@@ -79,7 +79,7 @@
 
 ---
 
-|    Non-exclusive GAME.      |Region| ID.       | Settings | aPS3e | Link test |
+|    Non-exclusive            |Region| ID.       | Settings | aPS3e | Link test |
 |-----------------------------|------|-----------|----------|-------|-----------|
 | Assassin's Creed: Black Flag| USA  | BLUS31483 | Default  | 1.22  | [Discord](https://discord.com/channels/1341258622348431400/1343170862374977567/1383578521338773534) |
 
@@ -88,11 +88,11 @@
 # 🔴 Loadable (4)
 - <details> <summary>📜 Loadable:</summary>
   Games that display a black screen with a framerate counter`
-|    Exclusive GAME           |Region| ID | Settings | aPS3e | Link test |
+|    Exclusive                |Region| ID | Settings | aPS3e | Link test |
 |-----------------------------|------|----|----------|-------|-----------|
 | God of War: Ascension       | USA  |    |          |       |           |
 ---
-|    Non-exclusive Game       |Region| ID | Settings | aPS3e | Link test |
+|    Non-exclusive            |Region| ID | Settings | aPS3e | Link test |
 |-----------------------------|------|----|----------|-------|-----------|
 | Grand Theft Auto V (GTA 5)  | USA  |    |          |       |           |
 | Grand Theft Auto IV (GTA 4) | USA  |    |          |       |           |
